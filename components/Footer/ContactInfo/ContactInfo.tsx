@@ -28,7 +28,7 @@ const ContactInfo = () => {
         "Hướng dẫn mua hàng online",
         "Chính sách trả góp",
         "Yêu cầu báo giá",
-        "Xây dựng cấu hình",
+      
       ],
     },
     {
