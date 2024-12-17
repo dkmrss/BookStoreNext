@@ -1,0 +1,19 @@
+.button {
+  text-decoration: none;
+}
+.buttonCheck {
+  background-color: var(--clr-bg-light-red);
+  color: var(--clr-text-primary);
+  border-radius: 5px;
+  border: 0.5px solid var(--clr-primary);
+  white-space: nowrap;
+  &:hover {
+    background-color: none;
+  }
+}
+
+@media only screen and (max-width: 801px) {
+  .buttonCheck {
+    margin: 8px 0;
+  }
+}

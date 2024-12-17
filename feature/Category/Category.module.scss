@@ -1,0 +1,40 @@
+.main > div > div > div:last-child > div:last-child > div:last-child {
+  margin-top: 10px;
+}
+
+.control {
+  width: 40px;
+  height: 40px;
+  font-size: 15px;
+  border-radius: 6px;
+}
+
+.paginationContainer {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+.main > div {
+  margin-right: 20px;
+}
+
+.image {
+  border-radius: 12px;
+  height: 205px;
+  max-width: 100%;
+}
+.root {
+  div {
+    justify-content: center;
+  }
+}
+.title {
+  margin: 15px 0;
+  @media screen and (max-width: 1000px) {
+    margin: 5px 0;
+  }
+}

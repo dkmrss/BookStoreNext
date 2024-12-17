@@ -1,0 +1,261 @@
+.userInfoPage {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .userAvatar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+
+    .name {
+      font-size: 1rem;
+      line-height: 1.5rem;
+      text-align: center;
+      color: #525252;
+      font-weight: 600;
+
+      @media (min-width: 800px) {
+        font-size: 1.125rem;
+        line-height: 1.75rem;
+      }
+    }
+  }
+
+  .mainInfo {
+    margin-top: 10px;
+    width: 350px;
+    margin: 10px auto 0 auto;
+
+    @media (min-width: 400px) {
+      width: 400px;
+    }
+
+    @media (min-width: 600px) {
+      width: 600px;
+    }
+
+    .infoBox {
+      margin-top: 10px;
+      position: relative;
+      width: 100%;
+
+      .root {
+        position: relative;
+        width: 100%;
+        margin-top: 5px;
+      }
+
+      .field,
+      .focusField,
+      .input {
+        width: 100%;
+        margin-top: 20px;
+        background-color: transparent;
+        box-sizing: border-box;
+        border: 0;
+        border-bottom: 1px solid #e8e8e8;
+        color: #777;
+        font-size: 14px;
+        height: 40px;
+        line-height: 40px;
+        outline: none;
+        padding: 0 15px;
+        transition: all 0.3s ease-in-out;
+        border-radius: 0;
+      }
+
+      .placeholder {
+        padding-top: 15px;
+        color: #777;
+        font-weight: 400;
+      }
+
+      label,
+      .labelFocus,
+      .labelUp {
+        position: absolute;
+        top: 50%;
+        left: 15px;
+        transform: translateY(-50%);
+        line-height: 40px;
+        font-size: 14px;
+        color: #777;
+        transition: 0.3s ease-in-out;
+      }
+
+      label {
+        color: transparent;
+      }
+
+      .labelUp {
+        top: 20% !important;
+      }
+
+      .labelFocus {
+        top: 20% !important;
+        color: var(--clr-primary) !important;
+      }
+
+      .select {
+        width: 100%;
+
+        select {
+          width: 100%;
+          margin-top: 20px;
+          background-color: transparent;
+          box-sizing: border-box;
+          border: 0;
+          border-bottom: 1px solid var(--clr-primary);
+          color: #777;
+          font-size: 14px;
+          height: 40px;
+          line-height: 40px;
+          outline: none;
+          padding: 0 15px;
+          transition: all 0.3s ease-in-out;
+        }
+      }
+
+      .focusField {
+        border-bottom: 1px solid var(--clr-primary) !important;
+      }
+
+      .none {
+        display: none;
+      }
+
+      .iconEdit {
+        position: absolute;
+        right: 0;
+        top: 50%;
+
+        .icon {
+          width: 20px;
+          height: 20px;
+          color: #525252;
+        }
+      }
+    }
+  }
+
+  .btnSubmit {
+    margin: 10px auto 20px auto;
+    background-color: var(--clr-primary);
+    color: var(--clr-text-white);
+    width: 350px;
+
+    @media (min-width: 400px) {
+      width: 400px;
+    }
+
+    @media (min-width: 600px) {
+      width: 600px;
+    }
+  }
+  .btnChangePass {
+    margin: 5px auto;
+    background-color: var(--clr-dark-red-primary);
+    color: var(--clr-text-white);
+    width: 350px;
+
+    @media (min-width: 400px) {
+      width: 400px;
+    }
+
+    @media (min-width: 600px) {
+      width: 600px;
+    }
+  }
+}
+
+.root {
+  position: relative;
+  margin-top: 5px;
+}
+.inputBox {
+  margin: 40px 0px;
+}
+.input {
+  height: 35px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom-width: 2px;
+  border-radius: 0;
+  padding-left: 0;
+  background-color: var(--mantine-color-body);
+  &:focus-within {
+    outline: transparent;
+    outline-color: var(--clr-primary);
+  }
+
+  input {
+    padding-left: 0 !important;
+    &:focus-within {
+      outline: transparent;
+      border-color: transparent;
+    }
+  }
+}
+
+.input2 {
+  height: 35px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom-width: 2px;
+  border-radius: 0;
+  padding-left: 0;
+  background-color: var(--mantine-color-body);
+  outline: transparent;
+  outline-color: var(--clr-primary);
+  &:focus-within {
+    outline: transparent;
+    border-color: var(--clr-primary);
+    outline-color: var(--clr-primary);
+  }
+  input {
+    outline: transparent;
+    outline-color: var(--clr-primary);
+    &:focus-within {
+      outline: transparent;
+      border-color: var(--clr-primary);
+    }
+  }
+}
+.label {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  top: 5px;
+  color: var(--mantine-color-placeholder);
+  font-weight: 400;
+  font-size: 15px;
+  transition: color 100ms ease, transform 100ms ease, font-size 100ms ease;
+
+  &[data-floating] {
+    transform: translateY(-30px);
+    font-size: 15px;
+    color: var(--clr-primary);
+  }
+}
+
+.content {
+  border-radius: 0.75rem;
+}
+.header {
+  background-color: var(--clr-primary);
+  color: white;
+  button {
+    background-color: var(--clr-bright-primary);
+    border-radius: 50%;
+    color: white;
+  }
+  button:hover {
+    background-color: var(--clr-bright-primary);
+    border-radius: 50%;
+    color: white;
+  }
+}

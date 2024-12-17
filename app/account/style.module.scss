@@ -1,0 +1,22 @@
+.flexBox {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  .leftBox {
+    width: calc(25% - 10px);
+  }
+  .rightBox {
+    width: calc(75% - 10px);
+  }
+
+  @media only screen and (max-width: 900px) {
+    flex-direction: column;
+    gap: 5px;
+    .leftBox {
+      width: 100%;
+    }
+    .rightBox {
+      width: 100%;
+    }
+  }
+}

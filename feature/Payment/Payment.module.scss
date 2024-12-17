@@ -1,0 +1,21 @@
+.headerPayment {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .setColor {
+    color: var(--clr-primary);
+    border-bottom: 3px solid var(--clr-primary);
+    padding-bottom: 5px;
+    cursor: pointer;
+  }
+
+  .none {
+    color: #dadada;
+    border-bottom: 3px solid #dadada;
+    padding-bottom: 5px;
+    cursor: pointer;
+  }
+}

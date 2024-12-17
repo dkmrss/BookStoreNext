@@ -1,0 +1,30 @@
+.summaryBox {
+  border: 1px solid rgb(163 163 163);
+  border-radius: 12px;
+  margin-bottom: 20px;
+  .header {
+    display: flex;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    background-color: rgb(163 163 163);
+    color: #ffffff;
+    padding: 6px 10px;
+    gap: 9px;
+    align-items: center;
+
+    p {
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 18px;
+      letter-spacing: 0em;
+      text-align: left;
+      text-transform: uppercase;
+      color: white;
+    }
+  }
+}
+
+.showMoreContainer {
+  padding: 10px;
+  max-height: none; /* Khi showMore là true, không giới hạn chiều cao */
+}

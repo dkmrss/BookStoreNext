@@ -1,0 +1,10 @@
+.container {
+  padding: 1rem 0.5rem;
+}
+.box {
+  border-radius: 0.5rem;
+  box-shadow: 0px 0px 5.4px rgba(0, 0, 0, 0.054),
+    0px 0px 14.9px rgba(0, 0, 0, 0.075), 0px 0px 35.9px rgba(0, 0, 0, 0.086);
+  flex: 1;
+  max-width: 200px;
+}

@@ -1,0 +1,39 @@
+.informationCard {
+  width: 100%;
+  border: 1px solid #f3f3f3;
+  border-radius: 15px;
+  box-shadow: 1px 1px 1px 1px #f1f1f1;
+  padding: 10px;
+  background-color: #fff;
+
+  .title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    font-weight: 500;
+    font-size: 18px;
+    color: var(--clr-primary);
+    border-bottom: 1px solid #e0e2e6;
+    margin: 0px 10px;
+    padding-bottom: 10px;
+  }
+
+  .list {
+    display: list-item;
+  }
+
+  .content {
+    padding: 10px;
+
+    .contentMore {
+      color: black;
+    }
+  }
+}
+
+.span {
+  color: var(--clr-primary);
+  font-weight: 500;
+  font-size: 15px;
+}

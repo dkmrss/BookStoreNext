@@ -1,0 +1,60 @@
+.listButton {
+  position: relative;
+  display: flex;
+  transition: transform 0.3s ease;
+  width: 100%;
+  gap: 5px;
+  @media (max-width: 800px) {
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+  }
+
+  @media (min-width: 800px) {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .buttonSection {
+    margin-bottom: 8px;
+    margin-left: 8px;
+    display: flex;
+    height: 30px;
+    width: fit-content;
+    flex-shrink: 0;
+    align-items: center;
+    border-radius: 0.25rem;
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--clr-border-gray);
+    background-color: var(--clr-bg-gray-light);
+    text-decoration: none;
+    padding-left: 8px;
+    padding-right: 8px;
+    font-size: 11px;
+    color: var(--clr-text-dark);
+    transition-duration: 0.15s;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    @media (min-width: 800px) {
+      margin-left: 0;
+    }
+    @media (min-width: 600px) {
+      font-size: 0.75rem;
+      line-height: 1rem;
+    }
+    &:hover {
+      background-color: var(--clr-primary);
+      color: #fff;
+    }
+
+    @media (max-width: 800px) {
+      scroll-snap-align: start;
+    }
+  }
+}

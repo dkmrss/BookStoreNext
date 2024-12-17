@@ -1,0 +1,66 @@
+.SubMenu {
+  position: absolute;
+  background-color: #ffffff;
+  z-index: 100;
+  min-height: 385px;
+  top: 0px;
+  right: 80px;
+  width: calc(75%);
+  max-width: calc(75%);
+  padding: 15px 20px;
+  border-radius: 0.375rem;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+.box {
+  padding: 5px 10px;
+}
+.boxImage {
+  padding: 0;
+  max-height: 385px;
+}
+.title {
+  cursor: pointer;
+}
+
+.text_dcr {
+  cursor: pointer;
+  text-decoration: none;
+  color: #000;
+  padding: 5px 0;
+  &:hover {
+    color: var(--clr-primary);
+  }
+}
+
+.disable {
+  color: gray;
+  pointer-events: none;
+  opacity: 0.5;
+}
+.imageLink {
+  width: 100%;
+  height: 100%;
+  max-height: 365px;
+  border-radius: 0.375rem;
+}
+@media only screen and (min-width: 950px) and (max-width: 1100px) {
+  .SubMenu {
+    flex: 0 0 calc(70%);
+    max-width: calc(70%);
+    left: 240px;
+  }
+}
+
+@media only screen and (min-width: 800px) and (max-width: 949px) {
+  .SubMenu {
+    flex: 0 0 calc(70%);
+    max-width: calc(70%);
+    left: 210px;
+  }
+}
+@media only screen and (max-width: 800px) {
+  .SubMenu {
+    display: none;
+  }
+}

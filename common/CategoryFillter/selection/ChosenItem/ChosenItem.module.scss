@@ -1,0 +1,70 @@
+.button {
+  width: fit-content;
+  height: 20px;
+  background-color: #d9d9d9;
+  border-radius: 90px;
+  color: black;
+  border: none;
+  margin-right: 40px;
+}
+.button span {
+  font-size: 14px;
+}
+.button > span > img {
+  max-width: 18px;
+  height: 18px;
+  margin-left: 4px;
+  padding-top: 7px;
+}
+.fillter {
+  background-color: var(--clr-bg-light-red);
+  color: var(--clr-primary);
+  padding: 3px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  border-radius: 0.5rem;
+  border: 1px solid var(--clr-primary);
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  gap: 2px;
+  font-size: 10px;
+  @media only screen and (min-width: 600px) {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    padding: 5px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+  }
+}
+.deleteAll {
+  background-color: var(--clr-bg-light-red);
+  color: var(--clr-primary);
+  padding: 3px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  border-radius: 0.5rem;
+  border: 1px solid var(--clr-primary);
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  gap: 2px;
+  font-size: 10px;
+  @media only screen and (min-width: 600px) {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    padding: 5px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+  }
+}
+.title {
+  color: rgb(34 34 34);
+  font-weight: 700;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  @media only screen and (min-width: 1000px) {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+}

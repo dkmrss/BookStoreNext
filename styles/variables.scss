@@ -1,0 +1,123 @@
+:root {
+  --clr-primary: #e11b1e;
+  --clr-light-primary: #e73348;
+  --clr-light-active-primary: #ee374c;
+
+  --clr-bright-primary: #eb808c;
+  --clr-text-primary: #e03e2d;
+  --clr-dark-red-primary: #ee9209;
+  --clr-text-white: #ffffff;
+  --clr-text-dark: #000000;
+  --clr-text-green: #41af41;
+  --clr-text-brightblack: #4c4c4c;
+
+  --clr-bg-gray: #d9d9d9;
+  --clr-bg-gray-light: #f3f4f6;
+  --clr-bg-pink: #fff1f1;
+  --clr-bg-hot-pink: #ffe7e7;
+  --clr-bg-gray-dark: #f0f0f0;
+  --clr-bg-primary-gray: #f0f0f0;
+  --clr-bg-light-red: #ffe6e6;
+
+  --clr-border-gray: #e5e7eb;
+
+  --clr-liner: linear-gradient(to bottom, #ff5f65, #f11c1c);
+  --clr-liner-to-left: linear-gradient(to left, #ff6666, #cc1515);
+  --clr-liner-to-right: linear-gradient(to right, #ff6666, #cc1515);
+
+  --clr-border-red-pink: #ffdac6;
+}
+
+sky-blue {
+  --clr-primary: #1e90ff; /* Sky blue */
+  --clr-light-primary: #3399ff; /* Lighter sky blue */
+  --clr-light-active-primary: #4caaff; /* Slightly lighter active state */
+
+  --clr-bright-primary: #80c1ff; /* Brighter sky blue */
+  --clr-text-primary: #1e90ff; /* Sky blue for text */
+  --clr-dark-red-primary: #0a75ad; /* Darker blue */
+  --clr-text-white: #ffffff; /* White text */
+  --clr-text-dark: #000000; /* Black text */
+  --clr-text-green: #41af41; /* Green text, unchanged */
+  --clr-text-brightblack: #4c4c4c; /* Bright black text, unchanged */
+
+  --clr-bg-gray: #d9d9d9; /* Light gray background, unchanged */
+  --clr-bg-gray-light: #f3f4f6; /* Very light gray background, unchanged */
+  --clr-bg-pink: #e0f7ff; /* Very light blue */
+  --clr-bg-hot-pink: #d0f0ff; /* Lighter blue */
+  --clr-bg-gray-dark: #f0f0f0; /* Dark gray background, unchanged */
+  --clr-bg-primary-gray: #f0f0f0; /* Primary gray background, unchanged */
+  --clr-bg-light-red: #cce7ff; /* Light blue */
+
+  --clr-border-gray: #e5e7eb; /* Border gray, unchanged */
+
+  --clr-liner: linear-gradient(to bottom, #66b3ff, #155f8c);
+  --clr-liner-to-left: linear-gradient(to bottom, #66b3ff, #155f8c);
+  --clr-liner-to-right: linear-gradient(to bottom, #66b3ff, #155f8c);
+
+  --clr-border-red-pink: #cce7ff; /* Light blue for borders */
+}
+
+orange {
+  --clr-primary: #e67e22; /* Primary orange */
+  --clr-light-primary: #f39c12; /* Lighter orange */
+  --clr-light-active-primary: #d35400; /* Darker orange for active state */
+
+  --clr-bright-primary: #f5b041; /* Bright orange */
+  --clr-text-primary: #e74c3c; /* Slightly redder orange for text */
+  --clr-dark-red-primary: #e67e22; /* Dark orange */
+  --clr-text-white: #ffffff; /* White text */
+  --clr-text-dark: #000000; /* Black text */
+  --clr-text-green: #41af41; /* Green text */
+  --clr-text-brightblack: #4c4c4c; /* Bright black text */
+
+  --clr-bg-gray: #d9d9d9; /* Background gray */
+  --clr-bg-gray-light: #f3f4f6; /* Lighter gray background */
+  --clr-bg-pink: #fff1f1; /* Light pink background */
+  --clr-bg-hot-pink: #ffe7e7; /* Hot pink background */
+  --clr-bg-gray-dark: #f0f0f0; /* Darker gray background */
+  --clr-bg-primary-gray: #f0f0f0; /* Primary gray background */
+  --clr-bg-light-red: #ffe6e6; /* Light red background */
+
+  --clr-border-gray: #e5e7eb; /* Border gray */
+
+  --clr-liner: linear-gradient(
+    to bottom,
+    #f39c12,
+    #d35400
+  ); /* Linear gradient for orange */
+
+  --clr-border-red-pink: #ffdac6; /* Border color */
+}
+
+purple {
+  --clr-primary: #6a0dad; /* Dark purple */
+  --clr-light-primary: #7d3fc1; /* Lighter purple */
+  --clr-light-active-primary: #9a4fca; /* Even lighter purple */
+
+  --clr-bright-primary: #b380ff; /* Bright purple */
+  --clr-text-primary: #6b0fa6; /* Slightly darker purple for text */
+  --clr-dark-red-primary: #a64dff; /* Darker bright purple */
+  --clr-text-white: #ffffff; /* White text */
+  --clr-text-dark: #000000; /* Black text */
+  --clr-text-green: #41af41; /* Green text (unchanged) */
+  --clr-text-brightblack: #4c4c4c; /* Bright black text (unchanged) */
+
+  --clr-bg-gray: #d9d9d9; /* Light gray background (unchanged) */
+  --clr-bg-gray-light: #f3f4f6; /* Lighter gray background (unchanged) */
+  --clr-bg-pink: #f9f0ff; /* Very light purple background */
+  --clr-bg-hot-pink: #f3e7ff; /* Light purple background */
+  --clr-bg-gray-dark: #f0f0f0; /* Dark gray background (unchanged) */
+  --clr-bg-primary-gray: #f0f0f0; /* Primary gray background (unchanged) */
+  --clr-bg-light-red: #f0e6ff; /* Very light purple background */
+
+  --clr-border-gray: #e5e7eb; /* Border gray (unchanged) */
+
+  --clr-liner: linear-gradient(
+    to bottom,
+    #9a4fca,
+    #6a0dad
+  ); /* Purple gradient */
+
+  --clr-border-red-pink: #e0c4ff; /* Light purple border */
+}

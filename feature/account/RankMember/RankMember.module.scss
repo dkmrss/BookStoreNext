@@ -1,0 +1,76 @@
+.rankMember {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  padding-right: 5px;
+
+  .rankInfor {
+    position: absolute;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 10px;
+    width: 97.25%;
+    top: 70px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgba(0, 0, 0, 0.16) 0px 1px 4px;
+
+    .dot {
+      position: absolute;
+      left: 58%;
+      width: 15px;
+      height: 15px;
+      background-color: var(--clr-primary);
+      border-radius: 10px;
+      top: -3px;
+      z-index: 2;
+    }
+
+    span {
+      font-weight: 500;
+    }
+  }
+
+  .imgTab {
+    border: 1px solid var(--clr-primary);
+    border-radius: 20px;
+  }
+
+  .inforRank {
+    .title {
+      background-color: var(--clr-primary);
+      width: fit-content;
+      padding: 8px 30px;
+      border-radius: 15px;
+    }
+
+    .textInfor {
+      font-size: 17px;
+      line-height: 24px;
+    }
+  }
+}
+.silver {
+  background-color: #677b9c;
+  span {
+    color: white;
+  }
+}
+.gold {
+  background-color: #ffb800;
+  span {
+    color: white;
+  }
+}
+.platinum {
+  background-color: #50b65e;
+  span {
+    color: white;
+  }
+}
+.diamond {
+  background-color: #63e2f3;
+  span {
+    color: white;
+  }
+}

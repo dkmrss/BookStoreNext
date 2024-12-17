@@ -1,0 +1,86 @@
+.login {
+  margin: auto;
+  padding: 0px 20px;
+  .title {
+    padding: 20px 0px;
+  }
+
+  .gridForm {
+    margin: 10px 0px;
+    width: 100%;
+
+    input:focus {
+      border: 1px solid #f1f3f5;
+      outline: 1px solid var(--clr-primary);
+    }
+
+    .color {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--clr-text-primary);
+      width: 100%;
+      border: 1px solid var(--clr-primary);
+      border-radius: 4px;
+      padding: 6px 12px;
+      font-size: 14px;
+    }
+
+    .width {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: 6px 12px;
+      border: 1px solid #f1f3f5;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .textColor {
+      color: var(--clr-text-primary);
+    }
+
+    .selectSide {
+      position: relative;
+      background-color: #f1f3f5;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .side {
+      position: absolute;
+      border-radius: 10px;
+      background-color: #f1f3f5;
+      padding: 5px 12px;
+      box-shadow: 2px 2px 2px 2px #eeeeee;
+      z-index: 1000;
+      width: 100%;
+      left: 0;
+      top: 110%;
+
+      .optionSide {
+        margin: 8px;
+      }
+    }
+  }
+
+  .TAForm {
+    margin: 10px 0px;
+  }
+
+  textarea:focus {
+    border: 1px solid #f1f3f5;
+    outline: 1px solid var(--clr-primary);
+  }
+
+  .captcha {
+    margin: 15px 0px;
+    width: 100%;
+    position: relative;
+  }
+}
+
+.dropdown {
+  z-index: 1100 !important;
+}

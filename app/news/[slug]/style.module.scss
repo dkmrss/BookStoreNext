@@ -1,0 +1,24 @@
+.newBox {
+  width: 100%;
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  @media only screen and (min-width: 1000px) {
+    flex-direction: row;
+    .sideBarContainer {
+      width: calc(20% - 10px) !important;
+      margin: 0;
+    }
+    .contentContainer {
+      width: calc(80% - 10px) !important;
+    }
+  }
+
+  .sideBarContainer {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .contentContainer {
+    width: 100%;
+  }
+}

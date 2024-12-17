@@ -1,0 +1,31 @@
+.containerBox {
+  padding-bottom: 10px;
+  overflow-y: hidden;
+  overflow-x: auto;
+  width: 100%;
+}
+
+.col {
+  gap: 10px;
+  width: 900px;
+  display: flex;
+  height: 14rem;
+  .articleBox {
+    min-width: 216px;
+    width: 25%;
+    height: 100%;
+  }
+  @media only screen and (min-width: 900px) {
+    width: 100%;
+  }
+  @media only screen and (min-width: 800px) {
+    gap: 15px;
+  }
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 5px;
+}

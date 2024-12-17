@@ -1,0 +1,17 @@
+@use "./variables" as *;
+
+.page {
+  @include colors-red;
+
+  &.theme-red {
+    @include colors-red;
+  }
+
+  &.theme-blue {
+    @include colors-blue;
+  }
+
+  &.theme-purple {
+    @include colors-purple;
+  }
+}

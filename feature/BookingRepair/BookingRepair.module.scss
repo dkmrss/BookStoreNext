@@ -1,0 +1,9 @@
+.box {
+  margin-top: 15px !important;
+}
+
+@media only screen and (max-width: 800px) {
+  .box {
+    margin-top: 40px !important;
+  }
+}

@@ -1,0 +1,60 @@
+.box {
+  > a {
+    color: #000;
+    text-decoration: none;
+  }
+}
+.container {
+  display: flex;
+  align-items: center;
+}
+.hover {
+  &:hover {
+    background-color: #fef2f2;
+  }
+}
+.list {
+  padding: 5px 8px;
+}
+.child {
+  padding: 1.5px 8px 1.5px;
+  > a {
+    .container {
+      padding: 5px;
+      > img {
+        width: 60px;
+        height: 60px;
+      }
+    }
+    .infoProduct {
+      > p {
+        font-weight: bold;
+      }
+      > span {
+        margin-left: 8px;
+      }
+    }
+  }
+}
+
+.search {
+  > a {
+    .container {
+      > img {
+        width: 40px;
+        height: 40px;
+      }
+    }
+  }
+}
+
+.infoProduct {
+  display: flex;
+  flex-direction: column;
+}
+
+.formatNumber {
+  color: red;
+  font-weight: 600;
+  font-family: 14px;
+}

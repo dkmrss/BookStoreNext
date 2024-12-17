@@ -1,0 +1,53 @@
+.main {
+  margin-left: 30px;
+}
+
+.main ul li::marker {
+  color: #6782aa;
+  font-size: 18px;
+  border-radius: 50%; /* Để tạo thành hình tròn */
+  display: inline-block; /* Để chấm tròn không làm thay đổi dòng chữ */
+  margin-right: 5px;
+}
+
+.successBox {
+  border: 1px solid #7cd86d;
+  background-color: #e3fede;
+  border-radius: 6px;
+  padding: 6px 20px;
+  width: fit-content;
+}
+
+.QRBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 250px;
+}
+
+.QRTitle {
+  font-size: 13px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: #787878;
+  margin: 15px 0 40px 0;
+}
+
+.countdownBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 250px;
+  height: 202px;
+}
+.loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
+}

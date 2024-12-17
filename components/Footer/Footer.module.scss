@@ -1,0 +1,29 @@
+.footerContainer {
+  margin: 0 auto;
+  max-width: 100%;
+
+  background-color: white;
+  .footer {
+    max-width: 1400px;
+    margin: auto;
+  }
+  .soure {
+    padding: 10px;
+    background-color: #f9f8fd;
+    .container {
+      max-width: 1400px;
+      margin: auto;
+    }
+  }
+  .address {
+    background-color: white;
+    .container {
+      max-width: 1400px;
+      margin: auto;
+      margin-bottom: 40px;
+    }
+  }
+}
+.divider1 {
+  margin: 0;
+}

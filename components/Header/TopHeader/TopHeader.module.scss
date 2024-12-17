@@ -1,0 +1,32 @@
+.top_header {
+  margin: 0 auto;
+  max-width: 100%;
+  padding: 7.5px 0;
+  background-color: var(--clr-bg-primary-gray);
+}
+.container {
+  max-width: 1400px;
+  height: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+.group {
+  display: flex;
+  justify-content: space-around;
+}
+.Carousel {
+  display: none;
+}
+.carousel_slide {
+  display: flex;
+  justify-content: center;
+}
+
+@media only screen and (max-width: 800px) {
+  .group {
+    display: none;
+  }
+  .Carousel {
+    display: block;
+  }
+}

@@ -1,0 +1,72 @@
+.login {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  max-width: 500px;
+
+  .formLogin {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    .setInput {
+      border-bottom: 1px solid #bdbdbd;
+    }
+
+    .unsetInput {
+      border-bottom: 1px solid var(--clr-text-primary);
+    }
+
+    .setText {
+      padding: 0px 10px;
+      transform: translateY(25px);
+      transition: transform 0.42s;
+    }
+
+    .unsetText {
+      transform: translateY(0px);
+      transition: transform 0.42s;
+      padding: 0px 10px;
+    }
+
+    .forgotPassword {
+      display: inline-block;
+      text-decoration: none;
+      color: #bdbdbd;
+      font-size: 14px;
+      text-align: end;
+      cursor: pointer;
+
+      &:hover {
+        color: var(--clr-primary);
+        font-weight: 500;
+      }
+    }
+
+    .signUp {
+      text-decoration: none;
+      color: var(--clr-text-primary);
+      font-weight: 500;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.header {
+  background-color: var(--clr-primary);
+  color: white;
+  button {
+    background-color: var(--clr-bright-primary);
+    border-radius: 50%;
+    color: white;
+  }
+  button:hover {
+    background-color: var(--clr-bright-primary);
+    border-radius: 50%;
+    color: white;
+  }
+}

@@ -1,0 +1,20 @@
+.root {
+  max-width: 1400px;
+  height: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 10px;
+  background-color: white;
+
+  // Todo: Update responsive tablet
+  @media only screen and (max-width: 800px) {
+    max-width: 100%;
+    padding: 0 5px;
+  }
+
+  // Todo: Update responsive mobile
+  @media only screen and (max-width: 500px) {
+    max-width: 100%;
+    padding: 0 5px;
+  }
+}

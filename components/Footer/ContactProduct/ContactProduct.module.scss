@@ -1,0 +1,16 @@
+.contact_product {
+  padding: 20px;
+}
+.text {
+  text-align: justify;
+  > a {
+    text-decoration: none;
+    color: #000;
+    &:hover {
+      color: var(--clr-text-primary);
+    }
+    &::after {
+      content: " | ";
+    }
+  }
+}

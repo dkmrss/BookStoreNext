@@ -1,0 +1,63 @@
+.ProductSelection {
+  position: relative;
+  transition: 0.2s ease-out;
+  border-radius: 0.375rem;
+
+  > a {
+    color: #000;
+    text-decoration: none;
+    > div {
+      padding: 3.5px 0;
+    }
+  }
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    height: 100%;
+  }
+
+  &::before {
+    left: 0;
+    width: 3px;
+    background-color: #b4181b;
+    border-top-left-radius: 0.375rem;
+    border-bottom-left-radius: 0.375rem;
+    transform: scale(1, 0);
+    transition: 0.2s ease;
+  }
+
+  &::after {
+    top: 0;
+    right: -10px;
+    width: 10px;
+    background-color: transparent;
+  }
+
+  &:hover {
+    background-color: var(--clr-bg-light-red);
+    transition: 0.2s ease-out;
+
+    .text {
+      color: #b4181b;
+    }
+    .iconChevronRight {
+      color: #b4181b;
+    }
+    &::before {
+      transform: scale(0.9, 1);
+    }
+  }
+}
+.image {
+  width: 30px;
+  height: 30px;
+  margin: 0 10px;
+}
+.text {
+  color: var(--clr-text-dark);
+}
+.iconChevronRight {
+  color: rgb(203 203 203 / 1);
+}

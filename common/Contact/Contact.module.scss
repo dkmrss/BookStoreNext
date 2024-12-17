@@ -1,0 +1,79 @@
+.contactFirst {
+  position: fixed;
+  right: 1%;
+  bottom: 0;
+
+  .phoneContact {
+    border-radius: 50px;
+    transform: translate(27.5px, 5px);
+  }
+}
+
+.contactAfter {
+  position: fixed;
+  right: 1%;
+  bottom: 1%;
+  z-index: 1000;
+
+  .formContact {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 0px 0px 10px 10px;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100%);
+    opacity: 1;
+  }
+}
+
+.formFirst {
+  animation: slideUp 0.42s forwards;
+}
+
+.formAfter {
+  animation: slideDown 0.42s forwards;
+}
+
+@media only screen and (max-width: 800px) {
+  .contactFirst {
+    position: fixed;
+    right: 1%;
+    bottom: 65px;
+    z-index: 1000;
+    .phoneContact {
+      display: flex;
+      align-items: center;
+      border-radius: 50px;
+      transform: translate(25px, 3px);
+    }
+  }
+
+  .contactAfter {
+    position: fixed;
+    right: 1%;
+    bottom: 11%;
+    z-index: 1000;
+  }
+}

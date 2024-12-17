@@ -1,0 +1,170 @@
+.purchaseHistory {
+  width: 100%;
+  // max-width: 800px;
+  margin: 0 auto;
+
+  .avatar {
+    border: 1px solid black;
+  }
+
+  .customerCode {
+    display: block;
+    font-size: 14px;
+    padding: 2px 8px;
+    text-align: center;
+    border: 1px solid;
+    border-color: var(--clr-primary);
+    border-radius: 8px;
+    width: fit-content;
+  }
+
+  .order {
+    .boxTotal {
+      border-left: 1px solid black;
+    }
+  }
+  .dateTime {
+    display: flex;
+    gap: 10px;
+    .calendar {
+      width: 100%;
+      text-align: center;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+  }
+
+  .groupButton {
+    .tab {
+      border: 1px solid #c5c5c5;
+    }
+  }
+
+  .purchaseHistoryCard {
+    margin-bottom: 20px;
+
+    .productStatus {
+      width: fit-content;
+      padding: 3px;
+      color: blue;
+      background-color: #e9ecf7;
+    }
+
+    .button {
+      width: fit-content;
+      margin-top: 5px;
+    }
+  }
+
+  @media only screen and (min-width: 800px) and (max-width: 1023px) {
+    width: 100%;
+    .order {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .boxTotal {
+        margin-top: 10px;
+      }
+    }
+    .dateTime {
+      display: flex;
+      gap: 10px;
+      .calendar {
+        width: 100%;
+        text-align: center;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+    }
+
+    .groupButton {
+      .tab {
+        margin-bottom: 5px;
+      }
+    }
+
+    .purchaseHistoryCard {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 799px) {
+    .order {
+      width: 100%;
+      .boxTotal {
+        text-align: center;
+      }
+    }
+    .dateTime {
+      display: flex;
+      gap: 10px;
+      .calendar {
+        width: 80%;
+        text-align: center;
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        .text {
+          display: none;
+        }
+      }
+    }
+
+    .groupButton {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      .tabContainer {
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+        scrollbar-color: var(--clr-text-brightblack) var(--clr-bg-gray-dark);
+        flex-shrink: 0;
+      }
+
+      .tabContainer::-webkit-scrollbar {
+        height: 8px;
+      }
+
+      .tabContainer::-webkit-scrollbar-track {
+        background: var(--clr-bg-gray-dark);
+      }
+
+      .tabContainer::-webkit-scrollbar-thumb {
+        background: var(--clr-text-brightblack);
+      }
+
+      .tabContainer::-webkit-scrollbar-thumb:hover {
+        background: var(--clr-text-brightblack);
+      }
+      .tabList {
+        display: inline-flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        margin-bottom: 10px;
+        padding: 0;
+        .tab {
+          flex: 1;
+        }
+      }
+    }
+
+    .purchaseHistoryCard {
+      width: 100%;
+      font-size: 10px;
+      .productImage {
+        width: 32%;
+        object-fit: cover;
+      }
+      .button {
+        width: fit-content;
+        margin-top: 10px;
+        font-size: 12px;
+      }
+    }
+  }
+}

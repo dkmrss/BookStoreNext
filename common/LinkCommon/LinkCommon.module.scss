@@ -1,0 +1,42 @@
+.linksContainer {
+  width: 100%;
+  overflow: hidden;
+  padding-top: 10px;
+  flex-wrap: wrap;
+
+  @media (min-width: 600px) {
+    display: flex;
+  }
+  .linkBox {
+    text-decoration: none;
+    background-color: var(--clr-primary);
+    display: flex;
+    align-items: center;
+    margin: 0 8px 8px 0;
+    padding: 8px;
+    border-radius: 0.5rem;
+    color: #fff;
+    flex-shrink: 0;
+    .icon {
+      margin-right: 3px;
+      color: #fff;
+      width: 1em;
+      height: 1em;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      @media (min-width: 600px) {
+        font-size: 1rem;
+        line-height: 1.5rem;
+      }
+    }
+    .name {
+      font-size: 0.75rem;
+      line-height: 1rem;
+      font-weight: 600;
+      @media (min-width: 600px) {
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+      }
+    }
+  }
+}

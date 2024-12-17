@@ -1,0 +1,25 @@
+.button {
+  padding: 5px;
+  margin: 6px 6px 0 0;
+  text-decoration: none;
+  color: #000;
+  border: 1px solid rgb(205, 205, 205);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-width: 1px;
+  overflow: hidden;
+  border-radius: 0.5rem;
+}
+.text {
+  font-size: 9px;
+}
+.images {
+  transform: translateX(5px);
+}
+
+.disable {
+  color: gray;
+  pointer-events: none;
+  opacity: 0.5;
+}

@@ -1,0 +1,255 @@
+.storeCard {
+  width: 100%;
+  max-width: 550px;
+  height: 330px;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  flex: 1 1 auto;
+  overflow: hidden;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  .storeImage {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    padding: 10px;
+  }
+
+  .infomation {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 5px 0px 10px;
+    .storeName {
+      margin: 0;
+
+      h2 {
+        font-size: 14px;
+        color: red;
+        margin: 0px;
+      }
+    }
+
+    .storeAddress,
+    .workingTime,
+    .contact {
+      display: flex;
+      align-items: start;
+      color: black;
+      font-size: 14px;
+      .icon {
+        width: 20px;
+        color: red;
+        margin-right: 5px;
+        flex-shrink: 0;
+      }
+    }
+
+    .contact {
+      a {
+        color: black;
+        text-decoration: none;
+      }
+    }
+
+    .joinGroup {
+      display: flex;
+      align-items: center;
+      color: black;
+      font-size: 14px;
+      img {
+        width: 18px;
+        height: 18px;
+        padding: 0;
+        margin-right: 5px;
+        flex-shrink: 0;
+      }
+      a {
+        color: black;
+      }
+    }
+
+    .storeMap {
+      text-decoration: none;
+
+      .buttonStoreMap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px 0px;
+        color: var(--clr-text-white);
+        margin-top: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        border-radius: 5px;
+        background-color: var(--clr-light-active-primary);
+        cursor: pointer;
+
+        .iconMap {
+          width: 16px;
+        }
+      }
+    }
+
+    .imageList {
+      width: 250px;
+      margin-top: 8px;
+    }
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+
+    .overlayContent {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .imageCounter {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 18px;
+      color: gray;
+      padding: 5px 10px;
+      border-radius: 5px;
+      z-index: 1000;
+    }
+
+    .imageNameCounter {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      font-size: 22px;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      z-index: 1000;
+    }
+
+    .modalImage {
+      max-width: 100%;
+      max-height: 100%;
+      transition: transform 0.3s ease;
+    }
+
+    .zoomOutButton,
+    .zoomInButton,
+    .folderButton,
+    .maximizeButton,
+    .closeButton,
+    .chevronLeftButton,
+    .chevronRightButton {
+      position: absolute;
+      cursor: pointer;
+      color: gray;
+      z-index: 101;
+    }
+
+    .zoomOutButton:hover,
+    .zoomInButton:hover,
+    .folderButton:hover,
+    .maximizeButton:hover,
+    .closeButton:hover,
+    .chevronLeftButton:hover,
+    .chevronRightButton:hover {
+      color: white;
+    }
+
+    .zoomOutButton {
+      top: 10px;
+      right: 210px;
+    }
+
+    .zoomInButton {
+      top: 10px;
+      right: 160px;
+    }
+
+    .folderButton {
+      top: 10px;
+      right: 110px;
+    }
+
+    .maximizeButton {
+      top: 10px;
+      right: 60px;
+    }
+
+    .closeButton {
+      top: 10px;
+      right: 10px;
+    }
+
+    .chevronLeftButton {
+      left: 32px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .chevronRightButton {
+      right: 32px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .modalImage {
+      max-width: 80%;
+      max-height: 80%;
+    }
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .storeCard {
+    width: 100%;
+  }
+}
+
+@media only screen and (min-width: 600px) and (max-width: 1023px) {
+  .storeCard {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 600px;
+
+    .storeImage {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+    }
+  }
+}
+
+@media only screen and (max-width: 599px) {
+  .storeCard {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 600px;
+
+    .storeImage {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+    }
+  }
+}

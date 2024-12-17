@@ -1,0 +1,14 @@
+.mainHeader {
+  width: 100vw;
+  height: 70px;
+  background-color: #f02c4d;
+  text-align: center;
+  margin-bottom: -16px;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 299;
+}

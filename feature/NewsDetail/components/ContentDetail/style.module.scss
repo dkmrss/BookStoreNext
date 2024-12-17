@@ -1,0 +1,87 @@
+.detailLeft {
+  width: 60%;
+  .infoWithIcon {
+    margin: 17px 0 24px;
+  }
+  .imgMain {
+    width: 100%;
+    object-fit: cover;
+    margin-bottom: 50px;
+  }
+  .content {
+    padding-bottom: 30px;
+    border-bottom: 1px solid #dfdfdf;
+    margin-bottom: 25px;
+  }
+  .formComment {
+    width: 100%;
+  }
+}
+.contentText {
+  // img {
+  //   height: 100%;
+  //   width: 100%;
+  // }
+  table {
+    border-collapse: collapse; /* Đảm bảo các border sẽ nối tiếp nhau mà không tạo ra khoảng trắng */
+    margin: 20px 0px;
+  }
+
+  td,
+  th {
+    border: 1px solid black; /* Thêm border cho cả các ô trong td và th */
+    padding: 10px;
+    line-height: 1.2;
+  }
+  tr:nth-child(even) {
+    background-color: rgba(242, 242, 242, 0.5);
+  }
+  thead,
+  tbody {
+    border: 1px solid black; /* Thêm border cho cả thead và tbody */
+    padding: 10px;
+    line-height: 1.2;
+  }
+  thead {
+    background-color: red;
+    color: white;
+  }
+  figure {
+    margin: 20px 0px;
+  }
+
+  li {
+    line-height: 1.5;
+  }
+  p {
+    line-height: 1.5;
+  }
+  a {
+    text-decoration: none;
+  }
+}
+.productImage {
+  width: 100%;
+  height: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 15px;
+}
+.propertyCard {
+  width: 276px;
+  height: 276px;
+  position: relative;
+  cursor: pointer;
+}
+.mainCard {
+  width: 25%;
+  height: 434px;
+  border: 0.5px solid #d3def0;
+  border-radius: 12px;
+  background-color: white;
+  &:hover {
+    border: 1.5px solid #b2c5e3;
+  }
+}

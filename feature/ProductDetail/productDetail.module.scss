@@ -1,0 +1,17 @@
+.flexBox {
+  display: flex;
+  margin-top: 30px;
+  gap: 20px;
+  .leftBox {
+    width: calc(62% - 10px);
+  }
+  .rightBox {
+    width: calc(38% - 10px);
+  }
+}
+
+.flexBox800px {
+  margin-top: 30px;
+  width: 100%;
+  margin-bottom: 20px;
+}
