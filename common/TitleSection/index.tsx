@@ -2,7 +2,7 @@
 import style from "./TitleSection.module.scss";
 
 type TitleSection = {
-  title: String;
+  title: String | undefined;
   forSEO?: boolean;
 };
 

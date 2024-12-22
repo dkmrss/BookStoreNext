@@ -1,19 +1,18 @@
 "use client";
 import InformationCard from "@/common/InformationCard";
-import { Button, Flex } from "@mantine/core";
+import { Box, Button, Flex, Text } from "@mantine/core";
 import { useState, useEffect } from "react";
 import style from "./style.module.scss";
+import { IconInfoOctagon } from "@tabler/icons-react";
 
 interface ContentProps {
   data: string | null;
 }
 const ContentBox: React.FC<ContentProps> = ({ data }) => {
-  const [showMore, setShowMore] = useState(false);
+  
   const [processedHTML, setProcessedHTML] = useState<string | null>(null);
 
-  const handleShowMoreClick = () => {
-    setShowMore(!showMore);
-  };
+  
 
   useEffect(() => {
     if (data) {
@@ -33,37 +32,17 @@ const ContentBox: React.FC<ContentProps> = ({ data }) => {
 
   return (
     <div className={style.footerCategory}>
+      <Box className={style.header}>
+        <Text>Mô tả sản phẩm</Text>
+      </Box>
       <div
-        className={`${style.contentBox} ${showMore && style.showcontentBox}`}
+        className={style.showcontentBox}
       >
         <div
           className={style.content}
           dangerouslySetInnerHTML={{ __html: processedHTML }}
         ></div>
-        {!showMore ? (
-          <div className={style.overlay}>
-            <Button
-              className={style.button}
-              variant="default"
-              radius={"md"}
-              id="showMoreButton"
-              onClick={handleShowMoreClick}
-            >
-              Xem thêm
-            </Button>
-          </div>
-        ) : (
-          <Flex justify={"center"}>
-            <Button
-              className={style.buttonClose}
-              variant="default"
-              radius={"md"}
-              onClick={handleShowMoreClick}
-            >
-              Thu gọn
-            </Button>
-          </Flex>
-        )}
+      
       </div>
     </div>
   );

@@ -41,8 +41,8 @@ const Summary = ({ data }: { data: TblProduct | null }) => {
         <strong>Số lượng còn lại: {data?.quantity}</strong>
         <p>Tác giả: {data?.author}</p>
         <p>Nhà xuất bản: {data?.publisher}</p>
-        
-        
+        <p>Hình thức: Bìa Mềm</p>
+        <p>Kích Thước Bao Bì: 15.5 x 23 cm</p>
       </Box>
     </Box>
   );

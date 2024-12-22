@@ -1,7 +1,6 @@
 import AuthService from "@/api/login/auth.service";
 import EmailSendRsPassword from "@/app/login/EmailSendRsPassword/index";
 import { PasswordRecovery } from "@/model/AuthService";
-import { useState } from "react";
 import {
   Box,
   Container,
@@ -13,9 +12,10 @@ import {
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
-import style from "./Passwordrecovery.module.scss";
-import ReActiveModalWithoutPassword from "../Reactive/ReActiveModalWithoutPassWord";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import ReActiveModalWithoutPassword from "../Reactive/ReActiveModalWithoutPassWord";
+import style from "./Passwordrecovery.module.scss";
 
 const PasswordRecoveryModal = () => {
   const entity = {
@@ -30,14 +30,7 @@ const PasswordRecoveryModal = () => {
     },
 
     validate: {
-      username: (value) => {
-        if (!value) {
-          return "Số điện thoại chưa nhập"; // Return error message if value is null or undefined
-        }
-        return /^\d{10}$/.test(value.trim())
-          ? null
-          : "Số điện thoại không hợp lệ";
-      },
+      
     },
   });
 
@@ -126,12 +119,12 @@ const PasswordRecoveryModal = () => {
       <Container className={style.containerall}>
         <Title className={style.divtitle}>
           <span className={style.infoText}>
-            Nhập số điện thoại bạn đã sử dụng khi đăng ký tài khoản để lấy lại
-            mật khẩu. Bạn sẽ nhận được tin nhắn để khôi phục mật khẩu
+            Nhập email bạn đã sử dụng khi đăng ký tài khoản để lấy lại
+            mật khẩu. Bạn sẽ nhận được mail để nhận mã khôi phục  mật khẩu
           </span>
         </Title>
         <TextInput
-          label="Số điện thoại"
+          label="email"
           labelProps={{ "data-floating": floating }}
           withAsterisk
           mt="md"

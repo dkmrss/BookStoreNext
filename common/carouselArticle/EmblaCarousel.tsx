@@ -1,6 +1,6 @@
 "use client";
 import ArticleCard from "@/common/ArticleCard/Card";
-import { ArticleCategoryList, DataArticle } from "@/model/DataArticle";
+import { Article, ArticleCategoryList, DataArticle } from "@/model/DataArticle";
 import { EmblaOptionsType } from "embla-carousel";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
@@ -14,7 +14,7 @@ import { DotButton, useDotButton } from "./EmblaCarouselDotButton";
 import style from "./embla.module.scss";
 
 type PropType = {
-  data: DataArticle[] | undefined;
+  data: Article [] | undefined;
   dataCategory?: ArticleCategoryList[];
   options?: EmblaOptionsType;
   auto?: boolean;

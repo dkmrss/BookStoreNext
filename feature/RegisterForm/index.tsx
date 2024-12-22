@@ -1,180 +1,105 @@
 "use client";
-import { createCustomerWithOutTokenPhone } from "@/api/apiCustomer";
-import AuthService from "@/api/login/auth.service";
-import logoHacom from "@/assets/logo-hacom-compressed4.svg";
-import { Register } from "@/model/AuthService";
-import { tblCustomer } from "@/model/TblCustomer";
+
+import { useState } from "react";
 import {
   Box,
   Button,
-  Center,
   Checkbox,
+  FileInput,
   Flex,
   PasswordInput,
-  Space,
   Text,
   TextInput,
+  Space,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { modals } from "@mantine/modals";
+import { notifications } from "@mantine/notifications";
 import { IconArrowLeft } from "@tabler/icons-react";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import ReCAPTCHA from "react-google-recaptcha";
-import { useSelector } from "react-redux";
-import ActiveModal from "./Active";
 import style from "./Register.module.scss";
+import { registerUser } from "@/api/ApiUser";
 
 const RegisterForm = () => {
-  const [customer, setCustomer] = useState<tblCustomer>({
-    customerNumber: "",
-    customerName: "",
-    customerType: "",
-    validatedFlag: "",
-    address: "",
-    contactName: "",
-    telephoneNumber: "",
-    email: "",
-    taxCode: "",
-    sex: "",
-    dateOfBirth: "",
-    createdBy: "",
-    lastUpdateDate: "",
-    lastUpdatedBy: "",
-    lastUpdateLogin: "",
-    shipToProvince: "",
-    shipToDistrict: "",
-    shipToWard: "",
-    identifiedNumber: "",
-    groupId: 0,
-    userName: "",
-    avatar: "",
-    taxCompany: "",
-    taxAddress: "",
-    orderCount: 0,
-    totalValue: 0,
-    orderCountSuccess: 0,
-    totalValueSuccess: 0,
-    banned: 0,
-    loginToken: "",
-    productReviewCount: 0,
-    questionAsk: 0,
-    questionAnswer: 0,
-    loyaltyPoint: 0,
-    loyaltyLevel: 0,
-    articleComment: 0,
-    contactId: 0,
-    mobileNumber: "",
-    hobby: "",
-    brand: "",
-    job: "",
-    shipToAddress: "",
-    tblCustomerSiteCommands: [],
-  });
-
-  const entity = {
-    fullName: "",
-    phone: "",
-    username: "",
-    password: "",
-    confirmPassword: "",
-  };
-
-  const form = useForm<Register>({
-    validateInputOnChange: true,
-    initialValues: {
-      ...entity,
-    },
-
-    validate: {
-      fullName: (value) =>
-        value && value.trim() ? null : "Họ và tên không được để trống",
-      phone: (value) =>
-        /^\d{10}$/.test(value.trim()) ? null : "Số điện thoại không hợp lệ",
-      password: (value) =>
-        value && value.length >= 5 && value.length <= 100
-          ? null
-          : "Mật khẩu phải chứa từ 5 đến 100 kí tự",
-      confirmPassword: (value, entity) =>
-        value && value === entity?.password
-          ? null
-          : "Xác nhận mật khẩu không khớp",
-    },
-  });
-
   const router = useRouter();
-  const auth = useSelector((state: any) => state.auth);
   const [isAgree, setIsAgree] = useState(false);
-  const [captcha, setCaptcha] = useState(false);
-  const [clickName, setClickName] = useState(false);
-  const floatingName =
-    clickName || form.values.fullName.length > 0 || undefined;
-  const [clickPhone, setClickPhone] = useState(false);
-  const floatingPhone = clickPhone || form.values.phone.length > 0 || undefined;
-  const [clickPassword, setClickPassword] = useState(false);
-  const floatingPassword =
-    clickPassword || form.values.password.length > 0 || undefined;
-  const [clickRePassword, setClickRePassword] = useState(false);
-  const floatingRePassword =
-    clickRePassword || form.values.confirmPassword.length > 0 || undefined;
+  const [avatar, setAvatar] = useState<File | null>(null);
 
-  const onChangeCaptcha = (value: any) => {
-    setCaptcha(true);
-  };
+  const form = useForm({
+    initialValues: {
+      email: "",
+      password: "",
+      confirmPassword: "",
+      name: "",
+      phone: "",
+      address: "",
+    },
+    validate: {
+      email: (value) =>
+        /^\S+@\S+\.\S+$/.test(value) ? null : "Email không hợp lệ",
+      password: (value) =>
+        value.length >= 6 ? null : "Mật khẩu phải ít nhất 6 ký tự",
+      confirmPassword: (value, values) =>
+        value === values.password ? null : "Mật khẩu xác nhận không khớp",
+      name: (value) =>
+        value.trim().length > 0 ? null : "Tên không được để trống",
+      phone: (value) =>
+        /^\d{10}$/.test(value) ? null : "Số điện thoại không hợp lệ",
+      address: (value) =>
+        value.trim().length > 0 ? null : "Địa chỉ không được để trống",
+    },
+  });
 
-  function openFormActive() {
-    modals.openConfirmModal({
-      zIndex: 1000,
-      id: "modelCancel",
-      size: "600px",
-      radius: "20px",
-      centered: true,
-      classNames: {
-        header: style.header,
-        content: style.content,
-      },
-      children: (
-        <ActiveModal phone={form.values.phone} isOpen={true}></ActiveModal>
-      ),
-      cancelProps: { display: "none" },
-      confirmProps: { display: "none" },
-    });
-  }
+  const handleSubmit = async (values: typeof form.values) => {
+    if (!isAgree) {
+      notifications.show({
+        message: "Bạn cần đồng ý với điều khoản trước khi đăng ký!",
+        color: "red",
+      });
+      return;
+    }
 
-  const handleCreateAccount = async (dataSubmit: Register) => {
-    const dataApi = await AuthService.registerPhone(
-      { ...dataSubmit, username: dataSubmit.phone },
-      openFormActive
-    );
+    try {
+      const formData = new FormData();
+      formData.append("email", values.email);
+      formData.append("password", values.password);
+      formData.append("name", values.name);
+      formData.append("phone", values.phone);
+      formData.append("address", values.address);
+      if (avatar) {
+        formData.append("avatar", avatar);
+      }
 
-    if (dataApi && dataApi.success) {
-      await createCustomerWithOutTokenPhone({
-        ...customer,
-        userName: dataSubmit.phone,
-        customerName: dataSubmit.fullName,
-        email: dataSubmit.phone,
-        telephoneNumber: dataSubmit.phone,
+      const response = await registerUser(formData);
+
+      if (response.success) {
+        notifications.show({
+          message: "Đăng ký thành công! Hãy đăng nhập để tiếp tục.",
+          color: "green",
+        });
+        router.push("/login");
+      } else {
+        notifications.show({
+          message: response.message || "Đăng ký thất bại!",
+          color: "red",
+        });
+      }
+    } catch (error) {
+      notifications.show({
+        message: "Đã xảy ra lỗi trong quá trình đăng ký!",
+        color: "red",
       });
     }
   };
-
-  useEffect(() => {
-    if (auth.userInfo) {
-      router.push("/");
-    }
-  }, []);
 
   return (
     <Box
       className={style.registerPage}
       component="form"
-      onSubmit={form.onSubmit((e: Register) => {
-        handleCreateAccount(e);
-      })}
+      onSubmit={form.onSubmit(handleSubmit)}
     >
       <Box className={style.container}>
+        {/* Thanh điều hướng */}
         <Box className={style.topNavBar}>
           <Box className={style.navBarContainer}>
             <Link href={"/login"} className={style.signIn}>
@@ -184,120 +109,116 @@ const RegisterForm = () => {
           </Box>
         </Box>
         <Space h="xl" />
-        <Box
-          className={style.loginForm}
-          component="form"
-          onSubmit={form.onSubmit((e: Register) => {
-            handleCreateAccount(e);
-          })}
-        >
+
+        {/* Form đăng ký */}
+        <Box className={style.loginForm}>
           <Box className={style.formGroup}>
-            <div className={style.inputBox}>
-              <TextInput
-                label="Họ và tên"
-                labelProps={{ "data-floating": floatingName }}
-                withAsterisk
-                mt="md"
-                classNames={{
-                  root: style.root,
-                  input: style.input,
-                  label: style.label,
-                }}
-                onFocus={() => setClickName(true)}
-                onBlur={() => setClickName(false)}
-                {...form.getInputProps("fullName")}
-              />
-            </div>
-            <div className={style.inputBox}>
-              <TextInput
-                label="Số điện thoại"
-                labelProps={{ "data-floating": floatingPhone }}
-                withAsterisk
-                type="number"
-                mt="md"
-                classNames={{
-                  root: style.root,
-                  input: style.input,
-                  label: style.label,
-                }}
-                onFocus={() => setClickPhone(true)}
-                onBlur={() => setClickPhone(false)}
-                {...form.getInputProps("phone")}
-              />
-            </div>
-            <div className={style.inputBox}>
-              <PasswordInput
-                label="Mật khẩu"
-                labelProps={{ "data-floating": floatingPassword }}
-                withAsterisk
-                mt="md"
-                classNames={{
-                  root: style.root,
-                  input: style.input,
-                  label: style.label,
-                }}
-                onFocus={() => setClickPassword(true)}
-                onBlur={() => setClickPassword(false)}
-                {...form.getInputProps("password")}
-              />
-            </div>
-            <div className={style.inputBox}>
-              <PasswordInput
-                label="Nhập lại mật khẩu"
-                labelProps={{ "data-floating": floatingRePassword }}
-                withAsterisk
-                mt="md"
-                classNames={{
-                  root: style.root,
-                  input: style.input,
-                  label: style.label,
-                }}
-                onFocus={() => setClickRePassword(true)}
-                onBlur={() => setClickRePassword(false)}
-                {...form.getInputProps("confirmPassword")}
-              />
-            </div>
+            <TextInput
+              label="Email"
+              placeholder="Nhập email"
+              withAsterisk
+              classNames={{
+                input: style.input,
+                label: style.label,
+              }}
+              {...form.getInputProps("email")}
+            />
+            <TextInput
+              label="Họ và tên"
+              placeholder="Nhập họ và tên"
+              withAsterisk
+              classNames={{
+                input: style.input,
+                label: style.label,
+              }}
+              {...form.getInputProps("name")}
+            />
+            <TextInput
+              label="Số điện thoại"
+              placeholder="Nhập số điện thoại"
+              withAsterisk
+              classNames={{
+                input: style.input,
+                label: style.label,
+              }}
+              {...form.getInputProps("phone")}
+            />
+            <TextInput
+              label="Địa chỉ"
+              placeholder="Nhập địa chỉ"
+              withAsterisk
+              classNames={{
+                input: style.input,
+                label: style.label,
+              }}
+              {...form.getInputProps("address")}
+            />
+            <PasswordInput
+              label="Mật khẩu"
+              placeholder="Nhập mật khẩu"
+              withAsterisk
+              classNames={{
+                input: style.input,
+                label: style.label,
+              }}
+              {...form.getInputProps("password")}
+            />
+            <PasswordInput
+              label="Xác nhận mật khẩu"
+              placeholder="Nhập lại mật khẩu"
+              withAsterisk
+              classNames={{
+                input: style.input,
+                label: style.label,
+              }}
+              {...form.getInputProps("confirmPassword")}
+            />
+
+            {/* FileInput cho hình đại diện */}
+            <FileInput
+              label="Hình đại diện (tùy chọn)"
+              placeholder="Chọn hình đại diện"
+              accept="image/*"
+              onChange={(file) => setAvatar(file)}
+              classNames={{
+                input: style.input,
+                label: style.label,
+              }}
+              mt="md"
+            />
           </Box>
-        </Box>
 
-        <Checkbox
-          label={"Tôi đồng ý với các điều khoản bảo mật cá nhân"}
-          size="16"
-          checked={isAgree}
-          mb={10}
-          onChange={() => setIsAgree((prev) => !prev)}
-        />
-
-        <Center>
-          <ReCAPTCHA
-            sitekey={`${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
-            onChange={onChangeCaptcha}
+          {/* Checkbox điều khoản */}
+          <Checkbox
+            label="Tôi đồng ý với các điều khoản bảo mật cá nhân"
+            size="sm"
+            checked={isAgree}
+            onChange={() => setIsAgree(!isAgree)}
+            mt="md"
           />
-        </Center>
 
-        <Button
-          className={isAgree ? style.btn : style.btnDisabled}
-          type="submit"
-          disabled={!isAgree}
-        >
-          Đăng ký
-        </Button>
-
-        <Center m={"15px 0px"}>
-          <Flex gap={"5px"}>
-            <Text>Bạn đã có tài khoản?</Text>
-            <Link href={"/login"} className={style.signIn}>
-              Đăng nhập ngay
-            </Link>
-          </Flex>
-        </Center>
-
-        <Box>
-          <Text c="var(--clr-primary)">
-            Nếu bạn vô tình đóng cửa sổ nhập mã xác nhận hãy về giao diện đăng
-            nhập và chọn chức năng kích hoạt tài khoản
-          </Text>
+          {/* Nút đăng ký */}
+          <Button
+            type="submit"
+            fullWidth
+            mt="lg"
+            size="md"
+            className={isAgree ? style.submitButton : style.disabledButton}
+            disabled={!isAgree}
+          >
+            Đăng ký
+          </Button>
         </Box>
+
+        {/* Liên kết đến trang đăng nhập */}
+        <Flex justify="center" mt="lg">
+          <Text>Bạn đã có tài khoản?</Text>
+          <Link href="/login">
+            <Text ml="sm" className={style.signIn}>
+              Đăng nhập ngay
+            </Text>
+          </Link>
+        </Flex>
       </Box>
     </Box>
   );

@@ -1,4 +1,4 @@
-:root {
+red {
   --clr-primary: #e11b1e;
   --clr-light-primary: #e73348;
   --clr-light-active-primary: #ee374c;
@@ -28,7 +28,7 @@
   --clr-border-red-pink: #ffdac6;
 }
 
-sky-blue {
+:root {
   --clr-primary: #1e90ff; /* Sky blue */
   --clr-light-primary: #3399ff; /* Lighter sky blue */
   --clr-light-active-primary: #4caaff; /* Slightly lighter active state */

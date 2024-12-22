@@ -1,0 +1,55 @@
+.accessoriesCard {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+
+  .boxImage {
+    position: relative;
+    transition: transform 0.2s;
+    padding-top: 100%;
+
+    .imageAccesories {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      
+    }
+    @media (min-width: 800px) {
+      width: 100%;
+    }
+    @media (max-width: 800px) {
+      width: 92px;
+    }
+  }
+
+  span {
+    overflow: hidden;
+    color: #000;
+    font-weight: 600;
+    margin: 5px 0;
+    text-align: center;
+    text-transform: uppercase;
+
+    @media (min-width: 800px) {
+      font-size: 14px;
+      line-height: 20px;
+    }
+    @media (max-width: 800px) {
+      font-size: 12px;
+      line-height: 16px;
+    }
+  }
+
+  &:hover {
+    .boxImage {
+      transform: scale(0.9);
+    }
+    span {
+      color: #c60000;
+    }
+  }
+}

@@ -1,24 +1,24 @@
 "use client";
 import { Box } from "@mantine/core";
-import Image, { StaticImageData } from "next/image";
+import { Image } from "@mantine/core";
 import style from "./AccessoriesCard.module.scss";
 import Link from "next/link";
 
 type AccessoriesCard = {
-  image: StaticImageData;
+  image: string;
   title: string;
-  url: string;
+  url: number;
 };
 
 const AccessoriesCard = ({ image, title, url }: AccessoriesCard) => {
   return (
     <>
-      <Link className={style.accessoriesCard} href={url}>
+      <Link className={style.accessoriesCard} href={"url"}>
         <Box className={style.boxImage}>
           <Image
-            src={image}
+            src={`http://localhost:3001/${image}`}
             className={style.imageAccesories}
-            alt={url}
+            alt={title}
           ></Image>
         </Box>
         <span style={{ color: "white" }}>{title}</span>

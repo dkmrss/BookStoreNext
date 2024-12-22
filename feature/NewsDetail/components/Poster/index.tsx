@@ -1,11 +1,11 @@
 import style from "./poster.module.scss";
 
 type PosterProps = {
-  name: string;
+  
   postingDate: string;
 };
 
-const Poster = ({ name, postingDate }: PosterProps) => {
+const Poster = ({ postingDate }: PosterProps) => {
   return (
     <>
       <div className={style.poster}>
@@ -14,7 +14,7 @@ const Poster = ({ name, postingDate }: PosterProps) => {
           alt="avatar"
         />
         <div>
-          <div className={style.name}>{name}</div>
+          <div className={style.name}></div>
           <div className={style.postingDate}>{postingDate}</div>
         </div>
       </div>

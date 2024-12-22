@@ -1,98 +1,31 @@
-"use client";
+"use client"
+import { useEffect, useState } from "react";
 import HeaderSection from "../HeaderSection";
 import AccessoriesList from "./AccessoriesList";
-import ImageAccessories from "@/assets/accessoriesCard1.png";
-import UsbImage from "@/assets/accessoriesCard10.png";
-import MemoryStickImage from "@/assets/accessoriesCard11.png";
-import NetworkEquipmentImage from "@/assets/accessoriesCard12.png";
-import CameraImage from "@/assets/accessoriesCard13.png";
-import SmartHomeImage from "@/assets/accessoriesCard14.png";
-import ConvenientAccessoriesImage from "@/assets/accessoriesCard15.png";
-import SoftwareImage from "@/assets/accessoriesCard16.png";
-import SimImage from "@/assets/accessoriesCard17.png";
-import SmartWatchImage from "@/assets/accessoriesCard18.png";
-import ChargerImage from "@/assets/accessoriesCard2.png";
-import BatteryBackupImage from "@/assets/accessoriesCard3.png";
-import ScreenProtectorImage from "@/assets/accessoriesCard4.png";
-import LoudspeakerImage from "@/assets/accessoriesCard5.png";
-import EarphoneImage from "@/assets/accessoriesCard6.png";
-import PhoneCaseImage from "@/assets/accessoriesCard7.png";
-import MouseImage from "@/assets/accessoriesCard8.png";
-import BackpackImage from "@/assets/accessoriesCard9.png";
 import styles from "./AccessoriesSection.module.scss";
+import { getDataListCategory } from "@/api/ApiCategory";
 
-const data = [
-  {
-    id: 1,
-    name: "Tiểu Thuyết",
-    img: ImageAccessories,
-    url: "#",
-    color: "#ffcb8f",
-  },
-  {
-    id: 2,
-    name: "Chính trị – pháp luật",
-    img: ChargerImage,
-    url: "#",
-    color: "#f7784d",
-  },
-  {
-    id: 3,
-    name: "Khoa học công nghệ",
-    img: BatteryBackupImage,
-    url: "#",
-    color: "#ff8f8e",
-  },
-  {
-    id: 4,
-    name: "Kinh tế",
-    img: ScreenProtectorImage,
-    url: "#",
-    color: "#fdba74",
-  },
-  {
-    id: 5,
-    name: "Văn học nghệ thuật",
-    img: LoudspeakerImage,
-    url: "#",
-    color: "#9d8dbe",
-  },
-  {
-    id: 6,
-    name: "Truyện tranh",
-    img: EarphoneImage,
-    url: "#",
-    color: "#7fd7b4",
-  },
-  {
-    id: 7,
-    name: "Light Novel",
-    img: PhoneCaseImage,
-    url: "#",
-    color: "#92c5fc",
-  },
-  {
-    id: 8,
-    name: "Giáo trình",
-    img: MouseImage,
-    url: "#",
-    color: "#fc93b2",
-  },
-  {
-    id: 9,
-    name: "Tâm lý, tâm linh, tôn giáo",
-    img: BackpackImage,
-    url: "#",
-    color: "#889afe",
-  },
+const AccessoriesSection =  () => {
+  const [dataCategory, setDataCategory] = useState([]);
 
-];
+  useEffect(() => {
+    const fetchDataCategory = async () => {
+      try {
+        const response = await getDataListCategory("/0"); // Call proxy endpoint
+        setDataCategory(response.data || []);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
 
-export default function AccessoriesSection() {
+    fetchDataCategory();
+  }, []);
   return (
     <section className={styles.accessoriesSection}>
-      <HeaderSection title={"Danh mục sản phẩm"} />
-      <AccessoriesList accessoriesArr={data} />
+      <HeaderSection title="Danh mục sản phẩm" />
+      <AccessoriesList accessoriesArr={dataCategory} />
     </section>
   );
-}
+};
+
+export default AccessoriesSection;

@@ -100,22 +100,7 @@ const Booking = () => {
             {...form.getInputProps("customerName")}
           ></TextInput>
         </Grid.Col>
-        <Grid.Col span={{ md: 6 }}>
-          <Select
-            label="Chọn cửa hàng"
-            placeholder="Chọn cửa hàng"
-            clearable
-            searchable
-            withAsterisk
-            classNames={{
-              dropdown: style.dropdown,
-            }}
-            data={dataStore.map((store) => store.address || "")}
-            // tabIndex={1100}
-            nothingFoundMessage={"Không có dữ liệu"}
-            {...form.getInputProps("region")}
-          />
-        </Grid.Col>
+        
       </Grid>
       <Grid className={style.gridForm}>
         <Grid.Col span={{ md: 6 }}>

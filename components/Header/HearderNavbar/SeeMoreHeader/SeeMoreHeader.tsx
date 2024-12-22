@@ -30,32 +30,8 @@ const SeeMoreHeader = () => {
     <Box className={style.container}>
       <Box>
         <Flex gap={10}>
-          <Box pt={8} pb={8} pl={6} pr={6} className={style.box}>
-            <Flex align="center" justify={"center"} gap={10}>
-              <IconBuildingWarehouse
-                height={40}
-                width={40}
-                color="var(--clr-primary)"
-                style={{ color: "var(--clr-primary)" }}
-              />
-              <Text w={"100%"} fw={700} size="xs">
-                Hệ thống <br /> 2 cửa hàng
-              </Text>
-            </Flex>
-          </Box>
-          <Box pt={8} pb={8} pl={6} pr={6} className={style.box}>
-            <Flex align="center" justify={"center"} gap={10}>
-              <IconShieldFilled
-                height={40}
-                width={40}
-                color="var(--clr-primary)"
-                style={{ color: "var(--clr-primary)" }}
-              />
-              <Text w={"100%"} fw={700} size="xs">
-                Tra cứu <br /> bảo hành
-              </Text>
-            </Flex>
-          </Box>
+         
+          
           <Box pt={8} pb={8} pl={6} pr={6} className={style.box}>
             <Link
               href={"/OrderCheck"}

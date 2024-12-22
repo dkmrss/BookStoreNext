@@ -6,7 +6,7 @@ import { IconChevronDown, IconChevronUp, IconSend } from "@tabler/icons-react";
 import { useState } from "react";
 import { ArticleCategoryList, DataArticle } from "@/model/DataArticle";
 import { TblItem } from "@/model/ProductList";
-import { TblUserComment } from "@/model/TblUserComment";
+import { comment, TblUserComment } from "@/model/TblUserComment";
 import { modals } from "@mantine/modals";
 import FormInfoUser from "./FormInfoUser";
 import ReplyComment from "./components/ReplyComment";
@@ -91,7 +91,7 @@ const Comments = ({ dataItem, dataArticle, dataComment }: CommentsProps) => {
       itemType: dataItem ? "product" : "article",
       replyCount: null,
       itemId: dataItem ? dataItem?.id : dataArticle?.id,
-      itemTitle: dataItem ? dataItem?.itemName : dataArticle?.title,
+      itemTitle: dataItem ? dataItem?.product_name : dataArticle?.title,
       isUserAdmin: null,
       userId: null,
       userEmail: dataSummit.userEmail,
@@ -176,6 +176,8 @@ const Comments = ({ dataItem, dataArticle, dataComment }: CommentsProps) => {
   const handleClickSeeMore = () => {
     setPageSize(pageSize + 10);
   };
+
+  
   return (
     <div className={style.main}>
       <Box mb={15}>
@@ -206,35 +208,9 @@ const Comments = ({ dataItem, dataArticle, dataComment }: CommentsProps) => {
             <Box key={index} className={style.comment}>
               <UserComment
                 data={item}
-                handleAddReply={() => handleAddReply(index, item.id)}
+               
               />
-              {item?.tblUserCommentReplyModels && (
-                <ReplyComment data={item?.tblUserCommentReplyModels} />
-              )}
-              {isReply?.index === index && (
-                <Box className={style.submitComment} ml={60}>
-                  <Textarea
-                    w={"100%"}
-                    variant="unstyled"
-                    placeholder="Nhập bình luận của bạn..."
-                    value={inputReply}
-                    onChange={(event) =>
-                      setInputReply(event.currentTarget.value)
-                    }
-                  />
-                  <Flex w={"100%"} justify={"flex-end"}>
-                    <Button
-                      className={style.button}
-                      onClick={handleSendReply}
-                      disabled={inputReply ? false : true}
-                    >
-                      <Text fw="600" size="sm" c="#fff">
-                        Gửi bình luận
-                      </Text>
-                    </Button>
-                  </Flex>
-                </Box>
-              )}
+              
             </Box>
           ))}
         </Box>
@@ -264,5 +240,5 @@ export default Comments;
 type CommentsProps = {
   dataItem?: TblProduct | null;
   dataArticle?: DataArticle | null;
-  dataComment: TblUserComment[] | null;
+  dataComment: comment[] | null;
 };

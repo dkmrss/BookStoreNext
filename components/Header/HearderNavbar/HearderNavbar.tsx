@@ -51,54 +51,17 @@ import CategoryHeader from "./CategoryHeader/CategoryHeader";
 import style from "./HearderNavbar.module.scss";
 import SeeMoreHeader from "./SeeMoreHeader/SeeMoreHeader";
 import SuggestedList from "./SuggestedList/SuggestedList";
+import { getDataListCategory } from "@/api/ApiCategory";
 
 const HearderNavbar = () => {
   const dispatch = useDispatch();
 
-  const auth = useSelector((state: any) => state.auth);
-  const cart = useSelector((state: any) => state.cart);
-  const dataLocation = [
-    { id: 1, text: "Bà Rịa - Vũng Tàu", href: "/" },
-    { id: 2, text: "Bình Dương", href: "/home" },
-    { id: 3, text: "Hồ Chí Minh", href: "/HoChiMinh" },
-    { id: 4, text: "Hà Nội", href: "/HaNoi" },
-  ];
+  const [authUser, setAuthUser] = useState<any>(null);
+  const cart = useSelector((state: any) => state.cart);;
 
-  const dataPath = [
-    {
-      id: 1,
-      title: "Gọi Miễn phí",
-      text: "18008091",
-      href: "/home",
-      Icon: <IconPhoneFilled size={24} />,
-    },
-    {
-      id: 2,
-      title: "Hệ thống",
-      text: "2 cửa hàng",
-      href: "/store",
-      Icon: <IconHome size={24} />,
-    },
-    {
-      id: 3,
-      title: "Tra cứu",
-      text: "Bảo hành",
-      // href: "/Guarantee",
-      href: "#",
-      Icon: <IconShieldFilled size={24} />,
-    },
-    {
-      id: 4,
-      title: "Tra cứu",
-      text: "Đơn hàng",
-      href: "/OrderCheck",
-      Icon: <IconTruckDelivery size={24} />,
-    },
-  ];
-
+ 
   const outsideClickRef = useRef<HTMLDivElement>(null);
   const outsideMobileRef = useRef<HTMLDivElement>(null);
-  const [handelText, setHandleText] = useState<String>("Bà Rịa - Vũng Tàu");
   const [isfocus, setIsFocus] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const [searchInput, setSearchInput] = useState("");
@@ -112,31 +75,12 @@ const HearderNavbar = () => {
   const [seeMore, setMore] = useState(false);
   const [hiddenDrawerCategory, setHiddenDrawerCategory] = useState(false);
   const [debouncedSearchInput, setDebouncedSearchInput] = useState(searchInput);
-  const [suggestData, setSuggestData] = useState<string[]>([]);
   const [openedCart, setOpenedCart] = useState(false);
 
   const pathname = usePathname();
   const router = useRouter();
-  const handleSpecificPoint = (text: string) => {
-    setHandleText(text);
-  };
-
-  const openFormCalendar = () => {
-    modals.openConfirmModal({
-      size: "700px",
-      radius: "20px",
-      centered: true,
-      title: "Đặt lịch bảo hành",
-      children: <Booking />,
-      confirmProps: { display: "none" },
-      cancelProps: { display: "none" },
-      zIndex: 1000,
-      classNames: {
-        header: style.headerModal,
-        content: style.content,
-      },
-    });
-  };
+  
+  
 
   const headerResponsive = [
     {
@@ -152,19 +96,7 @@ const HearderNavbar = () => {
       icon: <IconCategoryPlus size={24} />,
       onClick: (e: any) => handleBox(e),
     },
-    {
-      id: 3,
-      text: "Cửa hàng",
-      link: "/store",
-      icon: <IconMapPin size={24} />,
-    },
-    {
-      id: 4,
-      text: "Đặt lịch sửa",
-      link: "",
-      icon: <IconCalendarWeek size={24} />,
-      onClick: openFormCalendar,
-    },
+   
     {
       id: 5,
       text: "Xem thêm",
@@ -217,7 +149,7 @@ const HearderNavbar = () => {
           input: { border: "none", paddingRight: "55px" },
         }}
         placeholder="Bạn cần tìm gì ?"
-        onChange={(e) => handleSearch(e)}
+    
         onClick={handleInputClick}
         onKeyDown={handleKeyDown}
         leftSection={
@@ -243,21 +175,10 @@ const HearderNavbar = () => {
           <Box className={style.searchHidden}>
             {searchInput.length > 0 ? (
               <>
-                <SuggestedList
-                  setIsFocus={setIsFocus}
-                  data={suggestData}
-                  handleSendClick={handleSendClick}
-                />
-                {/* <SuggestedProduct setIsFocus={setIsFocus} /> */}
+                
               </>
             ) : (
               <>
-                <Image
-                  p={5}
-                  radius="md"
-                  src="https://image.dienthoaivui.com.vn/720x,webp,q/https://dashboard.dienthoaivui.com.vn/uploads/wp-content/uploads/images/ddadc6377f98591df963846c2d21ae94.png"
-                  alt="advertisement"
-                />
                 <SearchTrends setIsFocus={setIsFocus} />
               </>
             )}
@@ -297,6 +218,21 @@ const HearderNavbar = () => {
       })}
     </>
   );
+
+const [dataCategory, setDataCategory] = useState([]);
+
+  useEffect(() => {
+    const fetchDataCategory = async () => {
+      try {
+        const response = await getDataListCategory("/0"); // Call proxy endpoint
+        setDataCategory(response.data || []);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchDataCategory();
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -347,16 +283,7 @@ const HearderNavbar = () => {
     return () => document.body.classList.remove(styleGLobal.noScroll);
   }, [hiddenDrawerCategory, seeMore]);
 
-  const handleSearch = async (e: any) => {
-    setSearchInput(e.currentTarget.value);
-    const dataApi = await getHomeSuggestSearch(`?q=${e.currentTarget.value}`);
-
-    if (dataApi && dataApi.success) {
-      setSuggestData(dataApi.data);
-    } else setSuggestData([]);
-
-    setIsTyping(true);
-  };
+  
   const handleKeyDown = (e: any) => {
     if (e.key === "Enter" && e.currentTarget.value.trim() !== "") {
       router.push(`/Search/${e.currentTarget.value}`);
@@ -413,37 +340,12 @@ const HearderNavbar = () => {
   }, []);
 
   useEffect(() => {
-    const fetchUserInfo = async () => {
-      const customerInfo = await getCustomerInfo();
-
-      if (
-        !isNullOrUndefined(customerInfo) &&
-        !isNullOrUndefined(customerInfo?.data)
-      ) {
-        dispatch(getUserInfo(customerInfo));
-        localStorage.setItem("userInfo", JSON.stringify(customerInfo));
-        localStorage.setItem("userName", customerInfo.data.userName);
-        const totalData = await totalCartPrice(customerInfo?.data?.customerId);
-        const newCartHeader = {
-          totalItem: totalData?.data?.quantity,
-          totalPrice: totalData?.data?.totalAmount,
-        };
-        dispatch(updateCart(newCartHeader));
-      } else {
-        const userData = localStorage.getItem("userInfo");
-        dispatch(getUserInfo(userData ? JSON.parse(userData) : ""));
-        const id = userData ? JSON.parse(userData).data.customerId : 0;
-        const totaldata = await totalCartPrice(id);
-        const newCartHeader = {
-          totalItem: totaldata?.data?.quantity,
-          totalPrice: totaldata?.data?.totalAmount,
-        };
-        dispatch(updateCart(newCartHeader));
-      }
-    };
-
-    fetchUserInfo();
+    const user = localStorage.getItem("user");
+    if (user) {
+      setAuthUser(JSON.parse(user)); // Lưu thông tin người dùng
+    }
   }, []);
+  console.log(authUser)
 
   return (
     <>
@@ -496,15 +398,15 @@ const HearderNavbar = () => {
               </Popover.Dropdown>
             </Popover>
 
-            {auth.userInfo ? (
+            {authUser ? (
               <Link href={"/account/user-information"}>
                 <ButtonsCollection
                   background
                   hover
-                  leftIcon={<IconUserCircle size={24} />}
+                  leftIcon={<Image className={style.avt} src={`http://localhost:3001/${authUser?.avatar}`} />}
                 >
                   <Text fw={"700"} truncate="end">
-                    {auth?.userInfo?.data?.customerName}
+                    {authUser?.name}
                   </Text>
                 </ButtonsCollection>
               </Link>
@@ -522,7 +424,7 @@ const HearderNavbar = () => {
           </Flex>
           {hiddenSideBar && (
             <Box className={style.sidebarMenu}>
-              <SidebarMenu />
+              <SidebarMenu dataCategory={dataCategory}/>
             </Box>
           )}
         </nav>
@@ -548,10 +450,7 @@ const HearderNavbar = () => {
         }`}
       >
         <CategoryHeader
-          setHiddenDrawerCategory={setHiddenDrawerCategory}
-          hiddenDrawerCategory={hiddenDrawerCategory}
-          valueActive={valueActive}
-          setValueActive={setValueActive}
+          
         />
       </Box>
       <Box

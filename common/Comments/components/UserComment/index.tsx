@@ -1,9 +1,16 @@
 import { Box, Flex, Text } from "@mantine/core";
 import style from "./UserComment.module.scss";
-import { TblUserComment } from "@/model/TblUserComment";
-import Image from "next/image";
+import { comment, TblUserComment } from "@/model/TblUserComment";
+import { Image } from "@mantine/core";
+import { useEffect, useState } from "react";
+import { getDataUser } from "@/api/ApiUser";
+import { User } from "@/model/User";
 
-const UserComment = ({ data, handleAddReply }: UserCommentProps) => {
+const UserComment = ({ data }: UserCommentProps) => {
+
+  const [dataUser, setDataUser] = useState<User>();
+  
+    
   const formatDateStringToDay = (dateString: any) => {
     const dateObject = new Date(dateString);
 
@@ -19,38 +26,31 @@ const UserComment = ({ data, handleAddReply }: UserCommentProps) => {
 
     return formattedDate;
   };
-  const getAbbreviation = (fullName: string) => {
-    const match = fullName.match(/([^\s]+(?:\s+[^\s]+)*)\s+Số\s+đt :/);
-    let words: string[] = [];
-    if (match) {
-      words = match[1]?.split(" ");
-    } else words = fullName.split(" ");
-    let abbreviation = "";
-    words.forEach((word) => {
-      abbreviation += word.charAt(0);
-    });
+  useEffect(() => {
+    const fetchDataCategory = async () => {
+      try {
+        const response = await getDataUser(`/${data.user_id}`); // Call proxy endpoint
+        setDataUser(response.data || []);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
 
-    return abbreviation.toUpperCase();
-  };
-
-  const abbreviation = getAbbreviation(data.userName || "");
+    fetchDataCategory();
+  }, [data]);
+  
   return (
     <div>
       <Flex className={style.flexbox} align={"center"} gap={5}>
-        {data?.userAvatar ? (
-          <Image src={data?.userAvatar} alt="Avatar" />
-        ) : (
-          <div className={style.avtbox}>{abbreviation}</div>
-        )}
+        <Box className={style.avtbox}>
+          <Image src={`http://localhost:3001/${dataUser?.avatar}`} alt="Avatar" />
+          </Box>
         <Box className={style.chat}>
-          <Text className={style.name}>{data.userName}</Text>
+          <Text className={style.name}>{dataUser?.name}</Text>
           <Text className={style.date}>
-            {formatDateStringToDay(data.creationDate)}
+            {formatDateStringToDay(data.date)}
           </Text>
           <Text className={style.comment}>{data.content}</Text>
-          <Text onClick={handleAddReply} className={style.reply}>
-            Trả lời
-          </Text>
         </Box>
       </Flex>
     </div>
@@ -60,6 +60,6 @@ const UserComment = ({ data, handleAddReply }: UserCommentProps) => {
 export default UserComment;
 
 type UserCommentProps = {
-  data: TblUserComment;
-  handleAddReply: () => void;
+  data: comment;
+  
 };

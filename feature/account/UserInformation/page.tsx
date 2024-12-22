@@ -1,126 +1,98 @@
 "use client";
-import { getListArticle } from "@/api/apiArticle";
-import logo from "@/assets/dichvutot-01-01.png";
-import ArticleCard from "@/common/ArticleCard/Card";
-import { DataArticle } from "@/model/DataArticle";
-import { Carousel } from "@mantine/carousel";
+import { getDataListNews } from "@/api/apiNew";
+import ArticleCarousel from "@/common/carouselArticle";
+import { Article } from "@/model/DataArticle";
+import { MembershipCard } from "@/model/TblMembershipCard";
 import {
   Box,
-  Center,
   Flex,
   Grid,
   Image,
   Paper,
   Text,
   Title,
-  em,
+  em
 } from "@mantine/core";
-import { useMediaQuery, useViewportSize } from "@mantine/hooks";
+import { useMediaQuery } from "@mantine/hooks";
 import {
   IconCalendarMonth,
-  IconChevronLeft,
-  IconChevronRight,
-  IconDiscount,
-  IconPremiumRights,
-  IconTrophy,
+  IconHome,
+  IconMail,
+  IconPhone,
   IconTruck,
+  IconUserCheck
 } from "@tabler/icons-react";
 import Autoplay from "embla-carousel-autoplay";
 import moment from "moment";
-import NextImage from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import style from "./UserInformation.module.scss";
-import ArticleCarousel from "@/common/carouselArticle";
-import { getMembershipCard } from "@/api/apiMembershipCard";
-import { MembershipCard } from "@/model/TblMembershipCard";
-
+import { getDataUser } from "@/api/ApiUser";
+import { User } from "@/model/User";
 const UserInformation = () => {
-  const sale = [
-    {
-      id: 1,
-      image:
-        "https://dashboard.dienthoaivui.com.vn/uploads/wp-content/uploads/images/16b96275e90b52fc6d7c6278e3fba890.png",
-      content: "Màn Hình GX - Giảm đến 60%",
-      link: "#",
-    },
-    {
-      id: 2,
-      image:
-        "https://dashboard.dienthoaivui.com.vn/uploads/wp-content/uploads/images/7ed6cfd564595a2fb081a4a7295f3b14.png",
-      content: "Pin chính hãng Orizin - Giảm đến 46%",
-      link: "#",
-    },
-    {
-      id: 3,
-      image:
-        "https://dashboard.dienthoaivui.com.vn/uploads/wp-content/uploads/images/bc3734fd7d9e069ca09e13f24848abbd.png",
-      content: "Pin chính hãng Vmas - Giảm đến 50%",
-      link: "#",
-    },
-    {
-      id: 4,
-      image:
-        "https://dashboard.dienthoaivui.com.vn/uploads/wp-content/uploads/images/7528708c17dc818c93b963f4e6971884.png",
-      content: "Pin chính hãng Pisen - Giảm đến 48%",
-      link: "#",
-    },
-    {
-      id: 5,
-      image:
-        "https://dashboard.dienthoaivui.com.vn/uploads/wp-content/uploads/images/4b6142c68eaa6154b7e593d70221bcd8.png",
-      content: "Thay màn hình Gen A | A+ - Giảm đến 35%",
-      link: "#",
-    },
-  ];
-
-  const userInfo = useSelector((state: any) => state.auth.userInfo);
-  const [news, setNews] = useState<DataArticle[]>();
-  const [dataMemberCard, setDataMemberCard] = useState<MembershipCard>();
-  const autoplay = useRef(Autoplay({ delay: 2000 }));
-  const isMobile = useMediaQuery(`(max-width: ${em(800)})`);
-
-  const getRankDisplayName = (rank: number) => {
-    switch (rank) {
-      case 2:
-        return "Silver";
-      case 3:
-        return "Gold";
-      case 4:
-        return "Platinum";
-      case 5:
-        return "Diamond";
-      default:
-        return "Chưa có";
+  const router = useRouter();
+  
+  const [dataArticleBanner, setDataArticleBanner] = useState<Article[]>();
+  const [dataUser, setDataUser] = useState<User>();
+  const [loadingBanner, setLoadingBanner] = useState(false);
+  const [loadingUser, setLoadingUser] = useState(false);
+  
+  const isAuthenticated = (): boolean => {
+    try {
+      const token = localStorage.getItem("token");
+      return !!token; // Trả về true nếu token tồn tại và không rỗng
+    } catch (error) {
+      console.error("Error checking authentication:", error);
+      return false; // Trả về false nếu có lỗi
     }
   };
 
-  const handleFetchDataMembershipCard = async () => {
-    const userData = localStorage.getItem("userInfo");
-    const id = userData ? JSON.parse(userData).data.customerId : 0;
-    const callApi = await getMembershipCard(`customerId=${id}`);
-    setDataMemberCard(callApi);
-  };
-
-  useEffect(() => {
+  const callApiGetDataForBanner = async () => {
+    setLoadingBanner(true);
     const fetchData = async () => {
-      const data = await getListArticle("Status=1&Take=8");
-      setNews(data?.data);
+      const data = await getDataListNews(
+        `?field=status&value=0&skip=0&take=4`
+      );
+      setDataArticleBanner(data.data);
+      setLoadingBanner(false);
     };
     fetchData();
-    handleFetchDataMembershipCard();
+  };
+
+  const callApiGetDetailUser= async () => {
+    setLoadingUser(true);
+    const user = localStorage.getItem("user"); // Lấy thông tin từ localStorage
+    const userID = user ? JSON.parse(user).id : null; // Lấy id từ dữ liệu JSON
+    const fetchData = async () => {
+      const data = await getDataUser(
+        `/${userID}`
+      );
+      setDataUser(data.data);
+      setLoadingUser(false);
+    };
+    fetchData();
+  };
+  useEffect(() => {
+    if (isAuthenticated()) {
+      // Nếu đã xác thực, gọi API lấy dữ liệu
+      callApiGetDataForBanner();
+      callApiGetDetailUser();
+    } else {
+      // Nếu chưa xác thực, chuyển hướng về trang chủ
+      router.push("/");
+    }
   }, []);
 
+  
   return (
     <Box
       className={style.userInformation}
-      // maw={920}
-      // w={isMobile ? width : width - 270}
     >
       <div className={style.topBox}>
         <div className={style.leftTopBox}>
-          <Box
+          {/* <Box
             p={"33px 15px"}
             bd={"1px solid var(--clr-border-gray)"}
             style={{ borderRadius: "10px", height: "100%" }}
@@ -131,21 +103,18 @@ const UserInformation = () => {
               align={"center"}
               gap={8}
             >
-              {/* <Image
-                component={NextImage}
-                src={logo}
+              <Image
+                src={`http://localhost:3001/${dataUser?.avatar}`}
                 alt="logo"
                 w={175}
-                h={50}
+                h={175}
                 style={{ borderRadius: "10px" }}
-              /> */}
+              />
               <Text size="1.8rem" fw={700}>
                 Xin chào!
               </Text>
               <Title order={4} c={"var(--clr-primary)"}>
-                {userInfo?.data?.customerName ||
-                  userInfo?.data?.userName ||
-                  userInfo?.data?.email}
+                {dataUser?.name}
               </Title>
             </Flex>
             <Flex justify={"center"} gap={50} mt={10}>
@@ -153,87 +122,107 @@ const UserInformation = () => {
                 <Text size="14px">Ngày tham gia</Text>
                 <IconCalendarMonth color="var(--clr-primary)" size={50} />
                 <Text size="14px">
-                  {moment(userInfo?.data?.creationDate).format("DD/MM/YYYY")}
+                  {moment(dataUser?.created_at).format("DD/MM/YYYY")}
                 </Text>
               </Box>
-              <Box className={style.moreInfor}>
-                <Text size="14px">Hạng thành viên</Text>
-                <IconTrophy color="var(--clr-primary)" size={50} />
-                <Text size="14px">
-                  {getRankDisplayName(dataMemberCard?.rankid || 0)}
-                </Text>
-              </Box>
-              <Box className={style.moreInfor}>
-                <Text size="14px">Điểm tích lũy</Text>
-                <IconPremiumRights color="var(--clr-primary)" size={50} />
-                <Text size="14px">{dataMemberCard?.exchangepoint || 0}</Text>
-              </Box>
+              
+             
             </Flex>
-          </Box>
+          </Box> */}
+           <Box
+      p="33px 15px"
+      style={{
+        border: "1px solid var(--clr-border-gray)",
+        borderRadius: "10px",
+        height: "100%",
+      }}
+    >
+      {/* Phần hình đại diện và tên người dùng */}
+      <Flex
+        justify="center"
+        style={{ flexDirection: "column" }}
+        align="center"
+        gap={8}
+      >
+        <Image
+          src={`http://localhost:3001/${dataUser?.avatar}`} // Avatar mặc định nếu không có
+          alt="User Avatar"
+    className={style.avt}
+          style={{ borderRadius: "50%" }}
+        />
+        <Text size="1.8rem" fw={700}>
+          Xin chào!
+        </Text>
+        <Title order={4} c="var(--clr-primary)">
+          {dataUser?.name || "Người dùng"}
+        </Title>
+      </Flex>
+
+      {/* Phần thông tin chi tiết */}
+      <Flex justify="space-between" direction="column" mt={20} gap={20}>
+        {/* Ngày tham gia */}
+        <Flex align="center" gap={10}>
+          <IconCalendarMonth color="var(--clr-primary)" size={30} />
+          <Text size="14px">
+            Ngày tham gia:{" "}
+            <strong>
+              {moment(dataUser?.created_at).format("DD/MM/YYYY") || "Không rõ"}
+            </strong>
+          </Text>
+        </Flex>
+
+        {/* Email */}
+        <Flex align="center" gap={10}>
+          <IconMail color="var(--clr-primary)" size={30} />
+          <Text size="14px">
+            Email: <strong>{dataUser?.email || "Không rõ"}</strong>
+          </Text>
+        </Flex>
+
+        {/* Số điện thoại */}
+        <Flex align="center" gap={10}>
+          <IconPhone color="var(--clr-primary)" size={30} />
+          <Text size="14px">
+            Số điện thoại: <strong>{dataUser?.phone || "Không rõ"}</strong>
+          </Text>
+        </Flex>
+
+        {/* Địa chỉ */}
+        <Flex align="center" gap={10}>
+          <IconHome color="var(--clr-primary)" size={30} />
+          <Text size="14px">
+            Địa chỉ: <strong>{dataUser?.address || "Không rõ"}</strong>
+          </Text>
+        </Flex>
+
+        {/* Trạng thái tài khoản */}
+
+      </Flex>
+
+      
+      
+    </Box>
         </div>
-        <div className={style.rightTopBox}>
-          <Center>
-            <Title
-              order={4}
-              c={"#fff"}
-              bg={"var(--clr-primary)"}
-              p={"3px 6px"}
-              style={{ borderRadius: "5px" }}
-            >
-              CHƯƠNG TRÌNH NỔI BẬT
-            </Title>
-          </Center>
-          <div className={style.carouselBox}>
-            <Carousel
-              loop
-              withIndicators={false}
-              withControls
-              plugins={[autoplay.current]}
-              onMouseEnter={autoplay.current.stop}
-              onMouseLeave={autoplay.current.reset}
-              mt={10}
-            >
-              {sale?.map((item, index) => (
-                <Carousel.Slide key={index} className={style.itemCarousel}>
-                  <Link href={item?.link} className={style.link}>
-                    <Box>
-                      <img
-                        style={{
-                          objectFit: "fill",
-                          width: "100%",
-                          height: "inherit",
-                        }}
-                        src={item?.image}
-                        alt="Ưu đãi"
-                      />
-                      <Center>
-                        <Text c={"var(--clr-primary)"} fw={650} ta={"center"}>
-                          {item?.content}
-                        </Text>
-                      </Center>
-                    </Box>
-                  </Link>
-                </Carousel.Slide>
-              ))}
-            </Carousel>
-          </div>
-        </div>
+        
       </div>
       <Grid gutter={0}>
-        {/* <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
-          <Box className={style.option} bg={"#FEF5F0"}>
-            <IconDiscount color="var(--clr-primary)" size={60} />
+        
+        <Grid.Col
+          span={{ base: 12, xs: 12, sm: 6, md: 6, lg: 6 }}
+          pr={{ xs: "0px", sm: "8px", md: "8px", lg: "8px" }}
+        >
+          <Box className={style.option} bg={"#EDF1FD"}>
+            <IconUserCheck color="var(--clr-primary)" size={60} />
             <Text c={"var(--clr-primary)"} size="20px">
-              Ưu đãi của bạn
+              Chỉnh sửa thông tin
             </Text>
-            <Text>Ưu đãi</Text>
             <Paper shadow="xs" radius={10}>
-              <Link href={"#"} className={style.link}>
+              <Link href={"/account/user-edit"} className={style.link}>
                 <Text className={style.showDetail}>Xem chi tiết</Text>
               </Link>
             </Paper>
           </Box>
-        </Grid.Col> */}
+        </Grid.Col>
         <Grid.Col
           span={{ base: 12, xs: 12, sm: 6, md: 6, lg: 6 }}
           pr={{ xs: "0px", sm: "8px", md: "8px", lg: "8px" }}
@@ -243,7 +232,6 @@ const UserInformation = () => {
             <Text c={"var(--clr-primary)"} size="20px">
               Đơn hàng của bạn
             </Text>
-            <Text>Đơn hàng</Text>
             <Paper shadow="xs" radius={10}>
               <Link href={"/account/purchase-history"} className={style.link}>
                 <Text className={style.showDetail}>Xem chi tiết</Text>
@@ -251,31 +239,13 @@ const UserInformation = () => {
             </Paper>
           </Box>
         </Grid.Col>
-        <Grid.Col
-          span={{ base: 12, xs: 12, sm: 6, md: 6, lg: 6 }}
-          pl={{ xs: "0px", sm: "8px", md: "8px", lg: "8px" }}
-          mt={{ base: "10px", sm: "0px", md: "0px", lg: "0px" }}
-        >
-          <Box className={style.option} bg={"#F1F8FE"}>
-            <IconTrophy color="var(--clr-primary)" size={60} />
-            <Text c={"var(--clr-primary)"} size="20px">
-              Hạng thành viên
-            </Text>
-            <Text>{getRankDisplayName(dataMemberCard?.rankid || 0)}</Text>
-            <Paper shadow="xs" radius={10}>
-              <Link href={"/account/rank-member"} className={style.link}>
-                <Text className={style.showDetail}>Xem chi tiết</Text>
-              </Link>
-            </Paper>
-          </Box>
-        </Grid.Col>
       </Grid>
       <Title order={5} mt={20} mb={20}>
-        Tin tức khuyến mãi
+        Tin tức 
       </Title>
       <div className={style.articleCarousel}>
         <ArticleCarousel
-          data={news}
+          data={dataArticleBanner}
           type="carousel-col"
           auto
           typeSlide="colSlide"

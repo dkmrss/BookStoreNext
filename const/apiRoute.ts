@@ -1,23 +1,48 @@
 export const API_ROUTE = {
   HOME: "/home-hacom",
 
+  //ProductBook
+  GET_LIST_PRODUCT: "/products/get-list-with-limit-offset",
+  GET_LIST_PRODUCT_SALE: "/products/get-sale-products",
+  GET_LIST_PRODUCT_LIMIT: "/products/get-list-with-limit-offset",
+  GET_LIST_PRODUCT_NEW: "/products/get-new-products",
+  GET_LIST_PRODUCT_CATEGORY: "/products/get-products-by-category",
+  GET_DETAIL_PRODUCT: "/products/product-detail",
+  GET_DETAIL_PRODUCT_INFO: "/bookInfo/get-list-by-field",
+
+  //News
+  GET_LIST_NEWS: "/news/get-list-by-field",
+  GET_NEW_DETAIL: "/news/new-detail",
+
+  //Banner
+  GET_LIST_NEWS_BANNER: "/banner/active",
+
+  //Category
+  GET_LIST_CATEGORY: "/category/status",
+  GET_CATEGORY_INFO: "/category/category-detail",
+
+  //Comment
+  GET_LIST_COMMENT: "/user-comment/list-by-user-book",
+
+  //User
+  GET_INFO_USER: "/users/user-detail",
+  CREATE_USER: "/users/create",
+  UPDATE_USER:"/users/update",
   //Banner
   GET_LIST_BANNER: "TblBanner/get-list",
+
+  //Auth
+  LOGIN: "/auth/login",
+
+
+
+
 
   //Product
   GET_DETAIL_PRODUCT_BY_URL: "/TblItem/detail-by-url",
   GET_LIST_PRODUCT_DEAL: "TblProductDeal/get-list",
   GET_LIST_PRODUCT_NORMAL: "/TblItem/get-list",
   GET_LIST_PRODUCT_RELATION: "/TblItem/get-list-relation-web",
-
- //ProductBook
- GET_LIST_PRODUCT: "/products/get-list-with-limit-offset",
- GET_LIST_PRODUCT_SALE: "/products/get-sale-products",
- GET_LIST_PRODUCT_LIMIT: "/products/get-list-with-limit-offset",
- GET_LIST_PRODUCT_NEW: "/products/get-new-products",
- GET_LIST_PRODUCT_CATEGORY: "/products/get-products-by-category",
- GET_DETAIL_PRODUCT: "/products/product-detail",
- GET_DETAIL_PRODUCT_INFO: "/bookInfo/get-list-by-field",
 
   GET_LIST_ATTRIBUTE_FILTER: "/TblAttribute/get-list-filter",
   //Brand
@@ -45,12 +70,6 @@ export const API_ROUTE = {
   GET_LIST_ARTICLE: "/TblArticle/get-list",
   GET_ARTICLE_DETAIL: "TblArticle/details",
 
-  //News
-  GET_LIST_NEWS: "/news/get-list-by-field",
-  GET_NEW_DETAIL: "/news/new-detail",
-
-  //Banner
-  GET_LIST_NEWS_BANNER: "/banner/active",
   //ArticleCategory
   GET_LIST_ARTICLE_CATEGORY: "TblArticleCategory/get-list",
 

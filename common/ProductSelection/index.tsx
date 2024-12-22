@@ -4,7 +4,9 @@ import { IconChevronRight } from "@tabler/icons-react";
 import Link from "next/link";
 import React, { ReactNode } from "react";
 import styles from "./ProductSelection.module.scss";
-import Image, { StaticImageData } from "next/image";
+
+import { Image } from "@mantine/core";
+import { Category } from "@/model/TblCategory";
 const ProductSelection: React.FC<AppContainerProps> = ({
   children,
   className,
@@ -14,17 +16,17 @@ const ProductSelection: React.FC<AppContainerProps> = ({
   return (
     <div className={`${styles.ProductSelection} ${className}`} {...otherProps}>
       {/* <Link href={"/"}> */}
-      <Link href={element.link}>
+      <Link href={`/category/${element.id}`}>
         <Box>
           <Group wrap="nowrap" justify="space-between">
             <Flex align="center">
               <Image
                 className={styles.image}
-                src={element.image}
-                alt={element.text}
+                src={`http://localhost:3001/${element.illustration}`}
+                alt={element.category_name}
               />
               <Text lineClamp={1} size="sm" fw={600} className={styles.text}>
-                {element.text}
+                {element.category_name}
               </Text>
             </Flex>
             <IconChevronRight className={styles.iconChevronRight} size={20} />
@@ -38,12 +40,7 @@ const ProductSelection: React.FC<AppContainerProps> = ({
 type AppContainerProps = {
   children?: ReactNode;
   className?: string;
-  element: {
-    id: number;
-    text: string;
-    image: StaticImageData;
-    link: string;
-  };
+  element: Category;
 };
 
 export default ProductSelection;

@@ -259,3 +259,31 @@
     color: white;
   }
 }
+.input {
+  height: 35px;
+  margin: 15px 0;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-bottom-width: 2px;
+  border-radius: 0;
+  padding-left: 0 !important;
+  background-color: var(--mantine-color-body);
+  &:focus-within {
+    border-color: var(--clr-light-primary);
+    padding-left: 0 !important;
+    outline: transparent;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    animation: border-flash 5s infinite;
+  }
+
+  input {
+    padding-left: 0 !important;
+    &:focus-within {
+      outline: transparent;
+      border-color: transparent;
+    }
+  }
+}

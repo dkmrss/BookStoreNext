@@ -29,3 +29,7 @@ export interface tblBanner {
   lastUpdateLogin: string | null;
   listCategoryId: string | null;
 }
+export interface Banner {
+  image: string;
+  title: string;
+}

@@ -2,30 +2,29 @@
 import { getListArticle } from "@/api/apiArticle";
 import imageNull from "@/assets/noValue.png";
 import imageWait from "@/assets/wait.jpg";
-import { ArticleCategoryList, DataArticle } from "@/model/DataArticle";
+import { Article, ArticleCategoryList, DataArticle } from "@/model/DataArticle";
 import ArticleListCard from "@/common/ArticleCard";
 import { Flex, Loader, Pagination } from "@mantine/core";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import style from "./NewsCategory.module.scss";
 import ArticleCarousel from "../../common/carouselArticle";
+import { getDataListNews } from "@/api/apiNew";
 
 export default function NewsCategory({
-  params,
   data,
 }: {
-  params: { slug: string };
+  
   data: ArticleCategoryList[];
 }) {
-  const [dataArticle, setDataArticle] = useState<DataArticle[]>();
-  const [dataArticleBanner, setDataArticleBanner] = useState<DataArticle[]>();
+  const [dataArticle, setDataArticle] = useState<Article[]>();
+  const [dataArticleBanner, setDataArticleBanner] = useState<Article[]>();
   const [loading, setLoading] = useState(false);
   const [loadingBanner, setLoadingBanner] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const itemsPerPage = 8;
   const skip = (currentPage - 1) * itemsPerPage;
-
   const handlePageChange = (page: number) => {
     window.scrollTo(0, 0);
     setCurrentPage(page);
@@ -33,10 +32,10 @@ export default function NewsCategory({
   const callApiGetData = async () => {
     setLoading(true);
     const fetchData = async () => {
-      const data = await getListArticle(
-        `Status=1&ArticleCategoryId=${params.slug}&Skip=${skip}&Take=${itemsPerPage}`
+      const data = await getDataListNews(
+        `?field=status&value=0&skip=${skip}&take=${itemsPerPage}`
       );
-      const totalPages = Math.ceil(data.totalCount / itemsPerPage);
+      const totalPages = Math.ceil(data?.totalCount / itemsPerPage);
       setDataArticle(data.data);
       setTotalPages(totalPages);
       setLoading(false);
@@ -47,8 +46,8 @@ export default function NewsCategory({
   const callApiGetDataForBanner = async () => {
     setLoadingBanner(true);
     const fetchData = async () => {
-      const data = await getListArticle(
-        `Status=1&ArticleCategoryId=${params.slug}&Skip=${skip}&Take=${itemsPerPage}`
+      const data = await getDataListNews(
+        `?field=status&value=0&skip=0&take=4`
       );
       setDataArticleBanner(data.data);
       setLoadingBanner(false);

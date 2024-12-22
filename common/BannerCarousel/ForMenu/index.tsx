@@ -6,7 +6,7 @@ interface dataProps {
 }
 const BannerCarousel: React.FC<dataProps> = ({ data }) => {
   const OPTIONS: EmblaOptionsType = {};
-  console.log("data", data)
+  
   return (
     <>
       <EmblaCarousel slides={data} options={OPTIONS} />

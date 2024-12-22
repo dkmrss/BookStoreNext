@@ -28,15 +28,11 @@ const Account = () => {
   const [selected, setSelected] = useState(parts[1]);
 
   const handleRemoveToken = async () => {
-    localStorage.setItem("id", "");
-    localStorage.setItem("jwt", "");
-    localStorage.setItem("refreshToken", "");
-    localStorage.setItem("userName", "");
-    localStorage.setItem("userInfo", "");
-    localStorage.setItem("loginType", "");
-    dispatch(removeUserInfo());
-
-    router.replace(`/home`);
+    localStorage.setItem("token", "");
+    localStorage.setItem("user", "");
+    window.location.reload();
+    router.replace(`/`);
+    
   };
 
   const openModalLogout = () =>
@@ -98,53 +94,8 @@ const Account = () => {
             <IconReceipt /> <p className={style.textLink}>Lịch sử mua hàng</p>
           </Link>
         </Tooltip>
-        <Tooltip
-          label="Lịch sử đặt lịch"
-          color="var(--clr-primary)"
-          position="bottom"
-        >
-          <Link
-            href={"book-list"}
-            className={`${style.title} ${
-              selected === "book-list" && style.titleActive
-            }`}
-          >
-            <IconCalendar /> <p className={style.textLink}>Lịch sử đặt lịch</p>
-          </Link>
-        </Tooltip>
-        <Tooltip
-          label="Hạng thành viên"
-          color="var(--clr-primary)"
-          position="bottom"
-        >
-          <Link
-            href={"rank-member"}
-            className={`${style.title} ${
-              selected === "rank-member" && style.titleActive
-            }`}
-          >
-            <IconUserHeart />
-            <p className={style.textLink}>Hạng thành viên</p>
-          </Link>
-        </Tooltip>
-        <Tooltip
-          label="Tin khuyến mãi"
-          color="var(--clr-primary)"
-          position="bottom"
-        >
-          <Link href={"/new-list/57"} className={`${style.title} `}>
-            <IconStarFilled className={style.iconNews} />
-            <p className={style.textLink}>Tin khuyến mãi</p>
-          </Link>
-        </Tooltip>
-        {/* <Link
-          href={"/"}
-          className={`${style.title} ${
-            selected === "account-support" && style.titleActive
-          }`}
-        >
-          <IconHeadset /> Hỗ trợ
-        </Link> */}
+      
+       
         <Text onClick={openModalLogout} className={style.title}>
           <IconLogout />
           <p className={style.textLink}>Đăng xuất</p>

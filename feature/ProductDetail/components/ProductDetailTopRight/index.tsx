@@ -1,27 +1,19 @@
-import { createCartProduct, totalCartPrice } from "@/api/apiCart";
 import { createCollectionForm } from "@/api/apiCollectionForm";
-import FixAndGuarantee from "@/common/FixAndGuarantee";
-import PageBookingRepair from "@/feature/BookingRepair/page";
-import { TblItem } from "@/model/ProductList";
+import { TblProduct } from "@/model/TblBook";
 import { TblCollectionForm } from "@/model/TblCollectionForm";
-import { updateCart } from "@/redux/slices/cartSlice";
 import {
   Box,
-  Button,
   Flex,
   Loader,
   NumberFormatter,
-  Text,
-  TextInput,
+  Text
 } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
-import { modals } from "@mantine/modals";
-import { IconCheck, IconShoppingCartPlus } from "@tabler/icons-react";
+import { IconShoppingCartPlus } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import style from "./ProductDetailTopRightProps.module.scss";
-import { TblProduct } from "@/model/TblBook";
 
 type ProductDetailTopRightProps = {
   data: TblProduct | null;

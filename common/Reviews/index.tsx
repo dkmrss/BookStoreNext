@@ -42,7 +42,7 @@ const Reviews = ({ dataItem, dataReview }: ReviewProps) => {
       title: (
         <Flex gap={20} align={"center"}>
           <Text fw={700} lineClamp={2}>
-            Đánh giá {dataItem?.itemName}
+            Đánh giá {dataItem?.product_name}
           </Text>
         </Flex>
       ),

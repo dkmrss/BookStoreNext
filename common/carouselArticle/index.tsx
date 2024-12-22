@@ -3,10 +3,10 @@ import { EmblaOptionsType } from "embla-carousel";
 import React from "react";
 import EmblaCarousel from "./EmblaCarousel";
 import { TblItem } from "@/model/ProductList";
-import { ArticleCategoryList, DataArticle } from "@/model/DataArticle";
+import { Article, ArticleCategoryList, DataArticle } from "@/model/DataArticle";
 import style from "./embla.module.scss";
 interface ArticleCarouselDemoProps {
-  data: DataArticle[] | undefined;
+  data: Article[] | undefined;
   dataCategory?: ArticleCategoryList[];
   auto?: boolean;
   type: "row" | "col" | "carousel-col" | "carousel-row";

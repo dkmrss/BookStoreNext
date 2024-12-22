@@ -72,7 +72,7 @@
 }
 
 .sidebarMenu {
-  top: 76px;
+  top: 60px;
   width: 100%;
   position: absolute;
 }
@@ -86,7 +86,7 @@
   z-index: -2;
 }
 .header_reps_container {
-  width: 20%;
+  width: calc(100% / 3);
   display: flex;
   flex-direction: column;
   height: 65px;
@@ -221,7 +221,11 @@
     transform: translateX(-50%);
   }
 }
-
+.avt{
+  height: 24px;
+  width: 24px;
+  
+}
 @media only screen and (min-width: 801px) {
   .search_mb {
     display: none;

@@ -1,12 +1,7 @@
 import { getDetailBook, getDetailBookInfo } from "@/api/ApiBookProduct";
-import {
-  getDataDetailProductByPathName,
-  getDataListProductRelation,
-} from "@/api/apiProduct";
-import { getDataUserCommentDetail } from "@/api/apiUserComment";
+import { getDataListComment } from "@/api/ApiComment";
 import { getDataUserReviewDetail } from "@/api/apiUserReview";
 import AppContainer from "@/common/AppContainer";
-import BreadCrumb from "@/common/BreadCrumb";
 import { isNullOrUndefined } from "@/extension/StringExtension";
 import ProductDetailPage from "@/feature/ProductDetail";
 
@@ -62,6 +57,24 @@ const ProductDetail = async ({
     }
   };
 
+  const callDataComment = async () => {
+    const callApi = await getDataListComment(`?bookId=${params.slug}&take=10&skip=0`);
+
+    if (!isNullOrUndefined(callApi) && !isNullOrUndefined(callApi?.data)) {
+      const dataApi = callApi?.data;
+      if (dataApi != null && !isNullOrUndefined(dataApi)) {
+        return dataApi;
+      } else {
+        // NotificationExtension.Fails("Dữ liệu không tồn tại");
+        console.log("Dữ liệu không tồn tại");
+      }
+      close();
+    } else {
+      // NotificationExtension.Fails("Dữ liệu không tồn tại");
+      console.log("Dữ liệu không tồn tại");
+    }
+  };
+
   const fetchDataReview = async (idPath: number) => {
     if (idPath) {
       try {
@@ -81,36 +94,20 @@ const ProductDetail = async ({
     }
   };
 
-  const fetchDataComment = async (idPath: number) => {
-    if (idPath) {
-      try {
-        const callapi = await getDataUserCommentDetail(`/${idPath}`);
-        if (!isNullOrUndefined(callapi) && !isNullOrUndefined(callapi?.data)) {
-          const dataApi = callapi?.data;
-          if (dataApi != null && !isNullOrUndefined(dataApi)) {
-            return dataApi;
-          }
-        } else {
-          console.log("Dữ liệu không tồn tại");
-        }
-      } catch (error) {
-        console.error("Lỗi khi gọi API:", error);
-      }
-    }
-  };
 
+  
 
   const data = await callDataProduct();
 
   const [dataReview, dataComment, dataInfo] = await Promise.all([
     fetchDataReview(data?.id),
-    fetchDataComment(data?.id),
+    callDataComment(),
     callDataProductInfo()
   ]);
-
+  console.log("data",dataComment)
   return (
     <div>
-      <BreadCrumb listBCData={data?.breadcrumbs || null} />
+      
       <AppContainer>
         <ProductDetailPage
           data={data || null}

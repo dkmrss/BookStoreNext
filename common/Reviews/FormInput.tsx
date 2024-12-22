@@ -16,6 +16,7 @@ import style from "./Reviews.module.scss";
 import { modals } from "@mantine/modals";
 import { createUserReview } from "@/api/apiUserReview";
 import { useSelector } from "react-redux";
+import { TblProduct } from "@/model/TblBook";
 
 const FormInput = ({ fetchDataReview, dataItem }: FormInputProps) => {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -26,7 +27,7 @@ const FormInput = ({ fetchDataReview, dataItem }: FormInputProps) => {
     itemType: "product",
     replyCount: null,
     itemId: dataItem?.id || 0,
-    itemTitle: dataItem?.itemName,
+    itemTitle: dataItem?.product_name,
     isUserAdmin: 0,
     userId: null,
     userEmail: null,
@@ -146,7 +147,7 @@ const FormInput = ({ fetchDataReview, dataItem }: FormInputProps) => {
 export default FormInput;
 
 type FormInputProps = {
-  dataItem: TblItem | null;
+  dataItem: TblProduct | null;
   dataUser?: tblCustomer | null;
   fetchDataReview?: () => Promise<void>;
 };

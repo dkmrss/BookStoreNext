@@ -114,6 +114,7 @@
 
 .input {
   height: 35px;
+  margin: 15px 0;
   border-top: none !important;
   border-left: none !important;
   border-right: none !important;
@@ -140,22 +141,22 @@
   }
 }
 
-.label {
-  position: absolute;
-  z-index: 1;
-  pointer-events: none;
-  top: 5px;
-  color: var(--mantine-color-placeholder);
-  font-weight: 400;
-  font-size: 15px;
-  transition: color 100ms ease, transform 100ms ease, font-size 100ms ease;
+// .label {
+//   position: absolute;
+//   z-index: 1;
+//   pointer-events: none;
+//   top: 5px;
+//   color: var(--mantine-color-placeholder);
+//   font-weight: 400;
+//   font-size: 15px;
+//   transition: color 100ms ease, transform 100ms ease, font-size 100ms ease;
 
-  &[data-floating] {
-    transform: translateY(-30px);
-    font-size: 15px;
-    color: var(--mantine-color-text);
-  }
-}
+//   &[data-floating] {
+//     transform: translateY(-30px);
+//     font-size: 15px;
+//     color: var(--mantine-color-text);
+//   }
+// }
 
 .header {
   background-color: var(--clr-primary);

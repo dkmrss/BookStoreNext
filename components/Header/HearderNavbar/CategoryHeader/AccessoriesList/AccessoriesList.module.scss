@@ -1,0 +1,30 @@
+.accessoriesContainer {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 10px 0px 0px;
+
+  .accessoriesList2 {
+    display: flex;
+        width: 100%;
+        flex-wrap: wrap;
+        line-height: 24px;
+        gap: 10px;
+        justify-content: space-between;
+        flex-direction: row;
+       
+    .accessories2 {
+      width: calc(100% / 3 - 10px);
+      border-radius: 10px;
+      padding: 4px 4px; 
+      height: 100px;
+      img{
+        border-radius: 20%;
+        object-fit: contain;
+        height: 80px;
+      }
+    }
+  }
+}

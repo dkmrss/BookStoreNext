@@ -8,6 +8,7 @@ import ListProduct2 from "./ListProduct2";
 import { getDataListNews } from "@/api/apiNew";
 import ArticleList from "./Article";
 import { getDataListBanner } from "@/api/apiBanner";
+import { getDataListCategory } from "@/api/ApiCategory";
 const Home = async () => {
   const CallDataListProductBookNormal = async () => {
     const callApi = await getDataListProductBookNormal(
@@ -32,6 +33,26 @@ const Home = async () => {
   const CallDataBanner= async () => {
     const callApi = await getDataListBanner(
       "?limit=5&offset=0"
+    );
+
+    if (!isNullOrUndefined(callApi) && !isNullOrUndefined(callApi?.data)) {
+      const dataApi = callApi?.data;
+      if (dataApi != null && !isNullOrUndefined(dataApi)) {
+        return dataApi;
+      } else {
+        // NotificationExtension.Fails("Dữ liệu không tồn tại");
+        console.log("Dữ liệu không tồn tại");
+      }
+      close();
+    } else {
+      // NotificationExtension.Fails("Dữ liệu không tồn tại");
+      console.log("Dữ liệu không tồn tại");
+    }
+  };
+
+  const CallDataCategory= async () => {
+    const callApi = await getDataListCategory(
+      "/0"
     );
 
     if (!isNullOrUndefined(callApi) && !isNullOrUndefined(callApi?.data)) {
@@ -137,6 +158,7 @@ const Home = async () => {
     dataProductCate2,
     dataNews,
     dataBanner,
+    dataCategory,
   ] = await Promise.all([
     CallDataListProductBookNormal(),
     callDataProductSale(),
@@ -144,10 +166,11 @@ const Home = async () => {
     callDataProductCategory2(),
     callDataNews(),
     CallDataBanner(),
+    CallDataCategory(),
   ]);
   return (
     <>
-      <Menu  data={dataBanner}/>
+      <Menu dataCategory={dataCategory} data={dataBanner}/>
       <FlashSale data={dataProductSale} />
       <NewProduct data={dataProductNew} />
       <ListProduct1 data={dataProductCate1} />

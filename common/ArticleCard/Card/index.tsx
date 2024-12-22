@@ -52,7 +52,6 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
       </div>
       {type === "row" && (
         <div className={style.moreInfo}>
-          
           <div>
             <IconClock size={16} />
             <p>{formatDateString(data?.created_at ?? "")}</p>

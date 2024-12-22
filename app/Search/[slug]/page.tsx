@@ -1,6 +1,6 @@
 import { getListArticle } from "@/api/apiArticle";
 import AppContainer from "@/common/AppContainer";
-import BreadCrumb from "@/common/BreadCrumb";
+
 import { isNullOrUndefined } from "@/extension/StringExtension";
 import SearchList from "@/feature/Search";
 import { Metadata } from "next";
@@ -57,7 +57,7 @@ const Search = async ({ params }: { params: { slug: string } }) => {
 
   return (
     <div className={roboto.className}>
-      <BreadCrumb notCategory listBCData={breadcrumbSearch || null} />
+      
       <AppContainer>
         <SearchList dataArticle={dataArticle} params={params} />
       </AppContainer>
