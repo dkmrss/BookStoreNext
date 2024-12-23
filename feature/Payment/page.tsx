@@ -18,6 +18,7 @@ import { clearCart, setCartItems } from "@/redux/slices/cartSlice";
 import { useRouter } from "next/navigation";
 import { createOrder } from "@/api/ApiPayment";
 import { NotificationExtension } from "@/extension/NotificationExtension";
+import { setOrder } from "@/redux/slices/orderSlice";
 
 const Payment = () => {
   const dispatch = useDispatch();
@@ -111,6 +112,7 @@ const Payment = () => {
         NotificationExtension.Success("Đặt hàng thành công!");
         dispatch(clearCart());
         localStorage.removeItem("cartItems");
+        dispatch(setOrder(response.data));
         router.replace("/completeOrder");
       } else {
         NotificationExtension.Fails("Đặt hàng thất bại. Vui lòng thử lại!");
@@ -174,7 +176,6 @@ const Payment = () => {
           data={[
             { value: "0", label: "Thanh toán khi nhận hàng (COD)" },
             { value: "1", label: "Thanh toán online Mb bank" },
-            { value: "3", label: "Thanh toán online MoMo" },
           ]}
           value={selectedMethod}
           onChange={setSelectedMethod}

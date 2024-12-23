@@ -29,6 +29,8 @@ import { NotificationExtension } from "@/extension/NotificationExtension";
 const CompleteOrder = () => {
   const saleOrder = useSelector((state: any) => state.saleOrder);
   const dataOrder = useSelector((state: any) => state.completeOrder?.data);
+  const order = useSelector((state: any) => state.order.order);
+  console.log(order)
   const router = useRouter();
   const [valueQrCode, setValueQrCode] = useState("");
   const [payMentSuccess, setPayMentSuccess] = useState(false);
@@ -41,14 +43,14 @@ const CompleteOrder = () => {
       qrcodeType: 4,
       parterType: 2,
       initMethod: 14,
-      transactionAmount: dataOrder?.totalRemaining?.toString(),
+      transactionAmount: order?.total?.toString(),
       billNumber: "",
       referenceLabelTime: "",
-      referenceLabelCode: dataOrder?.orderNumber,
+      referenceLabelCode: order?.id,
       transactionPurpose: "",
-      additionAddress: dataOrder?.shippingAddress,
-      additionMobile: dataOrder?.buyerTelephone,
-      additionEmail: dataOrder?.buyerName,
+      additionAddress: order?.address,
+      additionMobile: order?.phone,
+      additionEmail: order?.name,
       createdBy: "",
       lastUpdateDate: "",
       lastUpdatedBy: "",
@@ -64,11 +66,11 @@ const CompleteOrder = () => {
   };
 
   const handleGetDetailQRCode = async () => {
-    if (dataOrder?.orderNumber) {
+    if (order?.id) {
       try {
         const response: AxiosResponse = await apiCart.post(
           API_ROUTE.GET_DETAILS_QR_CODE_PAYMENT +
-            `?id=${dataOrder?.orderNumber}`
+            `?id=${order?.id}`
         );
         if (!isNullOrUndefined(response) && response?.data?.success) {
           NotificationExtension.Success("Bạn đã thanh toán thành công!");
@@ -87,14 +89,14 @@ const CompleteOrder = () => {
   };
 
   useEffect(() => {
-    if (dataOrder.paymentType === "Thanh toán chuyển khoản MB") {
+    if (order.method === 1) {
       handleCreateQrCode();
       setIsRender(true);
     }
-  }, [dataOrder]);
+  }, [order]);
 
   useEffect(() => {
-    if (dataOrder === undefined) {
+    if (order === undefined) {
       router.replace(`/cart`);
     }
   }, []);
@@ -205,12 +207,12 @@ const CompleteOrder = () => {
                 <Box w={"100%"}>
                   <Flex gap={"5px"}>
                     <Text>Mã đơn hàng: </Text>
-                    <Text fw={700}>{dataOrder?.orderNumber}</Text>
+                    <Text fw={700}>{order?.id}</Text>
                   </Flex>
                   <Space h={"10px"} />
                   <Flex gap={"5px"}>
                     <Text>Người đặt hàng: </Text>
-                    <Text fw={700}>{dataOrder?.buyerName}</Text>
+                    <Text fw={700}>{order?.name }</Text>
                   </Flex>
                   <Space h={"10px"} />
                   <Flex gap={"5px"}>
@@ -234,13 +236,13 @@ const CompleteOrder = () => {
                     <Text fw={700}>
                       <NumberFormatter
                         thousandSeparator
-                        value={dataOrder?.totalAmount}
+                        value={order?.total}
                         suffix="đ"
                       />
                     </Text>
                   </Flex>
                   <Space h={"10px"} />
-                  {dataOrder?.paymentType === "Thanh toán chuyển khoản MB" ? (
+                  {order?.method === 1 ? (
                     <TransferForm
                       valueQr={valueQrCode}
                       handleGetDetailQRCode={handleGetDetailQRCode}
