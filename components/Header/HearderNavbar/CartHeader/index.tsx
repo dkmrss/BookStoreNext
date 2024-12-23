@@ -1,88 +1,69 @@
 "use client";
-import {
-  deleteCartProduct,
-  getCartProduct,
-  totalCartPrice,
-} from "@/api/apiCart";
-import { CartDetail } from "@/model/Cart";
-import { updateCart } from "@/redux/slices/cartSlice";
-import { addSaleOrder } from "@/redux/slices/saleOrderSlice";
+import { getCartUser } from "@/api/ApiCarts"; // Gọi API lấy giỏ hàng
 import {
   Box,
   Button,
   Center,
   Flex,
   NumberFormatter,
-  ScrollArea,
   Text,
   Tooltip,
 } from "@mantine/core";
-import { IconShoppingCart, IconX } from "@tabler/icons-react";
+import { IconShoppingCart } from "@tabler/icons-react";
 import Link from "next/link";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import style from "./CartHeader.module.scss";
+
+interface CartItem {
+  cart_id: number;
+  quantity: number;
+  product_name: string;
+  price: number;
+  saleprice: number;
+  image: string;
+}
 
 const CartHeader = ({
   setOpenedCart,
 }: {
   setOpenedCart: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const dispatch = useDispatch();
-  const saleOrder = useSelector((state: any) => state.saleOrder);
-  const [dataCart, setDataCart] = useState<CartDetail[]>([]);
+  const [dataCart, setDataCart] = useState<CartItem[]>([]);
+  const [totalCartValue, setTotalCartValue] = useState(0);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const handleDeleteItem = async (item: CartDetail) => {
-    await deleteCartProduct(
-      [item.id],
-      [{ id: item.itemId, itemName: item.itemName }]
-    );
-    fetchData();
-    const userData = localStorage?.getItem("userInfo");
-    const customerId = userData ? JSON.parse(userData).data.customerId : 0;
+  const fetchCartData = async () => {
+    const user = localStorage.getItem("user");
+    const token = localStorage.getItem("token");
 
-    const totalData = await totalCartPrice(customerId);
-    const newCartHeader = {
-      totalItem: totalData?.data?.quantity,
-      totalPrice: totalData?.data?.totalAmount,
-    };
-    dispatch(updateCart(newCartHeader));
-  };
+    // Kiểm tra đăng nhập
+    if (!user || !token) {
+      setIsLoggedIn(false);
+      return;
+    }
 
-  const fetchData = async () => {
+    setIsLoggedIn(true);
+
     try {
-      const userData = localStorage.getItem("userInfo");
-      const id = userData ? JSON.parse(userData).data.customerId : 0;
-      const cartData = await getCartProduct(id);
-      const cartDetailModel = cartData.data.tblShoppingCartDetailModel;
-      if (cartDetailModel) {
-        const cartItem = cartDetailModel.map((item: any) => ({
-          ...item,
-          totalAmount: (item?.quantity || 0) * (item?.itemSalePrice || 0),
-        }));
-        setDataCart(cartItem);
+      const parsedUser = JSON.parse(user);
+      const response = await getCartUser(`?userId=${parsedUser.id}`);
 
-        const newSaleOrder = {
-          saleOrderDetail: cartItem?.map((orderDetail: any) => ({
-            ...orderDetail,
-            cartDetailId: orderDetail.id,
-          })),
-          // saleOrderDetail: cartItem,
-          totalAmount: cartItem.reduce((total: number, item: CartDetail) => {
-            return total + (item.quantity || 0) * (item.itemSalePrice || 0);
-          }, 0),
-        };
-        dispatch(addSaleOrder(newSaleOrder));
+      if (response.success && response.data) {
+        setDataCart(response.data.cartItems || []); // Gán dữ liệu giỏ hàng từ API
+        setTotalCartValue(response.data.totalCartValue || 0); // Gán tổng giá trị giỏ hàng
       } else {
-        console.log("Dữ liệu không tồn tại");
+        setDataCart([]);
+        setTotalCartValue(0);
       }
     } catch (error) {
-      console.log("Lỗi khi lấy dữ liệu giỏ hàng", error);
+      console.error("Lỗi khi lấy giỏ hàng:", error);
+      setDataCart([]);
+      setTotalCartValue(0);
     }
   };
 
   useEffect(() => {
-    fetchData();
+    fetchCartData();
   }, []);
 
   return (
@@ -90,66 +71,69 @@ const CartHeader = ({
       <Center>
         <Text style={{ fontSize: 18 }}>Giỏ hàng</Text>
       </Center>
-      <ScrollArea.Autosize className={style.cartBox} mt={5}>
-        {dataCart.length > 0 ? (
-          dataCart.map((item, index) => (
-            <Flex key={index} className={style.cartItem}>
-              <img
-                src={item.itemImage || ""}
-                alt="Ảnh SP"
-                width={"90px"}
-                height={"90px"}
-              />
-              <Box w={"100%"}>
-                <Flex justify={"space-between"} gap={10}>
-                  <Tooltip label={item.itemName} position="bottom">
-                    <Text
-                      fw={500}
-                      lineClamp={2}
-                      style={{
-                        width: "calc(100% - 26px)",
-                        fontSize: 15,
-                        minHeight: 30,
-                      }}
-                    >
-                      {item.itemName}
+
+      {isLoggedIn ? (
+        dataCart.length > 0 ? (
+          <Box mt={5}>
+            {dataCart.slice(0, 4).map((item) => (
+              <Flex key={item.cart_id} className={style.cartItem} gap={10}>
+                <img
+                  src={`http://localhost:3001/${item.image}`}
+                  alt={item.product_name}
+                  width={90}
+                  height={90}
+                />
+                <Box w="100%">
+                  <Tooltip label={item.product_name} position="bottom">
+                    <Text fw={500} lineClamp={2}>
+                      {item.product_name}
                     </Text>
                   </Tooltip>
-
-                  <IconX
-                    size={18}
-                    onClick={() => handleDeleteItem(item)}
-                    cursor={"pointer"}
-                    style={{ marginTop: 3 }}
-                  />
-                </Flex>
-
-                <Flex gap={10}>
-                  <Text c={"var(--clr-primary)"} fw={500}>
-                    <NumberFormatter
-                      className={style.promotionPrice}
-                      value={item.itemSalePrice}
-                      thousandSeparator="."
-                      decimalSeparator=","
-                      suffix="₫"
-                    />
-                  </Text>
-
-                  <Text>
-                    <NumberFormatter
-                      className={style.price}
-                      value={item.itemPrice}
-                      thousandSeparator="."
-                      decimalSeparator=","
-                      suffix="₫"
-                    />
-                  </Text>
-                </Flex>
-
-                <Text>x{item.quantity}</Text>
-              </Box>
+                  <Flex justify="space-between">
+                    <Text c={"var(--clr-primary)"} fw={500}>
+                      <NumberFormatter
+                        thousandSeparator="."
+                        decimalSeparator=","
+                        value={
+                          item.price - (item.price * item.saleprice) / 100
+                        }
+                        suffix="₫"
+                      />
+                    </Text>
+                    <Text>x{item.quantity}</Text>
+                  </Flex>
+                </Box>
+              </Flex>
+            ))}
+            <Center mt={10}>{dataCart.length > 4 && (
+                 <Text size="sm" color="dimmed">
+                  Và {dataCart.length - 4} sản phẩm khác...
+                </Text>
+                )}</Center>
+              <Center mt={10}>
+              
+                <Button
+                  component={Link}
+                  href="/cart"
+                  color={"var(--clr-light-primary)"}
+                  onClick={() => setOpenedCart(false)}
+                >
+                  Xem chi tiết giỏ hàng
+                </Button>
+              </Center>
+            
+            <Flex justify="space-between" mt={10}>
+              <Text fw={500}>Tổng giá trị giỏ hàng:</Text>
+              <Text c={"var(--clr-primary)"} fw={500}>
+                <NumberFormatter
+                  thousandSeparator="."
+                  decimalSeparator=","
+                  value={totalCartValue}
+                  suffix="₫"
+                />
+              </Text>
             </Flex>
-          ))
+          </Box>
         ) : (
           <Box mt={5}>
             <Center>
@@ -161,44 +145,24 @@ const CartHeader = ({
               </Text>
             </Center>
           </Box>
-        )}
-      </ScrollArea.Autosize>
-
-      <Box mt={5}>
-        <Flex justify={"space-between"}>
-          <Text fw={500}>Tổng tiền tạm tính:</Text>
-          <Text c={"var(--clr-primary)"} fw={500}>
-            <NumberFormatter
-              thousandSeparator="."
-              decimalSeparator=","
-              value={saleOrder.totalAmount || 0}
-              suffix="  đ"
-            />
-          </Text>
-        </Flex>
-
-        <Flex gap={20} mt={10}>
-          <Button
-            component={Link}
-            href="/cart"
-            variant="outline"
-            color="var(--clr-text-dark)"
-            w={"60%"}
-            onClick={() => setOpenedCart(false)}
-          >
-            Chỉnh sửa giỏ hàng
-          </Button>
-          <Button
-            component={Link}
-            href="/payment"
-            w={"40%"}
-            color={"var(--clr-primary)"}
-            onClick={() => setOpenedCart(false)}
-          >
-            Thanh toán
-          </Button>
-        </Flex>
-      </Box>
+        )
+      ) : (
+        <Box mt={5}>
+          <Center>
+            <IconShoppingCart size={70} />
+          </Center>
+          <Center mt={5}>
+            <Text fw={500} size="16px">
+              Bạn cần đăng nhập để xem giỏ hàng!
+            </Text>
+          </Center>
+          <Center mt={10}>
+            <Button  component={Link} href="/login" color={"var(--clr-light-primary)"}>
+              Đăng nhập
+            </Button>
+          </Center>
+        </Box>
+      )}
     </Box>
   );
 };

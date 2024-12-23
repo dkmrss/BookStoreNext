@@ -99,7 +99,7 @@ const PasswordRecoveryModal = () => {
         close();
       } else {
         close();
-        console.log(datarspassword);
+        
         openFormRsPassword(dataSubmit.username);
       }
     }

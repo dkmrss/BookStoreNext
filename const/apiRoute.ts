@@ -34,10 +34,13 @@ export const API_ROUTE = {
   //Auth
   LOGIN: "/auth/login",
 
+  //Cart
+  ADD_CART: "/cart/addCart",
+  VIEW_CART: "/cart/view",
 
-
-
-
+  //order
+  CREATE_ORDER: "/orders/create",
+  GET_LIST_ORDER: "/orders/get-list",
   //Product
   GET_DETAIL_PRODUCT_BY_URL: "/TblItem/detail-by-url",
   GET_LIST_PRODUCT_DEAL: "TblProductDeal/get-list",

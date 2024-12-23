@@ -14,9 +14,11 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import style from "./ProductDetailTopRightProps.module.scss";
+import { NotificationExtension } from "@/extension/NotificationExtension";
+import { addToCart } from "@/api/ApiCarts";
 
 type ProductDetailTopRightProps = {
-  data: TblProduct | null;
+  data: TblProduct;
 };
 
 type dataTechnicalType = {
@@ -65,7 +67,7 @@ const ProductDetailTopRight = ({ data }: ProductDetailTopRightProps) => {
   });
 
   const handleBuyNow = async () => {
-    // handleAddCart();
+    handleAddToCart();
     router.push("/cart");
   };
 
@@ -81,43 +83,28 @@ const ProductDetailTopRight = ({ data }: ProductDetailTopRightProps) => {
     }
   };
 
-  // const handleAddCart = async () => {
-  //   setIsLoading(true); // Set loading state to true
-
-  //   const userData = localStorage.getItem("userInfo");
-  //   const id = userData ? JSON.parse(userData).data.customerId : 0;
-  //   const newData = {
-  //     customerId: id,
-  //     tblShoppingCartDetailCommand: [
-  //       {
-  //         itemCode: data?.itemCode,
-  //         itemName: data?.itemName,
-  //         itemId: data?.id,
-  //         quantity: 1,
-  //         itemPrice: data?.marketPrice,
-  //         itemSalePrice: data?.unitSellingPrice,
-  //         itemImage: data?.primaryImage,
-  //         totalAmount: data?.unitSellingPrice || 0,
-  //         itemUrl: data?.url,
-  //       },
-  //     ],
-  //   };
-  //   await createCartProduct(newData);
-
-  //   // fetchDataHeader();
-  //   const totalData = await totalCartPrice(id);
-  //   const newCartHeader = {
-  //     totalItem: totalData?.data?.quantity,
-  //     totalPrice: totalData?.data?.totalAmount,
-  //   };
-  //   dispatch(updateCart(newCartHeader));
-
-  //   // Add a delay of 10 seconds after the cart operations
-  //   await new Promise((resolve) => setTimeout(resolve, 5000));
-
-  //   setIsLoading(false); // Set loading state to false after processing
-  // };
-
+const handleAddToCart = async () => {
+    // Lấy thông tin user và token từ localStorage
+    const user = localStorage.getItem("user");
+    const token = localStorage.getItem("token");
+  
+    if (!user || !token) {
+      // Nếu chưa đăng nhập, hiển thị thông báo lỗi
+      NotificationExtension.Warn("Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng!");
+      return;
+    }
+  
+    const parsedUser = JSON.parse(user); // Parse user từ localStorage
+  
+    try {
+      // Gọi API addToCart
+      const response = await addToCart(parsedUser.id, data.id, 1); // Thêm sản phẩm với số lượng mặc định là 1
+    } catch (error: any) {
+      // Hiển thị thông báo lỗi nếu API thất bại
+      
+      NotificationExtension.Fails("Không thể thêm sản phẩm vào giỏ hàng!");
+    }
+  };
  
   const  marketPrice= data?.price ?? 0;
   const percent = data?.saleprice ?? 0;
@@ -129,14 +116,9 @@ const ProductDetailTopRight = ({ data }: ProductDetailTopRightProps) => {
   const  unitSellingPrice = roundToNearestHundred((marketPrice - (marketPrice / percent )))
 
   
-  
-
-  
-
   return (
     <div className={style.boxRightTop}>
       
-     
       <Box className={style.price}>
           <Text fw={700} style={{ fontSize: 16 }}>
             Giá khuyến mãi:
@@ -187,7 +169,7 @@ const ProductDetailTopRight = ({ data }: ProductDetailTopRightProps) => {
 
                     <button
                       className={style.buttonAddToCart}
-                      // onClick={() => handleAddCart()}
+                      onClick={handleAddToCart}
                       disabled={isLoading}
                     >
                       {isLoading ? ( // Show loader when loading

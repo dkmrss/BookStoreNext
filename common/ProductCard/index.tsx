@@ -5,16 +5,17 @@ import {
   Box,
   Button,
   Image,
+  Notification,
   NumberFormatter,
   Rating,
   Text,
   Tooltip,
 } from "@mantine/core";
-import { updateCart } from "@/redux/slices/cartSlice";
 import Image2 from "next/image";
 import NullImage from "@/assets/NullImage.png";
 import style from "./productCard.module.scss";
 import {
+  IconAlertCircle,
   IconCheck,
   IconClockHour4,
   IconPhone,
@@ -26,6 +27,9 @@ import Link from "next/link";
 import { createCartProduct, totalCartPrice } from "@/api/apiCart";
 import { useDispatch } from "react-redux";
 import { TblProduct } from "@/model/TblBook";
+import { useEffect, useState } from "react";
+import { addToCart } from "@/api/ApiCarts";
+import { NotificationExtension } from "@/extension/NotificationExtension";
 
 interface ProductCardProps {
   data: TblProduct;
@@ -35,46 +39,38 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
   const  marketPrice= data?.price ?? 0;
   const percent = data?.saleprice ?? 0;
  
-  const dispatch = useDispatch();
-
+  
+  const [notification, setNotification] = useState<{ message: string; error: boolean } | null>(null);
   const roundToNearestHundred = (value: number) => {
     return Math.round(value / 100) * 100;
   };
   const  unitSellingPrice = roundToNearestHundred((marketPrice - (marketPrice / percent )))
-  // const handleAddCart = async () => {
-  //   const userData = localStorage.getItem("userInfo");
-  //   const id = userData ? JSON.parse(userData).data.customerId : 0;
-  //   const newData = {
-  //     customerId: id,
-  //     tblShoppingCartDetailCommand: [
-  //       {
-  //         itemCode: data?.itemCode,
-  //         itemName: data?.itemName,
-  //         itemId: data?.id,
-  //         quantity: 1,
-  //         itemPrice: data?.marketPrice,
-  //         itemSalePrice: data?.unitSellingPrice,
-  //         itemImage: data?.primaryImage,
-  //         totalAmount: data?.unitSellingPrice || 0,
-  //         itemUrl: data?.url,
-  //       },
-  //     ],
-  //   };
-  //   await createCartProduct(newData);
-
-  //   // fetchDataHeader();
-  //   const totalData = await totalCartPrice(id);
-  //   const newCartHeader = {
-  //     totalItem: totalData?.data?.quantity,
-  //     totalPrice: totalData?.data?.totalAmount,
-  //   };
-  //   dispatch(updateCart(newCartHeader));
-
-  //   // Add a delay of 10 seconds after the cart operations
-  //   await new Promise((resolve) => setTimeout(resolve, 2000));
-  // };
-
+  
+  const handleAddToCart = async () => {
+    // Lấy thông tin user và token từ localStorage
+    const user = localStorage.getItem("user");
+    const token = localStorage.getItem("token");
+  
+    if (!user || !token) {
+      // Nếu chưa đăng nhập, hiển thị thông báo lỗi
+      NotificationExtension.Warn("Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng!");
+      return;
+    }
+  
+    const parsedUser = JSON.parse(user); // Parse user từ localStorage
+  
+    try {
+      // Gọi API addToCart
+      const response = await addToCart(parsedUser.id, data.id, 1); // Thêm sản phẩm với số lượng mặc định là 1
+    } catch (error: any) {
+      // Hiển thị thông báo lỗi nếu API thất bại
+      
+      NotificationExtension.Fails("Không thể thêm sản phẩm vào giỏ hàng!");
+    }
+  };
  
+  
+
 
   return (
     // <a className={style.productCard} href={data?.link}>
@@ -162,11 +158,20 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
                   </>
             </Box>
             )}
-            
+            {/* Nút thêm vào giỏ hàng */}
+        
           </Box>
         </Link>
-        {/* {renderContent()} */}
+          
       </Box>
+      <Button
+          leftSection={<IconShoppingCartPlus />}
+          color="var(--clr-bright-primary)"
+          onClick={handleAddToCart}
+          className={style.addToCartButton}
+        >
+          Thêm vào giỏ
+        </Button>     
     </div>
   );
 };

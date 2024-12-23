@@ -33,7 +33,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
     dragFree: true,
   });
 
-  console.log(children.length);
+ 
 
   const {
     prevBtnDisabled,

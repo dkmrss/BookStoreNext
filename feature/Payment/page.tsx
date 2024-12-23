@@ -1,171 +1,236 @@
 "use client";
-import style from "./Payment.module.scss";
-import { useEffect, useState } from "react";
-import Information from "./Information";
-import Pay from "./Pay";
-import { Box, Center, Flex, Text, em } from "@mantine/core";
-import { useMediaQuery } from "@mantine/hooks";
-import { IconArrowLeft } from "@tabler/icons-react";
-import Link from "next/link";
-import { useSelector } from "react-redux";
-import { useRouter } from "next/navigation";
-import MBlogo from "@/assets/mbbank.png";
-import Cod from "@/assets/logoCod.png";
+
+import { useDispatch, useSelector } from "react-redux";
 import {
-  getDataCommune,
-  getDataDistrict,
-  getDataProvice,
-} from "@/api/ApiAddress";
-import { tblCommune, tblDistrict, tblProvince } from "@/model/TblAddress";
+  Box,
+  Button,
+  Flex,
+  Textarea,
+  TextInput,
+  Select,
+  Paper,
+  Text,
+  Title,
+  Image,
+} from "@mantine/core";
+import { useEffect, useState } from "react";
+import { clearCart, setCartItems } from "@/redux/slices/cartSlice";
+import { useRouter } from "next/navigation";
+import { createOrder } from "@/api/ApiPayment";
+import { NotificationExtension } from "@/extension/NotificationExtension";
 
 const Payment = () => {
-  const [data, setData] = useState({
-    fullName: null,
-    phoneNumber: null,
-    email: null,
-    deliveryMethod: "Giao hàng tận nơi",
-    province: null,
-    district: null,
-    commune: null,
-    address: null,
-    note: null,
-    buyerId: null,
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  // Lấy thông tin giỏ hàng và người dùng từ Redux
+  const cartItems = useSelector((state: any) => state.cart.items);
+  const user = localStorage.getItem("user");
+  const token = localStorage.getItem("token");
+
+  const [customerInfo, setCustomerInfo] = useState({
+    name: "",
+    phone: "",
+    address: "",
+    note: "",
   });
 
-  const paymentMethods = [
-    {
-      id: 1,
-      imgSrc: Cod,
-      label: "Thanh toán khi nhận hàng",
-    },
-    {
-      id: 2,
-      imgSrc: MBlogo,
-      label: "Thanh toán chuyển khoản MB",
-    },
-  ];
+  const [selectedMethod, setSelectedMethod] = useState<string | null>("0");
+  const [loading, setLoading] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const [dataAllProvince, setDataAllProvince] = useState<tblProvince[]>([]);
-  const [dataAllDistrict, setDataAllDistrict] = useState<tblDistrict[]>([]);
-  const [dataAllCommune, setDataAllCommune] = useState<tblCommune[]>([]);
-  const isMobile = useMediaQuery(`(max-width: ${em(800)})`);
-  const [changeForm, setChangeForm] = useState(false);
-  const router = useRouter();
-  const saleOrder = useSelector((state: any) => state.saleOrder);
-
-  const handleChangeForm = () => {
-    setChangeForm(!changeForm);
-    window.scroll(0, 0);
+  // Hàm thay đổi giá trị thông tin khách hàng
+  const handleInputChange = (field: string, value: string) => {
+    setCustomerInfo((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleBack = () => {
-    router.back();
-  };
-
-  const fetchDataProvince = async () => {
-    const data = await getDataProvice("Active=true&Skip=0&Take=1000");
-    setDataAllProvince(data?.data);
-  };
-
-  const fetchDataDistrict = async () => {
-    const data = await getDataDistrict("Active=true&Skip=0&Take=1000");
-    setDataAllDistrict(data?.data);
-  };
-
-  const fetchDataCommune = async () => {
-    const data = await getDataCommune("Active=true&Skip=0&Take=11000");
-    setDataAllCommune(data?.data);
-  };
-
-  useEffect(() => {
-    fetchDataProvince();
-    fetchDataDistrict();
-    fetchDataCommune();
-  }, []);
-
-  useEffect(() => {
-    if (saleOrder.totalAmount === 0 || saleOrder.saleOrderDetail.length < 1) {
-      router.replace(`/cart`);
+  // Hàm kiểm tra giá trị các trường
+  const validateFields = (): boolean => {
+    if (!customerInfo.name.trim()) {
+      NotificationExtension.Fails("Vui lòng nhập họ và tên!");
+      return false;
     }
-  }, []);
+    if (!customerInfo.phone.trim() || !/^\d{10,12}$/.test(customerInfo.phone)) {
+      NotificationExtension.Fails("Vui lòng nhập số điện thoại hợp lệ (10-12 số)!");
+      return false;
+    }
+    if (!customerInfo.address.trim()) {
+      NotificationExtension.Fails("Vui lòng nhập địa chỉ nhận hàng!");
+      return false;
+    }
+    if (!selectedMethod || selectedMethod === "") {
+      NotificationExtension.Fails("Vui lòng chọn phương thức thanh toán!");
+      return false;
+    }
+    return true;
+  };
+
+  // Hàm xử lý đặt hàng
+  const handleDoOrder = async () => {
+    if (!validateFields()) {
+      return; // Dừng nếu không vượt qua được validation
+    }
+
+    if (!user || !token) {
+      setIsLoggedIn(false);
+      NotificationExtension.Fails("Bạn cần đăng nhập để tiếp tục!");
+      return;
+    }
+
+    setIsLoggedIn(true);
+    const parsedUser = JSON.parse(user);
+    const userId = parsedUser.id;
+
+    if (!cartItems || cartItems.length === 0) {
+      NotificationExtension.Fails("Giỏ hàng trống!");
+      return;
+    }
+
+    const orderDetails = cartItems.map((item: any) => ({
+      product_id: item.product_id,
+      quantity: item.quantity,
+      price: item.price,
+    }));
+
+    const orderData = {
+      customer_id: userId,
+      name: customerInfo.name,
+      phone: customerInfo.phone,
+      address: customerInfo.address,
+      total: cartItems.reduce((acc: number, item: any) => acc + item.total_price, 0),
+      method: selectedMethod === "0" ? 0 : 1,
+      payment: selectedMethod === "0" ? 0 : 1,
+      note: customerInfo.note,
+      orderDetails,
+    };
+
+    setLoading(true);
+    try {
+      const response = await createOrder(orderData);
+      if (response.success) {
+        NotificationExtension.Success("Đặt hàng thành công!");
+        dispatch(clearCart());
+        localStorage.removeItem("cartItems");
+        router.replace("/completeOrder");
+      } else {
+        NotificationExtension.Fails("Đặt hàng thất bại. Vui lòng thử lại!");
+      }
+    } catch (error) {
+      console.error("Lỗi khi tạo đơn hàng:", error);
+      NotificationExtension.Fails("Có lỗi xảy ra khi đặt hàng.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Lấy lại giỏ hàng từ localStorage nếu Redux không có dữ liệu
+  useEffect(() => {
+    if (!cartItems || cartItems.length === 0) {
+      const storedCartItems = localStorage.getItem("cartItems");
+      if (storedCartItems) {
+        dispatch(setCartItems(JSON.parse(storedCartItems)));
+      }
+    }
+  }, [cartItems, dispatch]);
+
   return (
-    <div className={style.headerPayment}>
-      <Box w={isMobile ? "100%" : "50%"} mt={20}>
-        <Flex
-          p={"5px 0px"}
-          style={{ borderBottom: "1px solid #eeeeee" }}
-          w={"100%"}
-        >
-          {!changeForm ? (
-            <>
-              <Box style={{ paddingTop: "5px" }}>
-                <IconArrowLeft
-                  width={"20px"}
-                  height={"20px"}
-                  stroke={1.5}
-                  cursor={"pointer"}
-                  onClick={() => handleBack()}
-                />
-              </Box>
-              <Box ta={"center"} w={"100%"}>
-                <Text fw={500} size="18px">
-                  Thông tin
+    <Box p="20px" w="100%">
+      <Title order={4}>Thông tin đơn hàng</Title>
+      <Paper shadow="xs" p="20px" mt="10px">
+        <TextInput
+          label="Họ và tên"
+          placeholder="Nhập họ và tên"
+          required
+          value={customerInfo.name}
+          onChange={(e) => handleInputChange("name", e.target.value)}
+        />
+        <TextInput
+          label="Số điện thoại"
+          placeholder="Nhập số điện thoại"
+          required
+          mt="10px"
+          value={customerInfo.phone}
+          onChange={(e) => handleInputChange("phone", e.target.value)}
+        />
+        <TextInput
+          label="Địa chỉ"
+          placeholder="Nhập địa chỉ nhận hàng"
+          required
+          mt="10px"
+          value={customerInfo.address}
+          onChange={(e) => handleInputChange("address", e.target.value)}
+        />
+        <Textarea
+          label="Ghi chú"
+          placeholder="Ghi chú cho đơn hàng (tuỳ chọn)"
+          mt="10px"
+          value={customerInfo.note}
+          onChange={(e) => handleInputChange("note", e.target.value)}
+        />
+        <Select
+          label="Phương thức thanh toán"
+          placeholder="Chọn phương thức"
+          mt="10px"
+          data={[
+            { value: "0", label: "Thanh toán khi nhận hàng (COD)" },
+            { value: "1", label: "Thanh toán online Mb bank" },
+            { value: "3", label: "Thanh toán online MoMo" },
+          ]}
+          value={selectedMethod}
+          onChange={setSelectedMethod}
+        />
+      </Paper>
+
+      {/* Danh sách sản phẩm */}
+      <Box mt="20px">
+        <Title order={5}>Danh sách sản phẩm</Title>
+        {cartItems.map((item: any) => (
+          <Flex
+            key={item.product_id}
+            mt="10px"
+            p="10px"
+            style={{ border: "1px solid #eee", borderRadius: "8px" }}
+          >
+            <Image
+              src={`http://localhost:3001/${item.image}`}
+              alt={item.product_name}
+              width={60}
+              height={60}
+              style={{ borderRadius: "8px" }}
+            />
+            <Box ml="10px" w="100%">
+              <Text fw="bold">{item.product_name}</Text>
+              <Flex justify="space-between" mt="5px">
+                <Text>
+                  Số lượng: <strong>{item.quantity}</strong>
                 </Text>
-              </Box>
-            </>
-          ) : (
-            <>
-              <IconArrowLeft
-                width={"20px"}
-                height={"20px"}
-                stroke={1.5}
-                cursor={"pointer"}
-                onClick={handleChangeForm}
-              />
-              <Box ta={"center"} w={"100%"}>
-                <Text fw={500} size="18px">
-                  Thanh toán
+                <Text>
+                  Tổng: <strong>{item.total_price * item.quantity} ₫</strong>
                 </Text>
-              </Box>
-            </>
-          )}
-        </Flex>
-        <Flex mt={10} gap={10}>
-          <Box w={"100%"}>
-            <Center className={!changeForm ? style.setColor : style.none}>
-              <Text fw={500}>THÔNG TIN ĐƠN HÀNG</Text>
-            </Center>
-          </Box>
-          <Box w={"100%"}>
-            <Center className={changeForm ? style.setColor : style.none}>
-              <Text fw={500} c={"black"}>
-                THANH TOÁN
-              </Text>
-            </Center>
-          </Box>
-        </Flex>
+              </Flex>
+            </Box>
+          </Flex>
+        ))}
       </Box>
-      <Box w={isMobile ? "100%" : "50%"}>
-        {!changeForm ? (
-          <Information
-            data={data}
-            setData={setData}
-            handleChangeForm={handleChangeForm}
-            dataAllCommune={dataAllCommune}
-            dataAllDistrict={dataAllDistrict}
-            dataAllProvince={dataAllProvince}
-          />
-        ) : (
-          <Pay
-            data={data}
-            paymentMethods={paymentMethods}
-            dataAllCommune={dataAllCommune}
-            dataAllDistrict={dataAllDistrict}
-            dataAllProvince={dataAllProvince}
-          ></Pay>
-        )}
-      </Box>
-    </div>
+
+      {/* Tổng tiền và nút thanh toán */}
+      <Flex justify="space-between" mt="20px">
+        <Text>Tổng tiền:</Text>
+        <Text fw="bold">
+          {cartItems.reduce((acc: number, item: any) => acc + item.total_price, 0)} ₫
+        </Text>
+      </Flex>
+
+      <Button
+        color="var(--clr-primary)"
+        fullWidth
+        mt="20px"
+        onClick={handleDoOrder}
+        loading={loading}
+      >
+        Đặt hàng
+      </Button>
+    </Box>
   );
 };
 

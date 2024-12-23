@@ -1,16 +1,9 @@
-import { totalCartPrice } from "@/api/apiCart";
-import { getCustomerInfo } from "@/api/apiCustomer";
-import { getHomeSuggestSearch } from "@/api/apiHome";
+import { getDataListCategory } from "@/api/ApiCategory";
 import styleGLobal from "@/app/layout.module.scss";
 import Logo from "@/assets/dichvutot-01-01.png";
 import ButtonsCollection from "@/common/ButtonsCollection/ButtonsCollection";
-import SelectBox from "@/common/SelectBox/SelectBox";
 import SidebarMenu from "@/components/ContentMenu/SidebarMenu/SidebarMenu";
 import SearchTrends from "@/components/Header/HearderNavbar/SearchTrends/SearchTrends";
-import { isNullOrUndefined } from "@/extension/StringExtension";
-import Booking from "@/feature/Booking/Booking";
-import { getUserInfo } from "@/redux/slices/authSlice";
-import { updateCart } from "@/redux/slices/cartSlice";
 import {
   Box,
   Flex,
@@ -20,26 +13,17 @@ import {
   Popover,
   Text,
 } from "@mantine/core";
-import { modals } from "@mantine/modals";
 import {
-  IconCalendarMonth,
-  IconCalendarWeek,
   IconCategoryPlus,
-  IconChevronDown,
   IconDots,
   IconHome,
   IconLoader2,
-  IconMapPin,
   IconMenu2,
-  IconMessageCircle2Filled,
-  IconPhoneFilled,
   IconSearch,
   IconSend2,
-  IconShieldFilled,
   IconShoppingCartFilled,
-  IconTruckDelivery,
   IconUserCircle,
-  IconX,
+  IconX
 } from "@tabler/icons-react";
 import Image2 from "next/image";
 import Link from "next/link";
@@ -50,8 +34,6 @@ import CartHeader from "./CartHeader";
 import CategoryHeader from "./CategoryHeader/CategoryHeader";
 import style from "./HearderNavbar.module.scss";
 import SeeMoreHeader from "./SeeMoreHeader/SeeMoreHeader";
-import SuggestedList from "./SuggestedList/SuggestedList";
-import { getDataListCategory } from "@/api/ApiCategory";
 
 const HearderNavbar = () => {
   const dispatch = useDispatch();
@@ -345,7 +327,7 @@ const [dataCategory, setDataCategory] = useState([]);
       setAuthUser(JSON.parse(user)); // Lưu thông tin người dùng
     }
   }, []);
-  console.log(authUser)
+ 
 
   return (
     <>

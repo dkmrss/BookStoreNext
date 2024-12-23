@@ -1,17 +1,30 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const initialState = { totalItem: 0, totalPrice: 0 };
+interface CartState {
+  items: any[]; // Danh sách sản phẩm trong giỏ
+  itemCount: number; // Số lượng sản phẩm trong giỏ
+}
+
+const initialState: CartState = {
+  items: [],
+  itemCount: 0,
+};
 
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    updateCart: (state, action: PayloadAction<any>) => {
-      state.totalItem = action.payload.totalItem;
-      state.totalPrice = action.payload.totalPrice;
+    setCartItems: (state, action: PayloadAction<any[]>) => {
+      state.items = action.payload;
+      state.itemCount = action.payload.length;
+    },
+    clearCart: (state) => {
+      state.items = [];
+      state.itemCount = 0;
     },
   },
 });
 
-export const { updateCart } = cartSlice.actions;
+export const { setCartItems, clearCart } = cartSlice.actions;
+
 export default cartSlice.reducer;

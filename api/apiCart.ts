@@ -22,14 +22,6 @@ export const createCartProduct = async (data: any): Promise<any> => {
       data
     );
 
-    // data?.tblShoppingCartDetailCommand?.map((item: any) =>
-    //   postLoggingAction({
-    //     userName: localStorage.getItem("userName"),
-    //     actionType: "AddedToCartProduct",
-    //     actionDetail: `[${item?.itemId}] ${item?.itemName}`,
-    //   })
-    // );
-
     NotificationExtension.Success("Thêm vào giỏ hàng thành công");
     return response.data;
   } catch (error) {

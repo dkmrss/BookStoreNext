@@ -1,349 +1,230 @@
 "use client";
 import {
+  getCartUser,
   deleteCartProduct,
-  getCartProduct,
-  totalCartPrice,
-} from "@/api/apiCart";
-import logo from "@/assets/dichvutot-01-01.png";
-import { CartDetail } from "@/model/Cart";
-import { updateCart } from "@/redux/slices/cartSlice";
-import { addSaleOrder } from "@/redux/slices/saleOrderSlice";
+  clearCart,
+  updateCartQuantity,
+} from "@/api/ApiCarts";
 import {
   Box,
   Button,
   Center,
-  Checkbox,
   Flex,
   NumberFormatter,
   Paper,
   Text,
+  Image,
   Title,
-  em,
 } from "@mantine/core";
-import { useMediaQuery } from "@mantine/hooks";
 import {
-  IconArrowLeft,
   IconMinus,
   IconPlus,
   IconTrash,
 } from "@tabler/icons-react";
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setCartItems } from "@/redux/slices/cartSlice"; // Import Redux slice
 import style from "./cart.module.scss";
+import { useRouter } from "next/router";
 
-type InitialValue = {
-  checked: boolean;
-  key: string;
+interface CartItem {
+  cart_id: number;
   quantity: number;
-};
+  product_name: string;
+  price: number;
+  saleprice: number;
+  image: string;
+  product_id: number;
+}
 
 const Cart = () => {
-  const saleOrder = useSelector((state: any) => state.saleOrder);
+  const [dataCart, setDataCart] = useState<CartItem[]>([]);
+  const [totalCartValue, setTotalCartValue] = useState(0);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const dispatch = useDispatch();
-  const [values, setValues] = useState<CartDetail[]>([]);
-  const isMobile = useMediaQuery(`(max-width: ${em(800)})`);
-  const allChecked = values.every((value) => value.checked);
 
-  const fetchData = async () => {
+  const fetchCartData = async () => {
+    const user = localStorage.getItem("user");
+    const token = localStorage.getItem("token");
+
+    if (!user || !token) {
+      setIsLoggedIn(false);
+      return;
+    }
+
+    setIsLoggedIn(true);
+
     try {
-      const userData = localStorage.getItem("userInfo");
-      const id = userData ? JSON.parse(userData).data.customerId : 0;
-      const cartData = await getCartProduct(id);
-      const cartDetailModel = cartData.data.tblShoppingCartDetailModel;
-      if (cartDetailModel) {
-        const cartItem = cartDetailModel.map((item: any) => ({
-          ...item,
-          checked: true,
-          totalAmount: (item?.quantity || 0) * (item?.itemSalePrice || 0),
-        }));
-        setValues(cartItem);
-        const newSaleOrder = {
-          saleOrderDetail: cartItem?.map((orderDetail: any) => ({
-            ...orderDetail,
-            cartDetailId: orderDetail.id,
-          })),
-          // saleOrderDetail: cartItem,
-          totalAmount: cartItem.reduce((total: number, item: CartDetail) => {
-            return total + (item.quantity || 0) * (item.itemSalePrice || 0);
-          }, 0),
-        };
-        dispatch(addSaleOrder(newSaleOrder));
+      const parsedUser = JSON.parse(user);
+      const response = await getCartUser(`?userId=${parsedUser.id}`);
+
+      if (response.success && response.data) {
+        const cartItems = response.data.cartItems || [];
+        setDataCart(cartItems);
+        setTotalCartValue(response.data.totalCartValue || 0);
+        dispatch(setCartItems(cartItems)); // Cập nhật Redux
       } else {
-        console.log("Dữ liệu không tồn tại");
+        setDataCart([]);
+      setTotalCartValue(0);
+      dispatch(setCartItems([])); // Cập nhật Redux
       }
     } catch (error) {
-      console.log("Lỗi khi lấy dữ liệu giỏ hàng", error);
+      console.error("Lỗi khi lấy dữ liệu giỏ hàng:", error);
+      setDataCart([]);
+      setTotalCartValue(0);
+      dispatch(setCartItems([])); // Cập nhật Redux
     }
   };
 
-  const handleAddToSaleOrder = (data: CartDetail[]) => {
-    const checkedItems = data.filter((item) => item.checked);
-    const newSaleOrder = {
-      saleOrderDetail: checkedItems?.map((orderDetail) => ({
-        ...orderDetail,
-        cartDetailId: orderDetail.id,
-      })),
-      // saleOrderDetail: checkedItems,
-      totalAmount: checkedItems.reduce((total: number, item: CartDetail) => {
-        return total + (item.quantity || 0) * (item.itemSalePrice || 0);
-      }, 0),
-    };
+  const handleDeleteItem = async (item: CartItem) => {
+    try {
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
+      await deleteCartProduct(user.id, item.product_id);
 
-    dispatch(addSaleOrder(newSaleOrder));
-  };
-
-  const handleCheckAll = (value: boolean) => {
-    setValues((prevData) =>
-      prevData.map((item) => ({ ...item, checked: !allChecked }))
-    );
-  };
-
-  const handleCheckItem = (value: boolean, index: number) => {
-    const updatedValues = [...values];
-    updatedValues[index] = {
-      ...updatedValues[index],
-      checked: value,
-    };
-    setValues(updatedValues);
-    handleAddToSaleOrder(updatedValues);
-  };
-
-  const handleIncreaseQuantity = (index: number) => {
-    const updatedValues = [...values];
-    updatedValues[index] = {
-      ...updatedValues[index],
-      quantity: updatedValues[index].quantity + 1,
-      totalAmount:
-        (updatedValues[index].quantity + 1) *
-        updatedValues[index].itemSalePrice,
-    };
-
-    setValues(updatedValues);
-    handleAddToSaleOrder(updatedValues);
-  };
-
-  const handleDecreaseQuantity = (index: number) => {
-    const updatedValues = [...values];
-    if (updatedValues[index].quantity > 1) {
-      updatedValues[index] = {
-        ...updatedValues[index],
-        quantity: updatedValues[index].quantity - 1,
-        totalAmount:
-          (updatedValues[index].quantity - 1) *
-          updatedValues[index].itemSalePrice,
-      };
-
-      setValues(updatedValues);
-      handleAddToSaleOrder(updatedValues);
+      await fetchCartData(); // Cập nhật giỏ hàng và tổng giá trị sau khi xóa
+    } catch (error) {
+      console.error("Lỗi khi xóa sản phẩm:", error);
     }
   };
 
-  const handleDeleteItem = async (item: CartDetail) => {
-    await deleteCartProduct(
-      [item.id],
-      [{ id: item.itemId, itemName: item.itemName }]
-    );
-    fetchData();
-    const userData = localStorage?.getItem("userInfo");
-    const customerId = userData ? JSON.parse(userData).data.customerId : 0;
+  const handleClearCart = async () => {
+    try {
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
+      await clearCart(user.id);
 
-    const totalData = await totalCartPrice(customerId);
-    const newCartHeader = {
-      totalItem: totalData?.data?.quantity,
-      totalPrice: totalData?.data?.totalAmount,
-    };
-    dispatch(updateCart(newCartHeader));
+      await fetchCartData(); // Cập nhật giỏ hàng và tổng giá trị sau khi xóa tất cả
+    } catch (error) {
+      console.error("Lỗi khi xóa toàn bộ giỏ hàng:", error);
+    }
+  };
+
+  const handleIncreaseQuantity = async (item: CartItem) => {
+    try {
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
+      await updateCartQuantity(user.id, item.product_id, item.quantity + 1);
+
+      await fetchCartData(); // Cập nhật giỏ hàng và tổng giá trị sau khi thay đổi số lượng
+    } catch (error) {
+      console.error("Lỗi khi tăng số lượng sản phẩm:", error);
+    }
+  };
+
+  const handleDecreaseQuantity = async (item: CartItem) => {
+    if (item.quantity <= 1) return;
+
+    try {
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
+      await updateCartQuantity(user.id, item.product_id, item.quantity - 1);
+
+      await fetchCartData(); // Cập nhật giỏ hàng và tổng giá trị sau khi thay đổi số lượng
+    } catch (error) {
+      console.error("Lỗi khi giảm số lượng sản phẩm:", error);
+    }
+  };
+
+  const handleCheckout = () => {
+    localStorage.setItem("cartItems", JSON.stringify(dataCart)); // Lưu vào localStorage
+  dispatch(setCartItems(dataCart)); // Lưu trạng thái vào Redux
+  window.location.href = "/payment";
   };
 
   useEffect(() => {
-    fetchData();
+    fetchCartData();
   }, []);
 
   return (
-    <div className={style.cart}>
-      {values.length > 0 ? (
-        <Box w={isMobile ? "100%" : "50%"}>
-          <Flex
-            p={"5px 0px"}
-            style={{ borderBottom: "1px solid #eeeeee" }}
-            w={"100%"}
-          >
-            <Link href={"/home"} style={{ paddingTop: "5px" }}>
-              <IconArrowLeft
-                width={"20px"}
-                height={"20px"}
-                stroke={1.5}
-                cursor={"pointer"}
-              />
-            </Link>
-            <Box ta={"center"} w={"100%"}>
-              <Title order={4}>Trang chủ</Title>
-            </Box>
-          </Flex>
-          <Flex mt={"30px"}>
-            <Box
-              p={"5px 10px"}
-              bg={"var(--clr-primary)"}
-              style={{ borderRadius: "10px" }}
-            >
-              <Text c={"#fff"}>Giỏ hàng</Text>
-            </Box>
-          </Flex>
-          <Box mt={"15px"}>
-            <Checkbox
-              label="Chọn tất cả"
-              color="var(--clr-primary)"
-              checked={allChecked}
-              onChange={(event) => handleCheckAll(event.currentTarget.checked)}
-            />
-            {values.map((item, index) => (
-              <Flex
-                key={index}
-                m={"10px 0px"}
-                p={"10px"}
-                gap={"5px"}
-                style={{ border: "1px solid #eeeeee", borderRadius: "10px" }}
-              >
-                <Checkbox
-                  color="var(--clr-primary)"
-                  checked={item.checked || false}
-                  onChange={(event) =>
-                    handleCheckItem(event.currentTarget.checked, index)
-                  }
-                />
-                <img
-                  src={item.itemImage || ""}
-                  alt="Ảnh SP"
-                  width={"130px"}
-                  height={"130px"}
-                />
-                <Box w={"100%"}>
-                  <Flex justify={"space-between"} align={"center"} gap={10}>
-                    <Text fw={500} style={{ width: "calc(100% - 26px)" }}>
-                      {item.itemName}
-                    </Text>
-                    <IconTrash
-                      size={16}
-                      onClick={() => handleDeleteItem(item)}
-                      cursor={"pointer"}
-                    />
-                  </Flex>
-                  <Flex justify={"space-between"} align={"center"}>
-                    <Text c={"var(--clr-primary)"} fw={500}>
-                      <NumberFormatter
-                        className={style.promotionPrice}
-                        value={item.itemSalePrice}
-                        thousandSeparator="."
-                        decimalSeparator=","
-                        suffix="₫"
-                      />
-                    </Text>
-                    <Flex
-                      gap={"10px"}
-                      align={"center"}
-                      bg={"#EEEEEE"}
-                      p={"0px 5px"}
-                      style={{ borderRadius: "10px" }}
-                    >
-                      <IconMinus
-                        size={"16px"}
-                        onClick={() => handleDecreaseQuantity(index)}
-                        cursor={"pointer"}
-                      />
-                      <Text>{item.quantity}</Text>
-                      <IconPlus
-                        size={"16px"}
-                        onClick={() => handleIncreaseQuantity(index)}
-                        cursor={"pointer"}
+    <Box className={style.cart}>
+      {isLoggedIn ? (
+        dataCart.length > 0 ? (
+          <Box w="100%">
+            <Title order={4}>Giỏ hàng</Title>
+            <Box mt="15px">
+              {dataCart.map((item) => (
+                <Flex
+                  key={item.cart_id}
+                  m="10px 0px"
+                  p="10px"
+                  gap="5px"
+                  style={{ border: "1px solid #eeeeee", borderRadius: "10px" }}
+                >
+                  <Image
+                    src={`http://localhost:3001/${item.image}`}
+                    alt={item.product_name}
+                    width={90}
+                    height={90}
+                  />
+                  <Box w="100%">
+                    <Flex justify="space-between" align="center" gap={10}>
+                      <Text fw={500} lineClamp={2}>
+                        {item.product_name}
+                      </Text>
+                      <IconTrash
+                        size={16}
+                        onClick={() => handleDeleteItem(item)}
+                        cursor="pointer"
                       />
                     </Flex>
-                  </Flex>
-                </Box>
-              </Flex>
-            ))}
-          </Box>
-          <Paper shadow="xl" p={"10px"} pos={"relative"} h={"135px"}>
-            <Box w={"96.5%"} pos={"absolute"}>
-              <Flex justify="space-between" align="center" w={"100%"}>
+                    <Flex justify="space-between" align="center">
+                      <Text c="var(--clr-primary)" fw={500}>
+                        <NumberFormatter
+                          value={item.price - (item.price * item.saleprice) / 100}
+                          thousandSeparator="."
+                          decimalSeparator=","
+                          suffix="₫"
+                        />
+                      </Text>
+                      <Flex gap="10px" align="center">
+                        <IconMinus
+                          size="16px"
+                          onClick={() => handleDecreaseQuantity(item)}
+                          cursor="pointer"
+                        />
+                        <Text>{item.quantity}</Text>
+                        <IconPlus
+                          size="16px"
+                          onClick={() => handleIncreaseQuantity(item)}
+                          cursor="pointer"
+                        />
+                      </Flex>
+                    </Flex>
+                  </Box>
+                </Flex>
+              ))}
+            </Box>
+            <Paper shadow="xl" p="10px" mt="20px">
+              <Flex justify="space-between">
                 <Text fw={500}>Tổng tiền tạm tính:</Text>
-                <Text c={"var(--clr-primary)"} fw={500}>
+                <Text c="var(--clr-primary)" fw={500}>
                   <NumberFormatter
-                    thousandSeparator
-                    value={saleOrder.totalAmount}
-                    suffix="đ"
+                    value={totalCartValue}
+                    thousandSeparator="."
+                    decimalSeparator=","
+                    suffix="₫"
                   />
                 </Text>
               </Flex>
-              <Button
-                color="var(--clr-primary)"
-                fullWidth
-                mt={"10px"}
-                disabled={!values.some((item) => item.checked)}
-                component={Link}
-                href="/payment"
-              >
-                <Text fw={500}>Mua ngay</Text>
-              </Button>
-              <Button
-                variant="outline"
-                className={style.button}
-                // bg={hovered ? "var(--clr-primary)" : "#fff"}
-                bd={"1px solid var(--clr-primary)"}
-                w={"100%"}
-                mt={"10px"}
-                component={Link}
-                href="/home"
-              >
-                Chọn thêm sản phẩm khác
-              </Button>
-            </Box>
-          </Paper>
-        </Box>
+              <Flex justify="space-between" mt="10px">
+                <Button color="var(--clr-light-primary)" onClick={handleClearCart}>
+                  Xóa tất cả
+                </Button>
+                <Button color="var(--clr-text-green)" onClick={handleCheckout}>
+                  Thanh toán
+                </Button>
+              </Flex>
+            </Paper>
+          </Box>
+        ) : (
+          <Center mt="50px">
+            <Text fw={500}>Giỏ hàng của bạn đang trống!</Text>
+          </Center>
+        )
       ) : (
-        <Box w={isMobile ? "100%" : "50%"}>
-          <Center>
-            <Image
-              src={logo}
-              alt="logo-HACOM"
-              width={160}
-              height={40}
-              style={{
-                marginTop: "10px",
-                borderRadius: "12px",
-                marginBottom: "20px",
-              }}
-            />
-          </Center>
-          <Center>
-            <Text fw={500} size="16px">
-              Giỏ hàng của bạn đang trống!
-            </Text>
-          </Center>
-          <Center mt={"10px"}>
-            <Text fw={500} size="16px">
-              Hãy chọn thêm sản phẩm để mua sắm nhé.
-            </Text>
-          </Center>
-          <Center mt={"30px"}>
-            <Button color="var(--clr-primary)">
-              <Link
-                href={"/home"}
-                style={{ textDecoration: "none", color: "#fff" }}
-              >
-                <Flex gap={"10px"} align={"center"}>
-                  <IconArrowLeft />
-                  <Text fw={500} size="18px">
-                    Quay về trang chủ
-                  </Text>
-                </Flex>
-              </Link>
-            </Button>
-          </Center>
-        </Box>
+        <Center mt="50px">
+          <Text fw={500}>Bạn cần đăng nhập để xem giỏ hàng!</Text>
+        </Center>
       )}
-    </div>
+    </Box>
   );
 };
 
