@@ -1,8 +1,4 @@
-import {
-  getDataDetailNew,
-  getListArticle,
-  getListArticleCategory,
-} from "@/api/apiArticle";
+
 import { getDataUserCommentDetail } from "@/api/apiUserComment";
 
 import { isNullOrUndefined } from "@/extension/StringExtension";
@@ -54,21 +50,7 @@ const NewsDetailPage = async ({ params }: { params: { slug: string } }) => {
     }
   };
 
-  const callDataListCategoryAricles = async () => {
-    let callApi: any;
-    callApi = await getListArticleCategory("&Take=20");
-    if (!isNullOrUndefined(callApi) && !isNullOrUndefined(callApi?.data)) {
-      const dataApi = callApi?.data;
-      if (dataApi != null && !isNullOrUndefined(dataApi)) {
-        return dataApi;
-      } else {
-        console.log("Dữ liệu không tồn tại");
-      }
-      close();
-    } else {
-      console.log("Dữ liệu không tồn tại");
-    }
-  };
+  
 
   const callDataListNewest = async () => {
     let callApi: any;
@@ -104,10 +86,9 @@ const NewsDetailPage = async ({ params }: { params: { slug: string } }) => {
       }
     };
 
-  const [data, dataArticleCategory, dataComment, dataArticleNewest, dataProduct] =
+  const [data, dataComment, dataArticleNewest, dataProduct] =
     await Promise.all([
       callDataNew(),
-      callDataListCategoryAricles(),
       fetchDataComment(),
       callDataListNewest(),
       callDataListProduct(),
@@ -120,7 +101,6 @@ const NewsDetailPage = async ({ params }: { params: { slug: string } }) => {
         <NewsDetail
           data={data}
           dataComment={dataComment}
-          dataArticleCategory={dataArticleCategory}
           dataArticleNewest={dataArticleNewest}
         />
       </div>

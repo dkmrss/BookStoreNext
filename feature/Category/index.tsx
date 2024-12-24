@@ -18,14 +18,8 @@ export default function CategoryList() {
 
   const [data, setData] = useState<TblProduct[]>([]);
   const [dataCategory, setDataCategory] = useState<Category>();
-  const [priceRange, setPriceRange] = useState<[number, number | undefined]>([
-    0,
-    undefined,
-  ]);
-  const [priceFilter, setPriceFilter] = useState<string>("all");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [firstRender, setFirstRender] = useState<boolean>(true);
   const [loading, setLoading] = useState(false);
   let itemsPerPage = 30;
   const skip = (currentPage - 1) * itemsPerPage;
@@ -35,9 +29,7 @@ export default function CategoryList() {
     setCurrentPage(page);
   };
 
-  const handleChangePriceFilter = (filter: string) => {
-    setPriceFilter(filter);
-  };
+  
   const callApiGetData = async () => {
     setLoading(true);
     const fetchData = async () => {

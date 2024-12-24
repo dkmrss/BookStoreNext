@@ -1,4 +1,5 @@
-import { getListArticle } from "@/api/apiArticle";
+
+import { getDataListNews } from "@/api/apiNew";
 import AppContainer from "@/common/AppContainer";
 
 import { isNullOrUndefined } from "@/extension/StringExtension";
@@ -16,50 +17,31 @@ export const metadata: Metadata = {
   description: "Product Detail Page",
 };
 
-const Search = async ({ params }: { params: { slug: string } }) => {
-  const decodeVietnamese = (encodedStr: string) => {
-    try {
-      return decodeURIComponent(encodedStr);
-    } catch (error) {
-      console.error("Error decoding the string:", error);
-      return null;
-    }
-  };
-  const breadcrumbSearch = [
-    {
-      categoryId: 0,
-      categoryName: "Trang chủ",
-      categoryUrl: "home",
-    },
-    {
-      categoryId: 1,
-      categoryName: `kết quả tìm kiếm cho: "${decodeVietnamese(params.slug)}"`,
-      categoryUrl: `/Search/${params.slug}`,
-    },
-  ];
+const Search = async () => {
 
-  const callApiGetDataArticle = async () => {
-    let callapi = await getListArticle(
-      `Status=1&Skip=0&Take=14&KeySearch=${params.slug}`
-    );
-
-    if (!isNullOrUndefined(callapi) && !isNullOrUndefined(callapi?.data)) {
-      const dataApi = callapi?.data;
-      if (dataApi != null && !isNullOrUndefined(dataApi)) {
-        return dataApi;
+  const callDataListNewest = async () => {
+      let callApi: any;
+      callApi = await getDataListNews("?field=status&value=0&take=6&skip=0");
+      if (!isNullOrUndefined(callApi) && !isNullOrUndefined(callApi?.data)) {
+        const dataApi = callApi?.data;
+        if (dataApi != null && !isNullOrUndefined(dataApi)) {
+          return dataApi;
+        } else {
+          console.log("Dữ liệu không tồn tại");
+        }
+        close();
+      } else {
+        console.log("Dữ liệu không tồn tại");
       }
-    } else {
-      console.log("Dữ liệu không tồn tại");
-    }
-  };
+    };
 
-  const dataArticle = await callApiGetDataArticle();
+  const dataArticle = await callDataListNewest();
 
   return (
     <div className={roboto.className}>
       
       <AppContainer>
-        <SearchList dataArticle={dataArticle} params={params} />
+        <SearchList dataArticle={dataArticle} />
       </AppContainer>
     </div>
   );

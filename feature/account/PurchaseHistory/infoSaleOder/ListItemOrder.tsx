@@ -13,11 +13,7 @@ import style from "./infoSaleOder.module.scss";
 import { modals } from "@mantine/modals";
 import OrderList from "./ListItemOrder";
 import React from "react";
-import {
-  getDataCommuneId,
-  getDataProviceId,
-  getDataDistrictId,
-} from "@/api/ApiAddress";
+
 import { tblSaleOrderDetailCommands } from "@/model/TblSaleOrder";
 import Link from "next/link";
 import { useViewportSize } from "@mantine/hooks";
@@ -26,36 +22,9 @@ type InfoSaleOderProps = {
 };
 
 const InfoSaleOder = ({ data }: InfoSaleOderProps) => {
-  const [dataAllProvince, setDataAllProvince] = useState<tblProvince>();
-  const [dataAllDistrict, setDataAllDistrict] = useState<tblDistrict>();
-  const [dataAllCommune, setDataAllCommune] = useState<tblCommune>();
+  
   const { height } = useViewportSize();
-  const fetchDataProvince = async () => {
-    if (data?.provinceId) {
-      const data2 = await getDataProviceId(`id=${data.provinceId}`);
-      setDataAllProvince(data2?.data);
-    }
-  };
-
-  const fetchDataDistrict = async () => {
-    if (data?.districtId) {
-      const data2 = await getDataDistrictId(`id=${data.districtId}`);
-      setDataAllDistrict(data2?.data);
-    }
-  };
-
-  const fetchDataCommune = async () => {
-    if (data?.communeId) {
-      const data2 = await getDataCommuneId(`id=${data.communeId}`);
-      setDataAllCommune(data2?.data);
-    }
-  };
-
-  useEffect(() => {
-    fetchDataProvince();
-    fetchDataDistrict();
-    fetchDataCommune();
-  }, [data]);
+  
 
   return (
     <div className={style.modalsBox}>
@@ -99,9 +68,7 @@ const InfoSaleOder = ({ data }: InfoSaleOderProps) => {
                 </Table.Td>
                 <Table.Td>
                   <Text className={style.tableOrderText}>
-                    {data?.shippingAddress}, {dataAllCommune?.communeName},{" "}
-                    {dataAllDistrict?.districtName},{" "}
-                    {dataAllProvince?.provinceName}
+                    
                   </Text>
                 </Table.Td>
               </Table.Tr>

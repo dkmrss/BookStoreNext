@@ -1,5 +1,5 @@
 "use client";
-import { getListArticle } from "@/api/apiArticle";
+
 import imageNull from "@/assets/noValue.png";
 import imageWait from "@/assets/wait.jpg";
 import { Article, ArticleCategoryList, DataArticle } from "@/model/DataArticle";

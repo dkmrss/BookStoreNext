@@ -13,14 +13,14 @@ import NewsLinkGroup2 from "./components/NewsLinkGroup2";
 type newDetail = {
   data: Article;
   dataComment: TblUserComment[] | null;
-  dataArticleCategory: ArticleCategoryList[];
+  
   dataArticleNewest: DataArticle[];
 };
 
 const NewsDetail = ({
   data,
   dataComment,
-  dataArticleCategory,
+  
   dataArticleNewest,
 }: newDetail) => {
  

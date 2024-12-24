@@ -9,7 +9,7 @@ export const API_ROUTE = {
   GET_LIST_PRODUCT_CATEGORY: "/products/get-products-by-category",
   GET_DETAIL_PRODUCT: "/products/product-detail",
   GET_DETAIL_PRODUCT_INFO: "/bookInfo/get-list-by-field",
-
+  GET_LIST_SEARCH:"/products/search",
   //News
   GET_LIST_NEWS: "/news/get-list-by-field",
   GET_NEW_DETAIL: "/news/new-detail",

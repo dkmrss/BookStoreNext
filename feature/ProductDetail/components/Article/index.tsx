@@ -1,7 +1,6 @@
 "use client";
 import ArticleListCard from "@/common/ArticleCard";
 import HeaderSection from "@/components/HeaderSection";
-import { getListArticle } from "@/api/apiArticle";
 import { Article, DataArticle } from "@/model/DataArticle";
 import { useEffect, useState } from "react";
 import style from "./style.module.scss";

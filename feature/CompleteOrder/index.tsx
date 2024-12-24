@@ -223,7 +223,7 @@ const CompleteOrder = () => {
                   <Space h={"10px"} />
                   <Flex gap={"5px"}>
                     <Text>Hình thức thanh toán: </Text>
-                    {order.method === 1 ? (<Text fw={700}>Chuyển khoản Mb</Text>) : (<Text fw={700}>Thanh toán khi nhận hàng</Text>)}
+                    {order?.method === 1 ? (<Text fw={700}>Chuyển khoản Mb</Text>) : (<Text fw={700}>Thanh toán khi nhận hàng</Text>)}
                     
                   </Flex>
                   <Space h={"10px"} />
