@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { Article } from "@/model/DataArticle";
 import "./ContentDetail.css";
-import { Article, DataArticle } from "@/model/DataArticle";
 import style from "./style.module.scss";
 const ContentDetail = ({ data }: { data: Article }) => {
   return (

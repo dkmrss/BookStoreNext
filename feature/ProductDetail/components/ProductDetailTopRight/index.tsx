@@ -1,6 +1,7 @@
-import { createCollectionForm } from "@/api/apiCollectionForm";
+
+import { addToCart } from "@/api/ApiCarts";
+import { NotificationExtension } from "@/extension/NotificationExtension";
 import { TblProduct } from "@/model/TblBook";
-import { TblCollectionForm } from "@/model/TblCollectionForm";
 import {
   Box,
   Flex,
@@ -8,14 +9,11 @@ import {
   NumberFormatter,
   Text
 } from "@mantine/core";
-import { isNotEmpty, useForm } from "@mantine/form";
 import { IconShoppingCartPlus } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import style from "./ProductDetailTopRightProps.module.scss";
-import { NotificationExtension } from "@/extension/NotificationExtension";
-import { addToCart } from "@/api/ApiCarts";
 
 type ProductDetailTopRightProps = {
   data: TblProduct;
@@ -47,41 +45,13 @@ const ProductDetailTopRight = ({ data }: ProductDetailTopRightProps) => {
     keyword: null,
   };
 
-  const form = useForm<TblCollectionForm>({
-    initialValues: {
-      ...entity,
-    },
-
-    validate: {
-      fullname: isNotEmpty("Vui lòng nhập họ và tên"),
-      mobile: (value) =>
-        value
-          ? value.length != 10
-            ? "Số điện thoại phải có 10 chữ số"
-            : null
-          : "Vui lòng nhập số điện thoại",
-
-      email: (value) =>
-        value ? (/^\S+@\S+$/.test(value) ? null : "email không hợp lệ") : null,
-    },
-  });
 
   const handleBuyNow = async () => {
     handleAddToCart();
     router.push("/cart");
   };
 
-  const handleSubmitOrderForm = async (dataSubmit: TblCollectionForm) => {
-    const dataCollection = {
-      ...dataSubmit,
-      productId: data?.id,
-      productName: data?.product_name,
-    };
-    const success = await createCollectionForm(dataCollection);
-    if (success === true) {
-      form.reset();
-    }
-  };
+  
 
 const handleAddToCart = async () => {
     // Lấy thông tin user và token từ localStorage

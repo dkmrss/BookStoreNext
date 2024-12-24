@@ -1,6 +1,6 @@
 "use client";
 import ProductCard from "@/common/ProductCard";
-import { TblItem } from "@/model/ProductList";
+import { TblProduct } from "@/model/TblBook";
 import { EmblaOptionsType } from "embla-carousel";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
@@ -11,7 +11,6 @@ import {
   usePrevNextButtons,
 } from "./EmblaCarouselArrowButtons";
 import style from "./embla.module.scss";
-import { TblProduct } from "@/model/TblBook";
 type PropType = {
   data: TblProduct[];
   options?: EmblaOptionsType;

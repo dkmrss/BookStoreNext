@@ -1,5 +1,4 @@
 
-import { getDataUserCommentDetail } from "@/api/apiUserComment";
 
 import { isNullOrUndefined } from "@/extension/StringExtension";
 import NewsDetail from "@/feature/NewsDetail";
@@ -34,21 +33,7 @@ const NewsDetailPage = async ({ params }: { params: { slug: string } }) => {
     }
   };
 
-  const fetchDataComment = async () => {
-    try {
-      const callapi = await getDataUserCommentDetail(id);
-      if (!isNullOrUndefined(callapi) && !isNullOrUndefined(callapi?.data)) {
-        const dataApi = callapi?.data;
-        if (dataApi != null && !isNullOrUndefined(dataApi)) {
-          return dataApi;
-        }
-      } else {
-        console.log("Dữ liệu không tồn tại");
-      }
-    } catch (error) {
-      console.error("Lỗi khi gọi API:", error);
-    }
-  };
+  
 
   
 
@@ -86,10 +71,9 @@ const NewsDetailPage = async ({ params }: { params: { slug: string } }) => {
       }
     };
 
-  const [data, dataComment, dataArticleNewest, dataProduct] =
+  const [data, dataArticleNewest, dataProduct] =
     await Promise.all([
       callDataNew(),
-      fetchDataComment(),
       callDataListNewest(),
       callDataListProduct(),
     ]);
@@ -100,7 +84,6 @@ const NewsDetailPage = async ({ params }: { params: { slug: string } }) => {
       <div className={style.contentContainer}>
         <NewsDetail
           data={data}
-          dataComment={dataComment}
           dataArticleNewest={dataArticleNewest}
         />
       </div>

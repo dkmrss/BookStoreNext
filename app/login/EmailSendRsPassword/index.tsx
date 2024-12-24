@@ -1,6 +1,5 @@
 "use client";
-import AuthService from "@/api/login/auth.service";
-import HomeFooterIconCard1 from "@/app/login/Sendlink/index";
+
 import email from "@/assets/icon_8.png";
 import AppContainer from "@/common/AppContainer";
 import { NotificationExtension } from "@/extension/NotificationExtension";
@@ -29,20 +28,7 @@ const EmailSendRsPassword = ({ userName }: { userName: string }) => {
     : recoverCode.length > 0 || undefined;
 
   const handleKeyDown = async (e: any) => {
-    if (e.key === "Enter") {
-      if (recoverCode.trim() !== "") {
-        // Kiểm tra nếu nhấn Enter và input không rỗng
-        open();
-        const response = await AuthService.recoveryPass({
-          userName: userName,
-          code: recoverCode.trim(),
-        });
-        if (isNullOrUndefined(response) && isNullOrUndefined(response.data)) {
-          NotificationExtension.Warn("Có lỗi xảy ra vui lòng thử lại");
-        } else setNewPass(response.data);
-        close();
-      } else NotificationExtension.Warn("Bạn chưa nhập mã khôi phục");
-    }
+    
   };
 
   const handleButtonClick = () => {

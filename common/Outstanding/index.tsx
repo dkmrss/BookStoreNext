@@ -39,7 +39,7 @@ const Outstanding: React.FC<OutstandingListProps> = ({ listOutstanding }) => {
         opened={opened}
         onClose={close}
         size={550}
-        title="XEM THÊM CÁC DỊCH VỤ"
+        title="Các từ khóa được tìm kiếm nhiều"
         closeButtonProps={{
           icon: <IconX size={18} color="red" />,
         }}

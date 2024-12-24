@@ -16,3 +16,19 @@ export const getDataListComment = async (
   }
 };
 
+export const createComment = async (data: {
+  user_id: number;
+  book_id: number;
+  content: string;
+}): Promise<any> => {
+  try {
+    const response: AxiosResponse = await apiOrigin.post(
+      API_ROUTE.CREATE_COMMENT,
+      data
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error creating comment:", error);
+    throw HandleResponseError(error);
+  }
+};

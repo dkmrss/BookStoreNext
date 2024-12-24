@@ -1,35 +1,25 @@
 // ProductCard.js
 "use client";
-import GuaranteeIcon from "@/assets/guarantee.png";
+import NullImage from "@/assets/NullImage.png";
 import {
   Box,
   Button,
   Image,
-  Notification,
   NumberFormatter,
   Rating,
-  Text,
-  Tooltip,
+  Tooltip
 } from "@mantine/core";
-import Image2 from "next/image";
-import NullImage from "@/assets/NullImage.png";
-import style from "./productCard.module.scss";
 import {
-  IconAlertCircle,
-  IconCheck,
-  IconClockHour4,
-  IconPhone,
-  IconShield,
-  IconShoppingCartPlus,
+  IconShoppingCartPlus
 } from "@tabler/icons-react";
-import { TblItem } from "@/model/ProductList";
+import Image2 from "next/image";
 import Link from "next/link";
-import { createCartProduct, totalCartPrice } from "@/api/apiCart";
-import { useDispatch } from "react-redux";
-import { TblProduct } from "@/model/TblBook";
-import { useEffect, useState } from "react";
+import style from "./productCard.module.scss";
+
 import { addToCart } from "@/api/ApiCarts";
 import { NotificationExtension } from "@/extension/NotificationExtension";
+import { TblProduct } from "@/model/TblBook";
+import { useState } from "react";
 
 interface ProductCardProps {
   data: TblProduct;

@@ -1,11 +1,10 @@
 "use client";
+import { getDataListNews } from "@/api/apiNew";
 import ArticleListCard from "@/common/ArticleCard";
-import HeaderSection from "@/components/HeaderSection";
-import { Article, DataArticle } from "@/model/DataArticle";
+import { Article } from "@/model/DataArticle";
+import { IconNews } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import style from "./style.module.scss";
-import { IconNews } from "@tabler/icons-react";
-import { getDataListNews } from "@/api/apiNew";
 
 export default function ArticleList() {
   const [dataArticle, setDataArticle] = useState<Article[]>();

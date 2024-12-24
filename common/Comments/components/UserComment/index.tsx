@@ -1,16 +1,14 @@
 import { Box, Flex, Text } from "@mantine/core";
 import style from "./UserComment.module.scss";
-import { comment, TblUserComment } from "@/model/TblUserComment";
+import { comment } from "@/model/TblUserComment";
 import { Image } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { getDataUser } from "@/api/ApiUser";
 import { User } from "@/model/User";
 
 const UserComment = ({ data }: UserCommentProps) => {
-
   const [dataUser, setDataUser] = useState<User>();
-  
-    
+
   const formatDateStringToDay = (dateString: any) => {
     const dateObject = new Date(dateString);
 
@@ -38,19 +36,24 @@ const UserComment = ({ data }: UserCommentProps) => {
 
     fetchDataCategory();
   }, [data]);
-  
+
   return (
     <div>
       <Flex className={style.flexbox} align={"center"} gap={5}>
         <Box className={style.avtbox}>
-          <Image src={`http://localhost:3001/${dataUser?.avatar}`} alt="Avatar" />
-          </Box>
+          <Image
+            src={`http://localhost:3001/${dataUser?.avatar}`}
+            alt="Avatar"
+          />
+        </Box>
         <Box className={style.chat}>
           <Text className={style.name}>{dataUser?.name}</Text>
-          <Text className={style.date}>
-            {formatDateStringToDay(data.date)}
-          </Text>
-          <Text className={style.comment}>{data.content}</Text>
+          <Text className={style.date}>{formatDateStringToDay(data.date)}</Text>
+
+          <Box
+            className={style.comment}
+            dangerouslySetInnerHTML={{ __html: data.content }}
+          />
         </Box>
       </Flex>
     </div>
@@ -61,5 +64,4 @@ export default UserComment;
 
 type UserCommentProps = {
   data: comment;
-  
 };

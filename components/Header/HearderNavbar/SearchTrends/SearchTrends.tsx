@@ -1,56 +1,49 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import style from "./SearchTrends.module.scss";
-import { Box, Grid, Title } from "@mantine/core";
+import { Box, Grid, Title, Loader, Text } from "@mantine/core";
 import TitleSearch from "@/common/TitleSearch/TitleSearch";
-import ChildProduct from "@/common/ChildProduct/ChildProduct";
+import { getDataListKeySearch } from "@/api/ApiKeySearch";
+import Link from "next/link";
+import { IconSearch } from "@tabler/icons-react";
+// Import API
 
 const SearchTrends = ({
   setIsFocus,
 }: {
   setIsFocus: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const dataProduct = [
-    {
-      id: 1,
-      text: "Sửa màn hình",
-      image:
-        "https://hanoicomputercdn.com/media/product/76601_ma_sp_dvsc020.jpg",
-      to: "/category/thay-man-hinh-laptop",
-    },
-    {
-      id: 2,
-      text: "Sửa bản lề Laptop",
-      image: "https://hanoicomputercdn.com/media/product/77172_sp_dvsc007.jpg",
-      to: "/category/sua-ban-le-laptop",
-    },
-    {
-      id: 3,
-      text: "Bảo hành",
-      image: "https://hanoicomputercdn.com/media/product/76616_sp_dvsc035.jpg",
-      to: "/category/bao-tri-tai-chi-nhanh",
-    },
-    {
-      id: 4,
-      text: "Cài đặt hệ điều hành",
-      image: "https://hanoicomputercdn.com/media/product/76649_sp_dvdn009.jpg",
-      to: "/category/cai-dat-he-dieu-hanh",
-    },
-    // {
-    //   id: 5,
-    //   text: "Màn Gen A Samsung Note 20 Ultra",
-    //   image:
-    //     "https://image.dienthoaivui.com.vn/40x40,webp,q100/https://dashboard.dienthoaivui.com.vn/uploads/wp-content/uploads/images/77cda568eaeb12193bf22bb3d5d2888f.png",
-    //   to: "/",
-    // },
-    // {
-    //   id: 6,
-    //   text: "Tai nghe Havit",
-    //   image:
-    //     "https://image.dienthoaivui.com.vn/40x40,webp,q100/https://dashboard.dienthoaivui.com.vn/uploads/wp-content/uploads/images/946362ad84a8f0f9f9685f0c4ad4f329.jpg",
-    //   to: "/",
-    // },
-  ];
+  const [keySearch, setKeySearch] = useState<{ id: number; keyword: string }[]>(
+    []
+  );
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchKeySearch = async () => {
+    try {
+      const response = await getDataListKeySearch("?limit=5"); // Thay query nếu cần
+      if (response?.success && response?.data) {
+        const keywords = response.data.map((item: any) => ({
+          id: item.id,
+          keyword: item.keyword,
+        }));
+        setKeySearch(keywords);
+        setError(null);
+      } else {
+        setError("Không thể lấy dữ liệu từ khóa tìm kiếm.");
+        setKeySearch([]);
+      }
+    } catch (err) {
+      console.error("Lỗi khi gọi API key search:", err);
+      setError("Có lỗi xảy ra. Vui lòng thử lại sau.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchKeySearch();
+  }, []);
 
   return (
     <Box
@@ -58,23 +51,30 @@ const SearchTrends = ({
       p={5}
       className={style.SearchTrends}
     >
-      <TitleSearch>Xu hướng tìm kiếm</TitleSearch>
+      <TitleSearch>Từ khóa được tìm kiếm nhiều</TitleSearch>
       <Box className={style.box} p={5}>
-        <Grid p={9}>
-          {dataProduct?.map((element, index) => {
-            return (
-              <Grid.Col key={index} pl={6} pr={6} pt={8} pb={8} span={6}>
-                <ChildProduct
-                  to={element.to}
-                  image={element.image}
-                  text={element.text}
-                  search
-                  setIsFocus={setIsFocus}
-                />
-              </Grid.Col>
-            );
-          })}
-        </Grid>
+        {loading ? (
+          <Loader color="var(--clr-primary)" size="lg" />
+        ) : error ? (
+          <Text color="red">{error}</Text>
+        ) : keySearch.length > 0 ? (
+          <div className={style.keyword}>
+            {keySearch.map((element) => (
+                <Box    
+                className={style.keywordbox}  
+                  onClick={() => {
+                    setIsFocus(false);
+                  }}
+                >
+                  <IconSearch color="#000" size={15} />
+                  <Link href={`/Search/${element.keyword}`}>{element.keyword}</Link>
+                </Box>
+              
+            ))}
+          </div>
+        ) : (
+          <Text>Không có xu hướng tìm kiếm nào được tìm thấy.</Text>
+        )}
       </Box>
     </Box>
   );

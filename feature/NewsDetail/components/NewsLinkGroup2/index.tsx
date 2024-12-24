@@ -1,9 +1,9 @@
-import { DataArticle } from "@/model/DataArticle";
-import style from "./NewsLink.module.scss";
 import ArticleCard from "@/common/ArticleCard/Card";
+import { Article } from "@/model/DataArticle";
+import style from "./NewsLink.module.scss";
 
 type NewsLinkGroupProps = {
-  dataArticleNewest: DataArticle[];
+  dataArticleNewest: Article[];
 };
 
 const NewsLinkGroup2 = ({ dataArticleNewest }: NewsLinkGroupProps) => {

@@ -6,8 +6,8 @@ import { TblProduct } from "@/model/TblBook";
 interface dataProps {
   data: TblProduct[];
 }
-const ListProduct1: React.FC<dataProps> = ({ data }) => {
-  const title = "Light Novel";
+const ListProductKeySearch: React.FC<dataProps> = ({ data }) => {
+  const title = "Top tìm kiếm";
   
   return (
     <div style={{ padding: "10px 0px" }}>
@@ -17,4 +17,4 @@ const ListProduct1: React.FC<dataProps> = ({ data }) => {
   );
 };
 
-export default ListProduct1;
+export default ListProductKeySearch;

@@ -1,128 +1,112 @@
-import AuthService from "@/api/login/auth.service";
-import { UpdatePassword } from "@/model/AuthService";
+"use client";
+
 import {
   Box,
   Button,
-  Group,
-  LoadingOverlay,
+  Modal,
   PasswordInput,
+  Text,
 } from "@mantine/core";
+import { useState } from "react";
 import { useForm } from "@mantine/form";
-import { useDisclosure } from "@mantine/hooks";
-import { modals } from "@mantine/modals";
+import { notifications } from "@mantine/notifications";
+import { changePassword } from "@/api/ApiAuth";
 
-const ChangePasswordModal = () => {
-  const data = {
-    passOld: "",
-    passNew: "",
-    rePassNew: "",
-  };
 
-  const [visible, { toggle, close, open }] = useDisclosure(false);
-
+const ChangePasswordModal = ({
+  isOpen,
+  onClose,
+  userId,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  userId: number;
+}) => {
   const form = useForm({
-    mode: "controlled",
-    validateInputOnChange: true,
-    initialValues: { ...data },
-    validate: {
-      passNew: (value, values) => {
-        if (value.length < 8) {
-          return "Mật khẩu phải nhiều hơn 8 ký tự";
-        }
-        if (value === values.passOld) {
-          return "Mật khẩu mới không được trùng với mật khẩu cũ";
-        }
-        // if (!/[A-Z]/.test(value)) {
-        //   return "Mật khẩu phải chứa ít nhất 1 chữ in hoa";
-        // }
-        // if (!/[0-9]/.test(value)) {
-        //   return "Mật khẩu phải chứa ít nhất 1 chữ số";
-        // }
-        // if (!/[!@#$%^&*]/.test(value)) {
-        //   return "Mật khẩu phải chứa ít nhất 1 ký tự đặc biệt";
-        // }
-        return null;
-      },
-      rePassNew: (value, values) => {
-        if (value !== values.passNew) {
-          return "Mật khẩu xác nhận không khớp";
-        }
-        return null;
-      },
+    initialValues: {
+      oldPassword: "",
+      newPassword: "",
+      confirmPassword: "",
     },
+    validate: {
+      oldPassword: (value) =>
+        value.trim() ? null : "Mật khẩu hiện tại không được để trống",
+      newPassword: (value) =>
+        value.trim().length >= 6
+          ? null
+          : "Mật khẩu mới phải ít nhất 6 ký tự",
+      confirmPassword: (value, values) =>
+        value === values.newPassword
+          ? null
+          : "Xác nhận mật khẩu không khớp",
+    },
+    validateInputOnChange: true,
   });
 
-  const handleSubmit = async (dataSubmit: UpdatePassword) => {
-    open();
-    await AuthService.callApiUpdatePassword(dataSubmit, clearForm);
-    close();
-  };
-  const clearForm = () => {
-    form.reset();
-    modals.closeAll();
+  const handleChangePassword = async (values: typeof form.values) => {
+    try {
+      const response = await changePassword(
+        userId,
+        values.oldPassword,
+        values.newPassword
+      );
+
+      if (response.success) {
+        notifications.show({
+          message: "Đổi mật khẩu thành công!",
+          color: "green",
+        });
+        onClose();
+      } else {
+        notifications.show({
+          message: response.message || "Đổi mật khẩu thất bại!",
+          color: "red",
+        });
+      }
+    } catch (error: any) {
+      notifications.show({
+        message: error.message || "Đã xảy ra lỗi khi đổi mật khẩu.",
+        color: "red",
+      });
+    }
   };
 
-  const formChangePassword = (
-    <>
+  return (
+    <Modal
+      opened={isOpen}
+      onClose={onClose}
+      title="Đổi mật khẩu"
+      size="sm"
+    >
       <Box
-        className={"modal"}
         component="form"
-        w={{ base: 250, sm: 300, lg: 410 }}
-        h="auto"
-        mx="auto"
-        onSubmit={form.onSubmit(handleSubmit)}
+        onSubmit={form.onSubmit(handleChangePassword)}
+        style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
       >
-        <LoadingOverlay
-          visible={false}
-          zIndex={1000}
-          overlayProps={{ radius: "sm", blur: 2 }}
+        <PasswordInput
+          label="Mật khẩu hiện tại"
+          placeholder="Nhập mật khẩu hiện tại"
+          withAsterisk
+          {...form.getInputProps("oldPassword")}
         />
-        <Group grow wrap="nowrap" mt={{ base: 2, sm: 4, lg: 6 }} gap={"lg"}>
-          <PasswordInput
-            label={"Mật khẩu cũ"}
-            placeholder={"Nhập mật khẩu"}
-            withAsterisk
-            mt="md"
-            type="password"
-            {...form.getInputProps("passOld")}
-          />
-        </Group>
-        <Group grow wrap="nowrap" mt={{ base: 4, sm: 6, lg: 8 }} gap={"lg"}>
-          <PasswordInput
-            label={"Mật khẩu mới"}
-            placeholder={"Nhập mật khẩu"}
-            mt="md"
-            type="password"
-            withAsterisk
-            {...form.getInputProps("passNew")}
-          />
-        </Group>
-        <Group grow wrap="nowrap" mt={{ base: 4, sm: 6, lg: 8 }} gap={"lg"}>
-          <PasswordInput
-            label={"Nhập lại mật khẩu mới"}
-            placeholder={"Nhập mật khẩu"}
-            mt="md"
-            type="password"
-            withAsterisk
-            {...form.getInputProps("rePassNew")}
-          />
-        </Group>
-
-        <Group justify="flex-end" mt={{ base: 10, sm: 12, lg: 16 }}>
-          <Button
-            type="submit"
-            color="var(--clr-primary)"
-            loading={visible}
-            w={"100%"}
-          >
-            Xác nhận
-          </Button>
-        </Group>
+        <PasswordInput
+          label="Mật khẩu mới"
+          placeholder="Nhập mật khẩu mới"
+          withAsterisk
+          {...form.getInputProps("newPassword")}
+        />
+        <PasswordInput
+          label="Xác nhận mật khẩu"
+          placeholder="Nhập lại mật khẩu mới"
+          withAsterisk
+          {...form.getInputProps("confirmPassword")}
+        />
+        <Button type="submit" fullWidth>
+          Đổi mật khẩu
+        </Button>
       </Box>
-    </>
+    </Modal>
   );
-
-  return <>{formChangePassword}</>;
 };
 
 export default ChangePasswordModal;

@@ -1,6 +1,6 @@
 "use client";
 import ArticleCard from "@/common/ArticleCard/Card";
-import { Article, ArticleCategoryList, DataArticle } from "@/model/DataArticle";
+import { Article } from "@/model/DataArticle";
 import { EmblaOptionsType } from "embla-carousel";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
@@ -15,14 +15,14 @@ import style from "./embla.module.scss";
 
 type PropType = {
   data: Article [] | undefined;
-  dataCategory?: ArticleCategoryList[];
+  
   options?: EmblaOptionsType;
   auto?: boolean;
   type: "row" | "col" | "carousel-col" | "carousel-row";
 };
 
 const EmblaCarousel: React.FC<PropType> = (props) => {
-  const { data, options, auto, dataCategory, type } = props;
+  const { data, options, auto, type } = props;
 
   const plugins = [];
   if (auto) {
@@ -56,7 +56,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
                 type={type}
                 height="100%"
                 summary
-                dataCategory={dataCategory}
+                
               />
             </div>
           ))}

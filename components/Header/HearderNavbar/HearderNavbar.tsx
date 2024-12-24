@@ -124,6 +124,7 @@ const HearderNavbar = () => {
       <Input
         value={searchInput}
         className={style.input_search}
+        onChange={(e) => setSearchInput(e.target.value)}
         radius="md"
         {...(inputSize && { size: inputSize })}
         styles={{
@@ -131,7 +132,6 @@ const HearderNavbar = () => {
           input: { border: "none", paddingRight: "55px" },
         }}
         placeholder="Bạn cần tìm gì ?"
-    
         onClick={handleInputClick}
         onKeyDown={handleKeyDown}
         leftSection={

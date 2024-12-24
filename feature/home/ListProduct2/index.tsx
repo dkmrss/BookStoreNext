@@ -1,7 +1,6 @@
 "use client";
 import ProductCarousel from "@/common/CarouselProductCard";
 import HeaderSection from "@/components/HeaderSection";
-import { TblItem } from "@/model/ProductList";
 import { TblProduct } from "@/model/TblBook";
 
 interface dataProps {

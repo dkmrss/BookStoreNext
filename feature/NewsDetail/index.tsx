@@ -1,26 +1,17 @@
 "use client";
-import LinkCommon from "@/common/LinkCommon";
-import { useMemo } from "react";
+import { Article } from "@/model/DataArticle";
 import ContentDetail from "./components/ContentDetail/ContentDetail";
-import NewsLinkGroup from "./components/NewsLinkGroup";
+import NewsLinkGroup2 from "./components/NewsLinkGroup2";
 import Poster from "./components/Poster";
 import style from "./newsDetail.module.scss";
-import { Article, ArticleCategoryList, DataArticle } from "@/model/DataArticle";
-import { TblUserComment } from "@/model/TblUserComment";
-import Comments from "@/common/Comments";
-import NewsLinkGroup2 from "./components/NewsLinkGroup2";
 
 type newDetail = {
   data: Article;
-  dataComment: TblUserComment[] | null;
-  
-  dataArticleNewest: DataArticle[];
+  dataArticleNewest: Article[];
 };
 
 const NewsDetail = ({
   data,
-  dataComment,
-  
   dataArticleNewest,
 }: newDetail) => {
  

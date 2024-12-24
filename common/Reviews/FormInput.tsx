@@ -1,5 +1,4 @@
-import { TblItem } from "@/model/ProductList";
-import { tblCustomer } from "@/model/TblCustomer";
+
 import { TblUserReview } from "@/model/TblUserReview";
 import {
   Box,
@@ -11,12 +10,12 @@ import {
   Textarea,
 } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
+import { modals } from "@mantine/modals";
 import { useEffect, useState } from "react";
 import style from "./Reviews.module.scss";
-import { modals } from "@mantine/modals";
-import { createUserReview } from "@/api/apiUserReview";
-import { useSelector } from "react-redux";
+
 import { TblProduct } from "@/model/TblBook";
+import { useSelector } from "react-redux";
 
 const FormInput = ({ fetchDataReview, dataItem }: FormInputProps) => {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -76,7 +75,7 @@ const FormInput = ({ fetchDataReview, dataItem }: FormInputProps) => {
           : data.userName,
       };
 
-      await createUserReview(dataSubmit);
+     
       modals.close("formInput");
       // fetchDataReview();
     } else setIsReview(true);
@@ -148,6 +147,5 @@ export default FormInput;
 
 type FormInputProps = {
   dataItem: TblProduct | null;
-  dataUser?: tblCustomer | null;
   fetchDataReview?: () => Promise<void>;
 };

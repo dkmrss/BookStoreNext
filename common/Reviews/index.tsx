@@ -1,4 +1,4 @@
-import { TblItem } from "@/model/ProductList";
+import { TblProduct } from "@/model/TblBook";
 import { TblUserReview } from "@/model/TblUserReview";
 import { Box, Button, Divider, Flex, Rating, Text } from "@mantine/core";
 import { useViewportSize } from "@mantine/hooks";
@@ -11,7 +11,6 @@ import {
 import { useEffect, useState } from "react";
 import FormInput from "./FormInput";
 import style from "./Reviews.module.scss";
-import { TblProduct } from "@/model/TblBook";
 
 interface CountSynthetic {
   5: number;
@@ -48,7 +47,7 @@ const Reviews = ({ dataItem, dataReview }: ReviewProps) => {
       ),
       centered: true,
       zIndex: 1000,
-      children: <FormInput dataItem={dataItem} dataUser={null} />,
+      children: <FormInput dataItem={dataItem} />,
       confirmProps: { display: "none" },
       cancelProps: { display: "none" },
       size: "24rem",

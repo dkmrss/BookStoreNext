@@ -1,21 +1,21 @@
 "use client";
 
+import { getDataListNews } from "@/api/apiNew";
 import imageNull from "@/assets/noValue.png";
 import imageWait from "@/assets/wait.jpg";
-import { Article, ArticleCategoryList, DataArticle } from "@/model/DataArticle";
 import ArticleListCard from "@/common/ArticleCard";
+import { Article } from "@/model/DataArticle";
 import { Flex, Loader, Pagination } from "@mantine/core";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import style from "./NewsCategory.module.scss";
 import ArticleCarousel from "../../common/carouselArticle";
-import { getDataListNews } from "@/api/apiNew";
+import style from "./NewsCategory.module.scss";
 
 export default function NewsCategory({
   data,
 }: {
   
-  data: ArticleCategoryList[];
+  data: Article[];
 }) {
   const [dataArticle, setDataArticle] = useState<Article[]>();
   const [dataArticleBanner, setDataArticleBanner] = useState<Article[]>();
@@ -86,7 +86,6 @@ export default function NewsCategory({
             <div className={style.Main}>
               <ArticleCarousel
                 data={dataArticleBanner}
-                dataCategory={data}
                 type="carousel-row"
                 typeSlide="rowSlide"
               />

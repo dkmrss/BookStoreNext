@@ -1,10 +1,10 @@
 import { EmblaOptionsType } from "embla-carousel";
 import EmblaCarousel from "./EmblaCarousel";
-import { tblBanner } from "@/model/Banner";
+import { Banner } from "@/model/Banner";
 
 
 interface CarouselProps {
-  data: tblBanner[];
+  data: Banner[];
   type: "forHome" | "forCategory";
 }
 const PublicCrousel: React.FC<CarouselProps> = ({ data, type }) => {

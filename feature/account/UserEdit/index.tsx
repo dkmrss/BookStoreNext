@@ -20,10 +20,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import style from "./UserInfo.module.scss";
 import { updateUser, getDataUser } from "@/api/ApiUser"; // API calls for user info
+import ChangePasswordModal from "./ChangePasswordModal";
 
 const UserEditForm = () => {
   const router = useRouter();
   const [avatar, setAvatar] = useState<File | null>(null);
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [dataUser, setDataUser] = useState({
     email: "",
     name: "",
@@ -32,7 +34,7 @@ const UserEditForm = () => {
     id: null,
   });
   const [loadingUser, setLoadingUser] = useState(true);
-
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
   const callApiGetDetailUser = async () => {
     setLoadingUser(true);
     const user = localStorage.getItem("user"); // Lấy thông tin từ localStorage
@@ -124,7 +126,6 @@ const UserEditForm = () => {
   return (
     <Box className={style.editPage}>
       <Box className={style.container}>
-        {/* Thanh điều hướng */}
         <Flex align="center" mb="lg">
           <Link href="/user-information">
             <Button
@@ -136,13 +137,11 @@ const UserEditForm = () => {
             </Button>
           </Link>
         </Flex>
-
-        {/* Tiêu đề */}
         <Title order={2} mb="xl">
           Chỉnh sửa thông tin người dùng
         </Title>
 
-        {/* Form */}
+        {/* User Info Form */}
         {!loadingUser ? (
           <Box
             component="form"
@@ -190,7 +189,6 @@ const UserEditForm = () => {
               {...form.getInputProps("address")}
             />
 
-            {/* FileInput cho hình đại diện */}
             <FileInput
               label="Hình đại diện"
               placeholder="Chọn hình đại diện"
@@ -202,7 +200,9 @@ const UserEditForm = () => {
               onChange={(file) => setAvatar(file)}
             />
 
-            {/* Nút lưu thay đổi */}
+            {/* Button to open password modal */}
+            
+
             <Button type="submit" fullWidth mt="xl" size="md">
               Lưu thay đổi
             </Button>
@@ -211,6 +211,21 @@ const UserEditForm = () => {
           <Text>Đang tải thông tin người dùng...</Text>
         )}
       </Box>
+      <Button
+              variant="outline"
+              color="var(--clr-primary)"
+              fullWidth
+              mt="lg"
+              onClick={() => setIsPasswordModalOpen(true)}
+            >
+              Đổi mật khẩu
+            </Button>
+      {/* Change Password Modal */}
+      <ChangePasswordModal
+        isOpen={isPasswordModalOpen}
+        onClose={() => setIsPasswordModalOpen(false)}
+        userId={user.id}
+      />
     </Box>
   );
 };

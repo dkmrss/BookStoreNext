@@ -11,10 +11,10 @@ import useEmblaCarousel from "embla-carousel-react";
 import Image from "next/image";
 import style from "./embla.module.scss";
 import Autoplay from "embla-carousel-autoplay";
-import { tblBanner } from "@/model/Banner";
+import { Banner } from "@/model/Banner";
 
 type PropType = {
-  slides: tblBanner[];
+  slides: Banner[];
   options?: EmblaOptionsType;
   type: "forHome" | "forCategory";
 };

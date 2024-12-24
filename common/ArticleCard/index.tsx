@@ -1,6 +1,6 @@
 // ProductCard.js
 "use client";
-import { Article, DataArticle } from "@/model/DataArticle";
+import { Article } from "@/model/DataArticle";
 import style from "./ArticleList.module.scss";
 
 import ArticleCard from "./Card";

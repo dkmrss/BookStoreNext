@@ -55,6 +55,32 @@ export const getDataListProductBookSale = async (
     }
   };
 
+  export const getSearchKeyProduct = async (
+    query: string
+  ): Promise<any> => {
+    try {
+      const response: AxiosResponse = await apiOrigin.get(
+        API_ROUTE.GET_LIST_SEARCHKEY + query
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
+  export const getRecommendedProducts = async (
+    query: string
+  ): Promise<any> => {
+    try {
+      const response: AxiosResponse = await apiOrigin.get(
+        API_ROUTE.GET_LIST_RECOMMEND + query
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
   export const getDetailBook = async (
     query: string
   ): Promise<any> => {

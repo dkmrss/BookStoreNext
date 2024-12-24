@@ -1,9 +1,9 @@
 
 import PublicCrousel from "@/common/BannerCarousel/Public";
 import HeaderSection from "@/components/HeaderSection";
-import { tblBanner } from "@/model/Banner";
+import { Banner } from "@/model/Banner";
 interface dataProps {
-  data: tblBanner[];
+  data: Banner[];
 }
 const SalePayment: React.FC<dataProps> = ({ data }) => {
   return (

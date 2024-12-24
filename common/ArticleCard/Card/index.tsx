@@ -1,21 +1,20 @@
 // ProductCard.js
 "use client";
-import { Article, ArticleCategoryList, DataArticle } from "@/model/DataArticle";
+import { Article } from "@/model/DataArticle";
 import style from "./productCard.module.scss";
 
 import { Image } from "@mantine/core";
-import { useCallback, useMemo } from "react";
-import LinkCommon from "@/common/LinkCommon";
-import Link from "next/link";
+import { IconClock } from "@tabler/icons-react";
 import moment from "moment";
-import { IconClock, IconUserCircle } from "@tabler/icons-react";
+import Link from "next/link";
+import { useCallback } from "react";
 
 interface ArticleCardProps {
   data: Article;
   type: "row" | "col" | "carousel-col" | "carousel-row";
   height?: string;
   summary?: boolean;
-  dataCategory?: ArticleCategoryList[];
+  
 }
 
 const ArticleCard: React.FC<ArticleCardProps> = ({
@@ -23,7 +22,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
   type,
   height,
   summary,
-  dataCategory,
+  
 }) => {
   const formatDateString = useCallback((isoString: string) => {
     const date = new Date(isoString);

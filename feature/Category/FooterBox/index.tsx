@@ -4,11 +4,11 @@ import { Button, Flex } from "@mantine/core";
 import { useState } from "react";
 import style from "./footerCategory.module.scss";
 import Comments from "@/common/Comments";
-import { TblUserComment } from "@/model/TblUserComment";
+import { comment } from "@/model/TblUserComment";
 
 interface ContentProps {
   data: string;
-  dataComment: TblUserComment[] | null;
+  dataComment: comment[] | null;
 }
 const FooterContent: React.FC<ContentProps> = ({ data, dataComment }) => {
   const [showMore, setShowMore] = useState(false);

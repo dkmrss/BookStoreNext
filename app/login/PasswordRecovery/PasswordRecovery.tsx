@@ -1,6 +1,6 @@
-import AuthService from "@/api/login/auth.service";
+
 import EmailSendRsPassword from "@/app/login/EmailSendRsPassword/index";
-import { PasswordRecovery } from "@/model/AuthService";
+
 import {
   Box,
   Container,
@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import ReActiveModalWithoutPassword from "../Reactive/ReActiveModalWithoutPassWord";
 import style from "./Passwordrecovery.module.scss";
+import { PasswordRecovery } from "@/model/User";
 
 const PasswordRecoveryModal = () => {
   const entity = {
@@ -88,21 +89,7 @@ const PasswordRecoveryModal = () => {
   }
 
   const handleSubmit = async (dataSubmit: PasswordRecovery) => {
-    if (form.isValid()) {
-      open();
-      const datarspassword = await AuthService.passwordRecovery(dataSubmit);
-      if (datarspassword === "Tài khoản chưa được kích hoạt !") {
-        openFormWithoutPassWord(dataSubmit.username);
-      } else if (datarspassword === "Người dùng không tồn tại !") {
-        router.push("/register");
-        modals.closeAll();
-        close();
-      } else {
-        close();
-        
-        openFormRsPassword(dataSubmit.username);
-      }
-    }
+   
   };
 
   return (

@@ -1,8 +1,9 @@
 "use client";
 import { getDataListNews } from "@/api/apiNew";
+import { getDataUser } from "@/api/ApiUser";
 import ArticleCarousel from "@/common/carouselArticle";
 import { Article } from "@/model/DataArticle";
-import { MembershipCard } from "@/model/TblMembershipCard";
+import { User } from "@/model/User";
 import {
   Box,
   Flex,
@@ -10,10 +11,8 @@ import {
   Image,
   Paper,
   Text,
-  Title,
-  em
+  Title
 } from "@mantine/core";
-import { useMediaQuery } from "@mantine/hooks";
 import {
   IconCalendarMonth,
   IconHome,
@@ -22,15 +21,11 @@ import {
   IconTruck,
   IconUserCheck
 } from "@tabler/icons-react";
-import Autoplay from "embla-carousel-autoplay";
 import moment from "moment";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import style from "./UserInformation.module.scss";
-import { getDataUser } from "@/api/ApiUser";
-import { User } from "@/model/User";
 const UserInformation = () => {
   const router = useRouter();
   

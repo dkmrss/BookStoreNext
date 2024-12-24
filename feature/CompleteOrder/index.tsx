@@ -1,5 +1,4 @@
 "use client";
-import { CartDetail } from "@/model/Cart";
 import {
   Box,
   Button,
@@ -254,7 +253,7 @@ const CompleteOrder = () => {
                 </Box>
               </Box>
               {saleOrder?.saleOrderDetail?.map(
-                (item: CartDetail, index: number) => (
+                (item: any, index: number) => (
                   <Flex
                     key={index}
                     gap={"10px"}

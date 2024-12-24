@@ -1,4 +1,4 @@
-import AuthService from "@/api/login/auth.service";
+
 import { Center, Flex, Text, TextInput } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import style from "./ReActiveModalWithoutPassWord.module.scss";
@@ -21,46 +21,10 @@ const ReActiveModalWithoutPassword: React.FC<ReActiveModalProps> = ({
   const [countdown, setCountdown] = useState(0);
 
   const handleSendActivationEmail = async () => {
-    setIsButtonDisabled(true);
-    setCountdown(60); // Start the countdown from 60 seconds
-    try {
-      setError("");
-      const response = await AuthService.reActivePass(username);
-      if (response.httpStatusCode && response.success) {
-        setError(
-          "Gửi mã kích hoạt thành công , vui lòng kiểm tra tin nhắn của bạn"
-        );
-      } else {
-        setError("Gửi mã kích hoạt thất bại vui lòng thử lại sau");
-      }
-    } catch (error) {
-      setError("Failed to send activation email");
-    } finally {
-      const countdownInterval = setInterval(() => {
-        setCountdown((prev) => {
-          if (prev === 1) {
-            clearInterval(countdownInterval);
-            setIsButtonDisabled(false);
-          }
-          return prev - 1;
-        });
-      }, 1000); // Decrease countdown every second
-    }
+   
   };
 
   const handleSendActiveCode = async () => {
-    try {
-      setError("");
-      const response = await AuthService.activeUser(username, activeCode);
-      if (response.httpStatusCode && response.success) {
-        setError("Gửi mã kích hoạt thành công , vui lòng check hộp thư");
-      } else {
-        setError("Gửi mã kích hoạt thất bại vui lòng thử lại sau");
-      }
-    } catch (error) {
-      setError("error");
-    } finally {
-    }
   };
 
   useEffect(() => {

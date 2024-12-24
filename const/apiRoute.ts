@@ -10,6 +10,8 @@ export const API_ROUTE = {
   GET_DETAIL_PRODUCT: "/products/product-detail",
   GET_DETAIL_PRODUCT_INFO: "/bookInfo/get-list-by-field",
   GET_LIST_SEARCH:"/products/search",
+  GET_LIST_SEARCHKEY:"/products/top-keywords-products",
+  GET_LIST_RECOMMEND:"/products/get-recommend-products",
   //News
   GET_LIST_NEWS: "/news/get-list-by-field",
   GET_NEW_DETAIL: "/news/new-detail",
@@ -23,6 +25,7 @@ export const API_ROUTE = {
 
   //Comment
   GET_LIST_COMMENT: "/user-comment/list-by-user-book",
+  CREATE_COMMENT:"/user-comment/create",
 
   //User
   GET_INFO_USER: "/users/user-detail",
@@ -33,51 +36,21 @@ export const API_ROUTE = {
 
   //Auth
   LOGIN: "/auth/login",
-
+  CHANGE_PASSWORD:"/auth/change-password",
   //Cart
   ADD_CART: "/cart/addCart",
   VIEW_CART: "/cart/view",
 
   //order
   CREATE_ORDER: "/orders/create",
-  GET_LIST_ORDER: "/orders/get-list",
-  //Product
-  GET_DETAIL_PRODUCT_BY_URL: "/TblItem/detail-by-url",
-  GET_LIST_PRODUCT_DEAL: "TblProductDeal/get-list",
-  GET_LIST_PRODUCT_NORMAL: "/TblItem/get-list",
-  GET_LIST_PRODUCT_RELATION: "/TblItem/get-list-relation-web",
+  GET_LIST_ORDER: "/orders/get-lists",
+  GET_ORDER_DETAILS:"/orders/order-detail",
 
-  GET_LIST_ATTRIBUTE_FILTER: "/TblAttribute/get-list-filter",
-  //Brand
-  GET_SEARCH_BRAND: "TblBrand/get-by-key",
+  //KeySearch
+  GET_KEY_SEARCH:"/search/keywords",
+  
+ 
 
-  //UserReview
-  GET_USER_REVIEW_DETAIL: "TblUserReview/get-detail",
-  CREATE_USER_REVIEW: "TblUserReview/create",
-
-  //UserComment
-  CREATE_USER_COMMENT: "TblUserComment/create",
-  MODIFY_USER_COMMENT: "TblUserComment/edit",
-  DELETE_USER_COMMENT: "TblUserComment/delete",
-  GET_LIST_USER_COMMENT: "TblUserComment/get-list",
-  GET_USER_COMMENT_DETAIL: "TblUserComment/get-detail",
-
-  //UserCommentReply
-  CREATE_USER_COMMENT_REPLY: "TblUserCommentReply/create",
-  MODIFY_USER_COMMENT_REPLY: "TblUserCommentReply/edit",
-  DELETE_USER_COMMENT_REPLY: "TblUserCommentReply/delete",
-  GET_LIST_USER_COMMENT_REPLY: "TblUserCommentReply/get-list",
-  GET_USER_COMMENT_REPLY_DETAIL: "TblUserCommentReply/get-detail/",
-
-  //Article
-  GET_LIST_ARTICLE: "/TblArticle/get-list",
-  GET_ARTICLE_DETAIL: "TblArticle/details",
-
-  //ArticleCategory
-  GET_LIST_ARTICLE_CATEGORY: "TblArticleCategory/get-list",
-
-  //Category
-  GET_DETAIL_CATEGORY: "TblCategory/edit",
 
   //Search
   GET_SEARCH_PRODUCT: "/Home/search",

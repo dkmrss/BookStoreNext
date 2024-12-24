@@ -1,18 +1,10 @@
 "use client";
-import iconExtra from "@/assets/iconExtra.svg";
-import iconGift from "@/assets/iconGift.svg";
-import { TblItem } from "@/model/ProductList";
-import { Box, Button, Flex, NumberFormatter, Text } from "@mantine/core";
-import Image from "next/image";
-import { useState } from "react";
-import style from "./Specifications.module.scss";
-import {
-  IconCaretDownFilled,
-  IconCaretUpFilled,
-  IconGift,
-  IconInfoOctagon,
-} from "@tabler/icons-react";
 import { TblProduct } from "@/model/TblBook";
+import { Box, Text } from "@mantine/core";
+import {
+  IconInfoOctagon
+} from "@tabler/icons-react";
+import style from "./Specifications.module.scss";
 
 const Summary = ({ data }: { data: TblProduct | null }) => {
   function replaceNewlineWithBreak(htmlString: any) {

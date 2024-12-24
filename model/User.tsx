@@ -10,3 +10,12 @@ export interface User {
   status: number;
   role: number;
 }
+
+export interface PasswordRecovery {
+  username: string;
+}
+export interface UpdatePassword {
+  passOld: string;
+  passNew: string;
+  rePassNew: string;
+}

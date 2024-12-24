@@ -1,9 +1,8 @@
 "use client";
+import { TblProduct } from "@/model/TblBook";
 import { EmblaOptionsType } from "embla-carousel";
 import React from "react";
 import EmblaCarousel from "./EmblaCarousel";
-import { TblItem } from "@/model/ProductList";
-import { TblProduct } from "@/model/TblBook";
 
 interface BannerCarouselDemoProps {
   data: TblProduct[];

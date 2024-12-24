@@ -1,4 +1,4 @@
-import { getListArticleCategory } from "@/api/apiArticle";
+
 import { isNullOrUndefined } from "@/extension/StringExtension";
 import NewsCategory from "@/feature/NewsCategory";
 import style from "./style.module.scss";

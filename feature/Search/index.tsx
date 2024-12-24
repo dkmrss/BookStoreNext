@@ -9,7 +9,7 @@ import ProductList from "./ProductList";
 import TitleSection from "@/common/TitleSection";
 import { isNullOrUndefined } from "@/extension/StringExtension";
 import OutStandingList from "./OutStanding";
-import { listOutstanding } from "@/const/fakedata";
+
 import { Article } from "@/model/DataArticle";
 import ArticleListCard from "@/common/ArticleCard";
 import { getSearchProduct } from "@/api/ApiBookProduct";
@@ -101,7 +101,7 @@ export default function SearchList({ dataArticle }: SearchListProps) {
         )}
         
         </div>
-        <OutStandingList data={listOutstanding} />
+        <OutStandingList />
       </div>
     </>
   );

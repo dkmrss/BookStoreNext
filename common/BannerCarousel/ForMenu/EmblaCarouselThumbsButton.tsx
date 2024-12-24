@@ -1,13 +1,13 @@
 import { useViewportSize } from "@mantine/hooks";
 import React from "react";
 import style from "./embla.module.scss";
-import { tblBanner } from "@/model/Banner";
+import { Banner } from "@/model/Banner";
 
 type PropType = {
   selected: boolean;
   index: number;
   onClick: () => void;
-  item: tblBanner;
+  item: Banner;
 };
 
 export const Thumb: React.FC<PropType> = (props) => {
@@ -23,7 +23,7 @@ export const Thumb: React.FC<PropType> = (props) => {
           }`}
           onClick={onClick}
         >
-          <div className={style.embla_thumbs__slide__number}> {item.name}</div>
+          <div className={style.embla_thumbs__slide__number}> {item.title}</div>
         </div>
       ) : (
         <div

@@ -1,34 +1,28 @@
 "use client";
-import { CartDetail } from "@/model/Cart";
+import { createQrCode } from "@/api/apiMBQR";
+import { API_ROUTE } from "@/const/apiRoute";
+import { NotificationExtension } from "@/extension/NotificationExtension";
+import { isNullOrUndefined } from "@/extension/StringExtension";
+import { apiCart } from "@/library/axios";
+import {
+  tblSaleOrderCommand,
+  tblSaleOrderDetailCommands,
+} from "@/model/TblSaleOrder";
 import {
   Box,
-  Button,
   Center,
   Flex,
   NumberFormatter,
   Paper,
   Space,
-  Text,
-  Title,
+  Text
 } from "@mantine/core";
-import { IconArrowLeft, IconClipboardCheck } from "@tabler/icons-react";
-import moment from "moment";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import style from "./Confirm.module.scss";
-import { createQrCode } from "@/api/apiMBQR";
-import TransferForm from "./TransferForm";
-import { apiCart } from "@/library/axios";
+import { IconClipboardCheck } from "@tabler/icons-react";
 import { AxiosResponse } from "axios";
-import { API_ROUTE } from "@/const/apiRoute";
-import { isNullOrUndefined } from "@/extension/StringExtension";
-import { NotificationExtension } from "@/extension/NotificationExtension";
-import {
-  tblSaleOrderCommand,
-  tblSaleOrderDetailCommands,
-} from "@/model/TblSaleOrder";
+import moment from "moment";
+import { useEffect, useState } from "react";
+import style from "./Confirm.module.scss";
+import TransferForm from "./TransferForm";
 
 const ReGenQR = ({ data }: { data: tblSaleOrderCommand }) => {
   const [valueQrCode, setValueQrCode] = useState("");

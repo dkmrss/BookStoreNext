@@ -2,13 +2,12 @@
 import { EmblaOptionsType } from "embla-carousel";
 import useEmblaCarousel from "embla-carousel-react";
 
-import { TblItem, TblItemImageCommand } from "@/model/ProductList";
+import { BookImage, TblProduct } from "@/model/TblBook";
 import { Image } from "@mantine/core";
 import Autoplay from "embla-carousel-autoplay";
 import React, { useCallback, useEffect, useState } from "react";
 import { Thumb } from "./EmblaCarouselThumbsButton";
 import style from "./embla.module.scss";
-import { BookImage, TblProduct } from "@/model/TblBook";
 type PropType = {
   slides: BookImage[] | [];
   options?: EmblaOptionsType;

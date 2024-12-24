@@ -1,183 +1,72 @@
 "use client";
 import { Box, Button, Flex, Text, Textarea, Title } from "@mantine/core";
 import style from "./Comments.module.scss";
-
-import { IconChevronDown, IconChevronUp, IconSend } from "@tabler/icons-react";
-import { useState } from "react";
-import { ArticleCategoryList, DataArticle } from "@/model/DataArticle";
-import { TblItem } from "@/model/ProductList";
-import { comment, TblUserComment } from "@/model/TblUserComment";
-import { modals } from "@mantine/modals";
-import FormInfoUser from "./FormInfoUser";
-import ReplyComment from "./components/ReplyComment";
-import UserComment from "./components/UserComment";
-import {
-  createUserComment,
-  createUserCommentReply,
-} from "@/api/apiUserComment";
+import { Article } from "@/model/DataArticle";
 import { TblProduct } from "@/model/TblBook";
+import { comment } from "@/model/TblUserComment";
+import { IconChevronDown, IconChevronUp } from "@tabler/icons-react";
+import { useState } from "react";
+import UserComment from "./components/UserComment";
+import { createComment } from "@/api/ApiComment";
+import { NotificationExtension } from "@/extension/NotificationExtension";
+
+const isAuthenticated = (): boolean => {
+  try {
+    const token = localStorage.getItem("token");
+    return !!token; // Trả về true nếu token tồn tại và không rỗng
+  } catch (error) {
+    console.error("Error checking authentication:", error);
+    return false; // Trả về false nếu có lỗi
+  }
+};
 
 const Comments = ({ dataItem, dataArticle, dataComment }: CommentsProps) => {
   const [seeMore, setSeeMore] = useState(false);
   const [inputComment, setInputComment] = useState("");
-  const [inputReply, setInputReply] = useState("");
-  const [isNull, setIsNull] = useState(false);
+  const [pageSize, setPageSize] = useState(4);
 
-  const [pageSize, setPageSize] = useState(5);
-  const [isReply, setIsReply] = useState<{
-    index: number;
-    idComment: number;
-  }>();
-  const [loading, setLoading] = useState(true);
+  const handleSendComment = async () => {
+    if (!isAuthenticated()) {
+      NotificationExtension.Warn("Bạn cần đăng nhập để gửi bình luận.");
+      
+      return;
+    }
 
-  const handleSendComment = () => {
-    modals.openConfirmModal({
-      modalId: "FormInfoUser",
-      title: (
-        <>
-          <Title order={5}>Nhập thông tin</Title>
-        </>
-      ),
-      centered: true,
-      children: (
-        <FormInfoUser
-          // data={userInfo?.data || []}
-          handleSubmitComment={handleSubmitComment}
-        />
-      ),
-      zIndex: 1000,
-      confirmProps: { display: "none" },
-      cancelProps: { display: "none" },
-      size: "20rem",
-      classNames: {
-        header: style.header,
-        content: style.content,
-      },
-    });
-  };
+    if (!inputComment.trim()) {
+      NotificationExtension.Warn("BVui lòng nhập nội dung bình luận.");
+      
+      return;
+    }
 
-  const handleSendReply = () => {
-    modals.openConfirmModal({
-      modalId: "FormInfoUser",
-      title: (
-        <>
-          <Title order={5}>Nhập thông tin</Title>
-        </>
-      ),
-      centered: true,
-      children: (
-        <FormInfoUser
-          // data={userInfo?.data || []}
-          handleSubmitCommentReply={handleSubmitCommentReply}
-        />
-      ),
-      zIndex: 1000,
-      confirmProps: { display: "none" },
-      cancelProps: { display: "none" },
-      size: "20rem",
-      classNames: {
-        header: style.header,
-        content: style.content,
-      },
-    });
-  };
-
-  const handleSubmitComment = async (dataSummit: {
-    userName: string;
-    userEmail: string;
-  }) => {
-    const data = {
-      id: 0,
-      itemType: dataItem ? "product" : "article",
-      replyCount: null,
-      itemId: dataItem ? dataItem?.id : dataArticle?.id,
-      itemTitle: dataItem ? dataItem?.product_name : dataArticle?.title,
-      isUserAdmin: null,
-      userId: null,
-      userEmail: dataSummit.userEmail,
-      userName: dataSummit.userName,
-      relatedOrder: null,
-      userAvatar: null,
-      userNote: null,
-      rate: null,
-      title: null,
+    const parsedUser = JSON.parse(localStorage.getItem("user") || "{}");
+    const bookId = dataItem?.id || dataArticle?.id;
+    const commentData = {
+      user_id: parsedUser?.id || null,
+      book_id: bookId || 0,
       content: inputComment,
-      files: null,
-      searchFulltext: null,
-      approved: "0",
-      postTime: null,
-      ipAddress: null,
-      userAgent: null,
-      orderNumber: null,
-      isFeatured: null,
-      peopleIdVote: null,
-      peopleLikeCount: null,
-      peopleDislikeCount: null,
-      priorStatus: null,
-      status: null,
-      creationDate: null,
-      createdBy: null,
-      lastUpdateDate: null,
-      lastUpdateBy: null,
     };
-
-    await createUserComment(data);
-    setInputComment("");
-
-    modals.close("FormInfoUser");
-  };
-
-  const handleSubmitCommentReply = async (dataSummit: {
-    userName: string;
-    userEmail: string;
-  }) => {
-    const data = {
-      id: 0,
-      commentId: isReply?.idComment,
-      isUserAdmin: null,
-      userId: null,
-      userEmail: dataSummit.userEmail,
-      userName: dataSummit.userName,
-      userAvatar: null,
-      userNote: null,
-      rate: null,
-      title: null,
-      content: inputReply,
-      files: null,
-      approved: null,
-      postTime: null,
-      ipAddress: null,
-      orderNumber: null,
-      isFeatured: null,
-      peopleIdVote: null,
-      peopleLikeCount: null,
-      peopleDislikeCount: null,
-      creationDate: null,
-      createdBy: null,
-      lastUpdateDate: null,
-      lastUpdateBy: null,
-    };
-
-    await createUserCommentReply(data);
-
-    setInputReply("");
-    setIsReply(undefined);
-
-    modals.close("FormInfoUser");
-    // fetchDataComment();
-  };
-
-  const handleAddReply = (index: number, idComment: number) => {
-    if (index === isReply?.index) {
-      setIsReply(undefined);
-    } else setIsReply({ index: index, idComment: idComment });
+console.log(commentData)
+    try {
+      const response = await createComment(commentData); // Gọi API để tạo bình luận
+      if (response?.success) {
+        setInputComment(""); // Xóa nội dung comment
+        NotificationExtension.Success("Bình luận của bạn đã được gửi thành công!");
+        // Thêm hàm fetch để cập nhật danh sách bình luận nếu cần
+      } else {
+        console.error("Tạo bình luận thất bại:", response?.message);
+        NotificationExtension.Fails("Gửi bình luận thất bại, vui lòng thử lại.");
+        
+      }
+    } catch (error) {
+      console.error("Lỗi khi tạo bình luận:", error);
+      NotificationExtension.Fails("Lỗi khi tạo bình luận");
+    }
   };
 
   const handleClickSeeMore = () => {
     setPageSize(pageSize + 10);
   };
 
-  
   return (
     <div className={style.main}>
       <Box mb={15}>
@@ -193,7 +82,7 @@ const Comments = ({ dataItem, dataArticle, dataComment }: CommentsProps) => {
             <Button
               className={style.button}
               onClick={handleSendComment}
-              disabled={inputComment ? false : true}
+              disabled={!inputComment}
             >
               <Text fw="600" size="sm" c="#fff">
                 Gửi bình luận
@@ -206,22 +95,17 @@ const Comments = ({ dataItem, dataArticle, dataComment }: CommentsProps) => {
         <Box className={`${style.commentWrap} ${seeMore && style.expand} `}>
           {dataComment?.slice(0, pageSize).map((item, index) => (
             <Box key={index} className={style.comment}>
-              <UserComment
-                data={item}
-               
-              />
-              
+              <UserComment data={item} />
             </Box>
           ))}
         </Box>
       )}
-
       {!dataComment ? (
         <div></div>
-      ) : pageSize === 5 && dataComment && pageSize > dataComment?.length ? (
+      ) : pageSize === 4 && dataComment && pageSize > dataComment?.length ? (
         <div></div>
       ) : dataComment && pageSize >= dataComment?.length ? (
-        <Flex className={style.seeMore} onClick={() => setPageSize(5)}>
+        <Flex className={style.seeMore} onClick={() => setPageSize(4)}>
           <Text>Ẩn bớt</Text>
           <IconChevronUp size={18} color="#0052CC" />
         </Flex>
@@ -239,6 +123,6 @@ export default Comments;
 
 type CommentsProps = {
   dataItem?: TblProduct | null;
-  dataArticle?: DataArticle | null;
+  dataArticle?: Article | null;
   dataComment: comment[] | null;
 };

@@ -1,7 +1,6 @@
-import { TblItem } from "@/model/ProductList";
+import { BookImage, TblProduct } from "@/model/TblBook";
 import { EmblaOptionsType } from "embla-carousel";
 import EmblaCarousel from "./EmblaCarousel";
-import { BookImage, TblProduct } from "@/model/TblBook";
 
 type ImageGroupProps = {
   data: TblProduct | null;
