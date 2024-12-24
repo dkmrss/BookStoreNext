@@ -1,4 +1,4 @@
-import { TblItemImageCommand } from "@/model/ProductList";
+
 import { Image } from "@mantine/core";
 import { useViewportSize } from "@mantine/hooks";
 import React from "react";

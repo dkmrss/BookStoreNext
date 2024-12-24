@@ -1,7 +1,6 @@
 "use client";
 
 import TitleSection from "@/common/TitleSection";
-import { listOutstanding } from "@/const/fakedata";
 import { TblProduct } from "@/model/TblBook";
 import { Pagination } from "@mantine/core";
 import { useParams } from "next/navigation";
@@ -79,7 +78,7 @@ export default function CategoryList() {
             onChange={handlePageChange}
           />
         </div>
-        <OutStandingList data={listOutstanding} />
+        <OutStandingList />
        
       </div>
     </>
