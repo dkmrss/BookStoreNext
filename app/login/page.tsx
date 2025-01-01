@@ -71,7 +71,7 @@ const Login = () => {
         localStorage.setItem("user", JSON.stringify(data.data));
 
         notifications.show({
-          message: data.message || "Đăng nhập thành công!",
+          message: data.message ,
           color: "green",
         });
         router.push("/")
@@ -79,13 +79,13 @@ const Login = () => {
         // Lưu thông tin người dùng và điều hướng
       } else {
         notifications.show({
-          message: data.message || "Đăng nhập thất bại!",
+          message: data.message ,
           color: "red",
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       notifications.show({
-        message: "Đã xảy ra lỗi trong quá trình đăng nhập!",
+        message: error?.response?.data?.message,
         color: "red",
       });
     }

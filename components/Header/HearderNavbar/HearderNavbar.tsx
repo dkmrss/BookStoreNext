@@ -1,6 +1,6 @@
 import { getDataListCategory } from "@/api/ApiCategory";
 import styleGLobal from "@/app/layout.module.scss";
-import Logo from "@/assets/dichvutot-01-01.png";
+import Logo from "@/assets/logo.jpg";
 import ButtonsCollection from "@/common/ButtonsCollection/ButtonsCollection";
 import SidebarMenu from "@/components/ContentMenu/SidebarMenu/SidebarMenu";
 import SearchTrends from "@/components/Header/HearderNavbar/SearchTrends/SearchTrends";
@@ -385,7 +385,7 @@ const [dataCategory, setDataCategory] = useState([]);
                 <ButtonsCollection
                   background
                   hover
-                  leftIcon={<Image className={style.avt} src={`http://localhost:3001/${authUser?.avatar}`} />}
+                  leftIcon={<Image className={style.avt} src={`${process.env.NEXT_PUBLIC_URL || "http://localhost:3001"}/${authUser?.avatar}`} />}
                 >
                   <Text fw={"700"} truncate="end">
                     {authUser?.name}

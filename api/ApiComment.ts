@@ -4,7 +4,7 @@ import { AxiosResponse } from "axios";
 import { HandleResponseError } from "./handleError";
 
 export const getDataListComment = async (
-  query: string
+  query: any
 ): Promise<any> => {
   try {
     const response: AxiosResponse = await apiOrigin.get(
@@ -29,6 +29,18 @@ export const createComment = async (data: {
     return response.data;
   } catch (error) {
     console.error("Error creating comment:", error);
+    throw HandleResponseError(error);
+  }
+};
+
+export const deleteComment = async (comment_id: number): Promise<any> => {
+  try {
+    const response: AxiosResponse = await apiOrigin.delete(
+      `${API_ROUTE.DELETE_COMMENT}/${comment_id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting comment:", error);
     throw HandleResponseError(error);
   }
 };

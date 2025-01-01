@@ -1,0 +1,138 @@
+.userInformation {
+  width: 100%;
+  margin: 10px 0px;
+  .topBox {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    .leftTopBox {
+      width: calc(50% - 5px);
+      height: inherit;
+    }
+    .rightTopBox {
+      width: calc(50% - 5px);
+      height: inherit;
+      background-color: #f4f4d6;
+      border-radius: 10px;
+      padding: 10px 15px;
+      .carouselBox {
+        height: 80%;
+        div {
+          height: 100%;
+        }
+      }
+    }
+    @media only screen and (max-width: 800px) {
+      flex-direction: column;
+      .leftTopBox {
+        width: 100%;
+      }
+      .rightTopBox {
+        width: 100%;
+      }
+    }
+  }
+  .moreInfor {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+  }
+
+  p {
+    color: var(--clr-text-brightblack);
+  }
+
+  .itemCarousel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    max-height: 14rem;
+    .link {
+      text-decoration: none;
+
+      .imgNews {
+        border-radius: 10px 10px 0px 0px;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px,
+          rgba(0, 0, 0, 0.16) 0px 1px 4px;
+        max-width: 300px;
+      }
+    }
+  }
+
+  .option {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 10px;
+    padding: 30px 10px;
+
+    .link {
+      text-decoration: none;
+
+      .showDetail {
+        padding: 4px 25px;
+        color: var(--clr-primary);
+      }
+
+      .showDetail:hover {
+        border-radius: 10px;
+        background-color: rgb(255, 164, 164);
+      }
+    }
+  }
+}
+
+.next,
+.previous {
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.next {
+  transform: translateX(35px);
+  border-radius: 50px 0px 0px 50px;
+  padding: 20px 20px 20px 5px;
+}
+
+.previous {
+  transform: translateX(-35px);
+  border-radius: 0px 50px 50px 0px;
+  padding: 20px 5px 20px 20px;
+}
+.viewport {
+  padding: 10px 0;
+}
+.avt{
+  height: 80px;
+  width: 80px;
+}
+
+.formItem {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.custombutton {
+  background-color: var(--clr-bright-primary) !important;
+  color: white !important;
+  border-color: var(--clr-bright-primary) !important;
+}
+
+.custombutton:hover {
+  background-color: var(--clr-light-primary) !important;
+  border-color: var(--clr-light-primary) !important;
+}
+
+.custombutton2:hover {
+  background-color: var(--clr-bright-primary) !important;
+  border-color:var(--clr-bright-primary) !important;
+  color: white !important;
+}

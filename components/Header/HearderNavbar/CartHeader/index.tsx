@@ -78,7 +78,7 @@ const CartHeader = ({
             {dataCart.slice(0, 4).map((item) => (
               <Flex key={item.cart_id} className={style.cartItem} gap={10}>
                 <img
-                  src={`http://localhost:3001/${item.image}`}
+                  src={`${process.env.NEXT_PUBLIC_URL || "http://localhost:3001"}/${item.image}`}
                   alt={item.product_name}
                   width={90}
                   height={90}

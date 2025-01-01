@@ -28,7 +28,7 @@ red {
   --clr-border-red-pink: #ffdac6;
 }
 
-:root {
+skybue {
   --clr-primary: #1e90ff; /* Sky blue */
   --clr-light-primary: #3399ff; /* Lighter sky blue */
   --clr-light-active-primary: #4caaff; /* Slightly lighter active state */
@@ -120,4 +120,36 @@ purple {
   ); /* Purple gradient */
 
   --clr-border-red-pink: #e0c4ff; /* Light purple border */
+}
+//green {
+:root{
+  --clr-primary: #345457; /* Primary green */
+  --clr-light-primary: #1c8a4a; /* Lighter green */
+  --clr-light-active-primary: #1e8449; /* Darker green for active state */
+
+  --clr-bright-primary: #3d8f5f; /* Bright green */
+  --clr-text-primary: #186036; /* Slightly darker green for text */
+  --clr-dark-red-primary: #345457; /* Dark green */
+  --clr-text-white: #ffffff; /* White text */
+  --clr-text-dark: #000000; /* Black text */
+  --clr-text-green: #3d833d; /* Green text */
+  --clr-text-brightblack: #4c4c4c; /* Bright black text */
+
+  --clr-bg-gray: #d9d9d9; /* Background gray */
+  --clr-bg-gray-light: #f3f4f6; /* Lighter gray background */
+  --clr-bg-pink: #eafaf1; /* Light green background */
+  --clr-bg-hot-pink: #d5f5e3; /* Hot green background */
+  --clr-bg-gray-dark: #f0f0f0; /* Darker gray background */
+  --clr-bg-primary-gray: #f0f0f0; /* Primary gray background */
+  --clr-bg-light-red: #d4efdf; /* Light green background */
+
+  --clr-border-gray: #e5e7eb; /* Border gray */
+
+  --clr-liner: linear-gradient(
+    to bottom,
+    #1a683a,
+    #113d24
+  ); /* Linear gradient for green */
+
+  --clr-border-red-pink: #d4efdf; /* Border color */
 }

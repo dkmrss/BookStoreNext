@@ -1,0 +1,21 @@
+
+.formItem {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.custombutton {
+  background-color: var(--clr-bright-primary) !important;
+  color: white !important;
+  border-color: var(--clr-bright-primary) !important;
+}
+
+.custombutton:hover {
+  background-color: var(--clr-light-primary) !important;
+  border-color: var(--clr-light-primary) !important;
+}
+
+.custombutton2:hover {
+  background-color: var(--clr-bright-primary) !important;
+  border-color:var(--clr-bright-primary) !important;
+  color: white !important;
+}

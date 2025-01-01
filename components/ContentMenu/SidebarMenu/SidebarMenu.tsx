@@ -30,7 +30,7 @@ const SidebarMenu: React.FC<dataProps> = ({ dataCategory }) => {
             <Flex align="center">
               <Image
                 className={style.image}
-                src={`http://localhost:3001/assets/Category/new.jpg`}
+                src={`${process.env.NEXT_PUBLIC_URL || "http://localhost:3001"}/assets/Category/new.jpg`}
                 alt={`Tin tức`}
               />
               <Text lineClamp={1} size="sm" fw={600} className={style.text}>

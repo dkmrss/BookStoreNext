@@ -5,17 +5,18 @@ import { Box } from "@mantine/core";
 import style from "./ContentMenu.module.scss";
 import SidebarMenu from "./SidebarMenu/SidebarMenu";
 import { Category } from "@/model/TblCategory";
+import { Article } from "@/model/DataArticle";
+import ArticleCardBanner from "@/components/ContentMenu/ArticleCardBanner";
 interface dataProps {
   data: Banner[];
-  dataCategory: Category[];
+  dataNews: Article[];
 }
-const ContentMenu: React.FC<dataProps> = ({ data, dataCategory }) => {
+const ContentMenu: React.FC<dataProps> = ({ data, dataNews }) => {
  
   return (
     <Box className={style.container_menu}>
-      <SidebarMenu dataCategory={dataCategory}/>
-      <BannerCarousel data={data} />
-      {/* <ProductAdvertising /> */}
+      <div className={style.banner}><BannerCarousel data={data} /></div>
+      <div className={style.new}><ArticleCardBanner dataNews={dataNews} /></div>
     </Box>
   );
 };

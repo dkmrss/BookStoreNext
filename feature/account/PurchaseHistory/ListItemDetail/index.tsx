@@ -11,6 +11,14 @@ interface ListItemDetailProps {
   isOpen: boolean;
   onClose: () => void;
 }
+const orderStatus: Record<number, string> = {
+  0: "Đang xử lý",
+  1: "Đang giao",
+  2: "Đã hủy",
+  3: "Đã giao",
+  4: "Đã hủy"
+};
+
 
 const ListItemDetail: React.FC<ListItemDetailProps> = ({
   orderId,
@@ -75,11 +83,9 @@ const ListItemDetail: React.FC<ListItemDetailProps> = ({
     <Table.Tr>
       <Table.Td>Trạng thái</Table.Td>
       <Table.Td>
-        {orderDetail.delivered === 0
-          ? "Đang xử lý"
-          : orderDetail.delivered === 1
-          ? "Đang giao"
-          : "Đã giao"}
+      <Table.Td>
+  {orderStatus[orderDetail.delivered] || "Không xác định"}
+</Table.Td>
       </Table.Td>
     </Table.Tr>
     <Table.Tr>
@@ -126,7 +132,7 @@ const ListItemDetail: React.FC<ListItemDetailProps> = ({
       <Table.Tr key={index}>
         <Table.Td>
           <Image
-            src={`http://localhost:3001/${item.image}`}
+            src={`${process.env.NEXT_PUBLIC_URL || "http://localhost:3001"}/${item.image}`}
             alt={item.product_name}
             className={style.image}
             radius="md"

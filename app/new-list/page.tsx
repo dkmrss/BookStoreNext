@@ -8,7 +8,7 @@ import ListProductNew from "@/feature/ListProductNew";
 const NewList = async () => {
   const callDataListProduct = async () => {
     let callApi: any;
-    callApi = await getDataListProductBookNormal("?limit=4&offset=0");
+    callApi = await getDataListProductBookNormal("?limit=4&offset=0&active=0&trash=0");
     if (!isNullOrUndefined(callApi) && !isNullOrUndefined(callApi?.data)) {
       const dataApi = callApi?.data;
       if (dataApi != null && !isNullOrUndefined(dataApi)) {

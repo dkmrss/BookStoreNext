@@ -1,5 +1,5 @@
 import axios, { AxiosResponse, AxiosError } from "axios";
-import { BASE_API_URL, BASE_API_URL_CART, BASE_API_URL_ORIGIN } from "@/config";
+import {  BASE_API_URL_CART, BASE_API_URL_ORIGIN } from "@/config";
 // import AuthService from "@/api/login/auth.service";
 
 const createApiInstance = (baseURL: string) => {
@@ -41,7 +41,7 @@ const createApiInstance = (baseURL: string) => {
   return api;
 };
 
-const api = createApiInstance(BASE_API_URL || "");
+
 const apiCart = createApiInstance(BASE_API_URL_CART || "");
 const apiOrigin = createApiInstance(BASE_API_URL_ORIGIN || "");
-export { api, apiCart, apiOrigin };
+export {  apiCart, apiOrigin };

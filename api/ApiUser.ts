@@ -47,3 +47,41 @@ export const updateUser = async (userID: number, userData: FormData): Promise<an
     throw error;
   }
 };
+
+
+
+export const getUserList = async (query: string): Promise<any> => {
+  try {
+    const response = await apiOrigin.get(`${API_ROUTE.GET_USER_LIST}${query}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user list:", error);
+  }
+};
+
+export const deleteUser = async (id: number): Promise<any> => {
+  try {
+    const response = await apiOrigin.delete(`${API_ROUTE.DELETE_USER}/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting user:", error);
+  }
+};
+
+export const updateUserStatus = async (id: number): Promise<any> => {
+  try {
+    const response = await apiOrigin.put(`${API_ROUTE.UPDATE_USER_STATUS}/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating user status:", error);
+  }
+};
+
+export const updateUserRole = async (id: number): Promise<any> => {
+  try {
+    const response = await apiOrigin.put(`${API_ROUTE.UPDATE_USER_ROLE}${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating user status:", error);
+  }
+};

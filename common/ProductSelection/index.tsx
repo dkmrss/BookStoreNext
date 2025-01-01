@@ -22,7 +22,7 @@ const ProductSelection: React.FC<AppContainerProps> = ({
             <Flex align="center">
               <Image
                 className={styles.image}
-                src={`http://localhost:3001/${element.illustration}`}
+                src={`${process.env.NEXT_PUBLIC_URL || "http://localhost:3001"}/${element.illustration}`}
                 alt={element.category_name}
               />
               <Text lineClamp={1} size="sm" fw={600} className={styles.text}>

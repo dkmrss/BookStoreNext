@@ -1,9 +1,5 @@
 "use client";
-import { getDataListCategory } from "@/api/ApiCategory";
-import { Category } from "@/model/TblCategory";
 import { Divider } from "@mantine/core";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
 import AccessoriesSection from "../AccessoriesSection";
 import CompanyInfo from "./CompanyInfomation";
 import ContactInfo from "./ContactInfo/ContactInfo";

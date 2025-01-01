@@ -15,7 +15,7 @@ export const login = async (data: {
     );
     return response.data; 
   } catch (error) {
-    HandleResponseError(error); // Hàm xử lý lỗi chung
+    
     throw error; // Ném lỗi để xử lý ở nơi gọi hàm
   }
 };

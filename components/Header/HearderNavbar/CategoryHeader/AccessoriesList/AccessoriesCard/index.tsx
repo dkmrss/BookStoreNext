@@ -16,7 +16,7 @@ const AccessoriesCard2 = ({ image, title, url }: AccessoriesCard) => {
       <Link className={style.accessoriesCard} href={"url"}>
         <Box className={style.boxImage}>
           <Image
-            src={`http://localhost:3001/${image}`}
+            src={`${process.env.NEXT_PUBLIC_URL || "http://localhost:3001"}/${image}`}
             className={style.imageAccesories}
             alt={title}
           ></Image>

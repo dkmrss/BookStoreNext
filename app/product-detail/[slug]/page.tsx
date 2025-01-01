@@ -1,10 +1,9 @@
-import { getDetailBook, getDetailBookInfo } from "@/api/ApiBookProduct";
+import { getDetailBookAll, getDetailBookInfo } from "@/api/ApiBookInfo";
+import { getProductDetail } from "@/api/ApiBookProduct";
 import { getDataListComment } from "@/api/ApiComment";
-
 import AppContainer from "@/common/AppContainer";
 import { isNullOrUndefined } from "@/extension/StringExtension";
 import ProductDetailPage from "@/feature/ProductDetail";
-
 import { Metadata } from "next";
 
 
@@ -22,7 +21,7 @@ const ProductDetail = async ({
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
   const callDataProduct = async () => {
-    const callApi = await getDetailBook(`/${params.slug}`);
+    const callApi = await getProductDetail(`/${params.slug}`);
 
     if (!isNullOrUndefined(callApi) && !isNullOrUndefined(callApi?.data)) {
       const dataApi = callApi?.data;

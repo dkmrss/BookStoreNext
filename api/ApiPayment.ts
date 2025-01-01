@@ -43,3 +43,41 @@ export const getOrderDetails = async (orderId: number): Promise<any> => {
     return null;
   }
 };
+
+export const deleteOrder = async (orderId: number): Promise<any> => {
+  try {
+    const response = await apiOrigin.delete(
+      `${API_ROUTE.DELETE_ORDER}/${orderId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting order:", error);
+    throw error;
+  }
+};
+
+ export const updateOrderStatus = async (id: number, data: any): Promise<any> => {
+    try {
+      const response = await apiOrigin.put(
+        `${API_ROUTE.UPDATE_ORDER}/${id}`,
+        data
+        
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error updating news:", error);
+    }
+  };
+
+  export const cancelOrder = async (id: number, data: any): Promise<any> => {
+    try {
+      const response = await apiOrigin.put(
+        `${API_ROUTE.CANCEL_ORDER}/${id}`,
+        data
+        
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error updating news:", error);
+    }
+  };

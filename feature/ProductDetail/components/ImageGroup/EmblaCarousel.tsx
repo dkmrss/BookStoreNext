@@ -73,7 +73,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
             <div className={style.embla__slide} key={index}>
               <Image
                 className={style.embla__slide__img}
-                src={`http://localhost:3001/${item?.book_images}`}
+                src={`${process.env.NEXT_PUBLIC_URL || "http://localhost:3001"}/${item?.book_images}`}
                 alt=""
               />
             </div>

@@ -12,7 +12,7 @@ import type { Metadata } from "next";
 import React from "react";
 import { theme } from "../theme";
 import style from "./layout.module.scss";
-
+import 'react-quill/dist/quill.snow.css';
 export const metadata: Metadata = {
  }
 

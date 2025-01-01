@@ -636,7 +636,7 @@ const data: { [key: number]: SubMenuItem[] } = {
       title: "Tin tức",
       children: [
         {
-          label: "Tin tức công nghệ",
+          label: "Tin tức",
           value: "/new-list/4",
         },
         {

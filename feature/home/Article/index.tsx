@@ -9,7 +9,7 @@ interface dataProps {
 const ArticleList: React.FC<dataProps> = ({ data }) => {
   return (
     <div style={{ padding: "10px 0px" }}>
-      <HeaderSection title={"TIN TỨC CÔNG NGHỆ"} />
+      <HeaderSection title={"TIN TỨC"} />
       <ArticleListCard data={data} type="col" />
     </div>
   );

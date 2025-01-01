@@ -6,4 +6,19 @@
 
   gap: 30px;
   justify-content: space-between;
+  .banner{
+    width: calc(70% - 10px);
+  }
+  .new{
+    width: calc(30% - 10px);
+  }
+
+  
+  @media only screen and (max-width: 800px) {
+    .new {
+      display: none;
+    }}
+    .banner{
+      width: calc(100%);
+    }
 }

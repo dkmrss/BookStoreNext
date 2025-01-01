@@ -72,7 +72,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
         >
           <Box className={style.imgBox}>
             {data?.image ? (
-              <Image src={`http://localhost:3001/${data?.image}`} alt={data?.image || ""} />
+              <Image src={`${process.env.NEXT_PUBLIC_URL || "http://localhost:3001"}/${data?.image}`} alt={data?.image || ""} />
             ) : (
               <Image2 src={NullImage} alt={data?.image ?? "Product"} />
             )}

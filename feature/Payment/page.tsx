@@ -193,7 +193,7 @@ const Payment = () => {
             style={{ border: "1px solid #eee", borderRadius: "8px" }}
           >
             <Image
-              src={`http://localhost:3001/${item.image}`}
+              src={`${process.env.NEXT_PUBLIC_URL || "http://localhost:3001"}/${item.image}`}
               alt={item.product_name}
               width={60}
               height={60}
