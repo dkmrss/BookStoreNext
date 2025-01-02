@@ -22,7 +22,7 @@ const ArticleCardBanner: React.FC<ArticleCardBannerProps> = ({ dataNews }) => {
           style={{
             backgroundImage: `url(${
               process.env.NEXT_PUBLIC_URL || "http://localhost:3001"
-            }${article.avatar})`,
+            }/${article.avatar})`,
           }}
         >
           {/* Overlay */}

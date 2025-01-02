@@ -1,0 +1,22 @@
+.titleBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.linkBox{
+display: flex;
+  align-items: center;
+  line-height: 24px;
+  margin: 0 0 10px;
+  width: fit-content;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+  // background-color: var(--clr-primary);
+  border-right: 6px solid var(--clr-primary);
+  // border: 5px;
+  padding-right: 10px;
+}
+.link{
+    color: var(--clr-primary);
+}

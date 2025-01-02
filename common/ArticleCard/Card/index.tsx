@@ -39,7 +39,8 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
       
     >
       <div className={style.imgBox}>
-        <Image src={`http://localhost:3001${data?.avatar}`} alt="a" />
+        <Image src={`${process.env.NEXT_PUBLIC_URL || "http://localhost:3001"}/${data?.avatar}`}
+         alt="a" />
       </div>
       <div className={style.titleBox}>
         

@@ -1,54 +1,41 @@
-.saleBackground {
-  background: var(--clr-liner) !important;
-  // padding-bottom: 5px;
-  // padding-top: 5px;
-  border-radius: 0.375rem;
-  width: 100%;
-  margin-top: 30px;
+.saleContainer {
+  background: linear-gradient(135deg, #ff4d4f, #ffec3d);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin: 20px auto;
+}
+
+.flashSaleHeader {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.flashSaleTitle {
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.flashSaleContent {
   display: flex;
-  gap: 10px;
-  padding: 5px;
-  @media only screen and (max-width: 1200px) {
-    flex-direction: column;
-  }
-  .flashSaleTitle {
-    width: calc(10% - 10px);
-    padding-left: 10px;
-    padding-right: 10px;
-    justify-content: center;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 15px;
+}
 
-    align-items: center;
-    flex-direction: column-reverse;
-    width: 100%;
-    display: flex;
-    margin-bottom: 20px;
-    @media only screen and (max-width: 1200px) {
-      width: 100%;
-    }
-    @media only screen and (min-width: 800px) {
-      flex-direction: row;
-    }
+.flashSaleContent::-webkit-scrollbar {
+  height: 8px;
+}
 
-    .title {
-      font-size: 2.6rem;
-      font-weight: 700;
-      text-align: center;
-      color: white;
-      text-shadow: 7px 7px 4px rgba(0, 0, 0, 0.2);
-      @media only screen and (max-width: 820px) and (min-width: 401px) {
-        font-size: 2.6rem;
-      }
-      @media only screen and (max-width: 400px) {
-        font-size: 2rem;
-      }
-    }
-  }
-  .flashSaleItem {
-    width: calc(90% - 10px);
-    background-color: white;
-    border-radius: 10px;
-    @media only screen and (max-width: 1200px) {
-      width: 100%;
-    }
-  }
+.flashSaleContent::-webkit-scrollbar-thumb {
+  background: #ff4d4f;
+  border-radius: 4px;
+}
+
+.flashSaleContent::-webkit-scrollbar-thumb:hover {
+  background: #ff7875;
 }
