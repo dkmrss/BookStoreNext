@@ -32,7 +32,6 @@ const EditOrderModal: React.FC<EditOrderModalProps> = ({
         setOrderDetails(response.data.orderDetails); // Lưu chi tiết sản phẩm
         form.setFieldsValue({
           ...response.data,
-          order_date: new Date(response.data.order_date).toLocaleString(),
         });
       } else {
         message.error(response.message || "Không thể lấy chi tiết đơn hàng.");

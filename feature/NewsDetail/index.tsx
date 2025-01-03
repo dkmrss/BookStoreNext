@@ -31,7 +31,7 @@ const NewsDetail = ({
     <div className={style.newsDetailPage}>
       <div className={style.contentContainer}>
         <div className={style.banner}>
-          <img src={`http://localhost:3001${data?.avatar}`} alt="#" />
+          <img src={`${process.env.NEXT_PUBLIC_URL || "http://localhost:3001"}/${data?.avatar}`} alt="#" />
         </div>
         <div className={style.content}>
           <div className={style.newsContent}>

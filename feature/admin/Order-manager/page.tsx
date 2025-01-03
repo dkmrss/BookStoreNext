@@ -19,6 +19,7 @@ import { getOrders, deleteOrder } from "@/api/ApiPayment";
 import EditOrderModal from "./component/EditModal/EditModal";
 import { Order } from "@/model/Order";
 import style from "./UserInformation.module.scss"
+import HeaderSection from "@/components/HeaderSection";
 const OrderTable: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(false);
@@ -114,10 +115,24 @@ const OrderTable: React.FC = () => {
       key: "id",
     },
     {
-      title: "Tổng giá",
-      dataIndex: "total",
-      key: "total",
-      render: (price: number) => `${price.toLocaleString()} VND`,
+      title: "Thông tin đơn hàng",
+      key: "orderInfo",
+      render: (_: any, record: Order) => (
+        <div>
+          <p>
+            <strong>Tên:</strong> {record.name || "Không rõ"}
+          </p>
+          <p>
+            <strong>Địa chỉ:</strong> {record.address || "Không rõ"}
+          </p>
+          <p>
+            <strong>SĐT:</strong> {record.phone || "Không rõ"}
+          </p>
+          <p>
+            <strong>Tổng giá:</strong> {`${record.total.toLocaleString()} VND`}
+          </p>
+        </div>
+      ),
     },
     {
       title: "Ngày đặt",
@@ -177,6 +192,7 @@ const OrderTable: React.FC = () => {
 
   return (
     <>
+    <HeaderSection title={"Quản lý đơn hàng"} />
     <Card style={{ marginBottom: 16 }}>
       <Form
         layout="inline"

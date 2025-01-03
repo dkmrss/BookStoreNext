@@ -1,5 +1,4 @@
 "use client";
-import InformationCard from "@/common/InformationCard";
 import { Button, Flex } from "@mantine/core";
 import { useState } from "react";
 import style from "./footerCategory.module.scss";
@@ -53,9 +52,7 @@ const FooterContent: React.FC<ContentProps> = ({ data, dataComment }) => {
         </div>
         <Comments dataItem={null} dataComment={dataComment || null} />
       </div>
-      <div className={style.InformationBox}>
-        <InformationCard />
-      </div>
+      
     </div>
   );
 };

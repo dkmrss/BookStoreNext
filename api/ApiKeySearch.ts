@@ -15,3 +15,8 @@ export const getDataListKeySearch = async (
     console.log("error", error);
   }
 };
+
+export const deleteKeyword = async (id: number) => {
+  const response = await apiOrigin.delete(`${API_ROUTE.DELETE_KEYWORD}/${id}`);
+  return response.data;
+};

@@ -1,5 +1,4 @@
 "use client";
-import InformationCard from "@/common/InformationCard";
 import { Box, Button, Flex, Text } from "@mantine/core";
 import { useState, useEffect } from "react";
 import style from "./style.module.scss";

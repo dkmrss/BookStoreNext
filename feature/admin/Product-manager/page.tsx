@@ -30,6 +30,7 @@ import { EditOutlined, EyeOutlined, DeleteOutlined, CommentOutlined, Exclamation
 import { getDataListCategory } from "@/api/ApiCategory";
 import CommentModal from "./component/UserComment";
 import style from "./UserInformation.module.scss"
+import HeaderSection from "@/components/HeaderSection";
 interface Product {
   id: number;
   product_name: string;
@@ -333,6 +334,7 @@ const ProductsTable: React.FC = () => {
 
   return (
     <>
+    <HeaderSection title={"Quản sản phẩm"} />
       <Card style={{ marginBottom: 16 }}>
         <Form
           layout="inline"

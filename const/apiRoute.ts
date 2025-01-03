@@ -87,7 +87,7 @@ export const API_ROUTE = {
   CANCEL_ORDER:"/orders/cancel",
   //KeySearch
   GET_KEY_SEARCH:"/search/keywords",
-  
+  DELETE_KEYWORD:"/search/keywords",
 
   
 

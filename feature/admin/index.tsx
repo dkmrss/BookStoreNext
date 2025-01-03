@@ -16,6 +16,7 @@ import {
   IconShoppingCart,
   IconLogout,
   IconUser,
+  IconSearch,
 } from "@tabler/icons-react";
 
 const Admin = () => {
@@ -160,6 +161,21 @@ const Admin = () => {
           >
             <IconUser />
             <p className={style.textLink}>Quản lý người dùng</p>
+          </Link>
+        </Tooltip>
+        <Tooltip
+          label="Quản lý từ khóa tìm kiếm"
+          color="var(--clr-primary)"
+          position="bottom"
+        >
+          <Link
+            href={"KeySearch-manager"}
+            className={`${style.title} ${
+              selected === "KeySearch-manager" && style.titleActive
+            }`}
+          >
+            <IconSearch />
+            <p className={style.textLink}>Quản lý từ khóa tìm kiếm</p>
           </Link>
         </Tooltip>
       </div>

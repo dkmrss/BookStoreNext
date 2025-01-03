@@ -2,7 +2,12 @@
 
 import React, { useEffect, useState } from "react";
 import { Table, Button, Space, Tag, Tooltip, message, Modal } from "antd";
-import { EditOutlined, DeleteOutlined, EyeOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import {
+  EditOutlined,
+  DeleteOutlined,
+  EyeOutlined,
+  ExclamationCircleOutlined,
+} from "@ant-design/icons";
 import {
   getDataListNews,
   deleteNews,
@@ -12,7 +17,8 @@ import {
 } from "@/api/apiNew";
 import EditModal from "./component/EditModal/EditModal";
 import InfoModal from "./component/InfoModal";
-import style from "./UserInformation.module.scss"
+import style from "./UserInformation.module.scss";
+import HeaderSection from "@/components/HeaderSection";
 interface News {
   id: number;
   title: string;
@@ -128,24 +134,36 @@ const NewsTable: React.FC = () => {
         <img
           src={`${
             process.env.NEXT_PUBLIC_URL || "http://localhost:3001"
-          }${avatar}`}
+          }/${avatar}`}
           alt="Avatar"
           style={{ width: 100, height: 50, objectFit: "cover" }}
         />
       ),
     },
+   
     {
-      title: "Trạng thái",
-      dataIndex: "status",
-      key: "status",
-      render: (status: number, record: News) => (
-        <Tag
-          color={status === 0 ? "green" : "red"}
-          onClick={() => handleUpdateStatus(record.id)}
-          style={{ cursor: "pointer" }}
-        >
-          {status === 0 ? "Hoạt động" : "Không hoạt động"}
-        </Tag>
+      title: "Trạng thái & Hành động",
+      key: "status_actions",
+      width: "15%",
+      render: (_: any, record: News) => (
+        <Space direction="vertical">
+          {/* Trạng thái */}
+          <Tag
+            color={record.status === 0 ? "green" : "red"}
+            onClick={() => handleUpdateStatus(record.id)}
+            style={{ cursor: "pointer" }}
+          >
+            {record.status === 0 ? "Hoạt động" : "Không hoạt động"}
+          </Tag>
+          {/* Trạng thái thùng rác */}
+          <Tag
+            color={record.trash === 1 ? "volcano" : "blue"}
+            onClick={() => handleUpdateTrash(record.id)}
+            style={{ cursor: "pointer" }}
+          >
+            {record.trash === 1 ? "Trong thùng rác" : "Bình thường"}
+          </Tag>
+        </Space>
       ),
     },
     {
@@ -188,6 +206,7 @@ const NewsTable: React.FC = () => {
 
   return (
     <>
+    <HeaderSection title={"Quản lý tin tức"} />
       <Button
         type="primary"
         onClick={() => {

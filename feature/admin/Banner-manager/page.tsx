@@ -11,6 +11,7 @@ import {
   updateBannerStatus,
   updateTrashBanner,
 } from "@/api/apiBanner";
+import HeaderSection from "@/components/HeaderSection";
 
 interface Banner {
   id: number;
@@ -215,6 +216,7 @@ const BannerTable: React.FC = () => {
 
   return (
     <>
+    <HeaderSection title={"Quản lý banner"} />
       <Button
         type="primary"
         onClick={() => {

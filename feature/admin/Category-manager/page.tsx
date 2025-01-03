@@ -16,6 +16,7 @@ import EditModal from "./component/EditModal/EditModal";
 import { ColumnsType } from "antd/es/table";
 import { EditOutlined, DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import style from "./UserInformation.module.scss"
+import HeaderSection from "@/components/HeaderSection";
 interface Category {
   id: number;
   category_name: string;
@@ -197,6 +198,7 @@ const CategoryTable: React.FC = () => {
 
   return (
     <>
+    <HeaderSection title={"Quản lý danh mục"} />
       <Button
         type="primary"
         style={{ marginBottom: 16 }}

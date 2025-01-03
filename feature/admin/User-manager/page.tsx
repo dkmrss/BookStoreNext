@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Table, Button, Space, Tooltip, Tag, Modal, message } from "antd";
 import { EditOutlined, DeleteOutlined, EyeOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { getUserList, deleteUser, updateUserStatus, updateUserRole } from "@/api/ApiUser";
+import HeaderSection from "@/components/HeaderSection";
 
 interface User {
   id: number;
@@ -184,6 +185,7 @@ const UserManagement: React.FC = () => {
 
   return (
     <>
+    <HeaderSection title={"Quản lý tài khoản người dùng"} />
       <Table
         columns={columns}
         dataSource={users}
