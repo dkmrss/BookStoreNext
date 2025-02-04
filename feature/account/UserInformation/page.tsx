@@ -2,7 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Card, Avatar, Space, Typography, Row, Col, Button, message } from "antd";
+import { Card, Avatar, Space, Typography, Row, Col, message } from "antd";
+import { Button } from "@mantine/core";
 import { MailOutlined, PhoneOutlined, HomeOutlined, CalendarOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import moment from "moment";
@@ -10,6 +11,7 @@ import { getDataUser } from "@/api/ApiUser";
 import ArticleCarousel from "@/common/carouselArticle";
 import style from "./UserInformation.module.scss"
 import { getDataListNews } from "@/api/apiNew";
+import { IconDashboard } from "@tabler/icons-react";
 const { Title, Text } = Typography;
 
 const UserInformation: React.FC = () => {
@@ -113,24 +115,32 @@ const UserInformation: React.FC = () => {
 
       {dataUser.role === 1 && (
         <Card bordered style={{ marginBottom: "20px" }}>
-          <Button type="primary" block>
-            <Link href="/admin/product-manager">Đi đến quản lý sản phẩm</Link>
-          </Button>
+          {/* <Button type="primary" block>
+            <Link href="/admin/StatisticsDashboard">Đi đến trang quản lý</Link>
+          </Button> */}
+          <Button
+          leftSection={<IconDashboard />}
+          color="var(--clr-bright-primary)"
+          className={style.addToCartButton}
+          component={Link} href="/admin/StatisticsDashboard"
+        >
+         Đi đến trang quản lý
+        </Button>     
         </Card>
       )}
 
       <Row gutter={[16, 16]}>
         <Col xs={24} sm={12}>
           <Card title="Chỉnh sửa thông tin" hoverable>
-            <Button type="link" block>
-              <Link href="/account/user-edit">Xem chi tiết</Link>
+            <Button color="var(--clr-bright-primary)" component={Link} href="/account/user-edit">
+              Xem chi tiết
             </Button>
           </Card>
         </Col>
         <Col xs={24} sm={12}>
           <Card title="Đơn hàng của bạn" hoverable>
-            <Button type="link" block>
-              <Link href="/account/purchase-history">Xem chi tiết</Link>
+            <Button color="var(--clr-bright-primary)" component={Link} href="/account/purchase-history">
+              Xem chi tiết
             </Button>
           </Card>
         </Col>

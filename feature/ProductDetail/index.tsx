@@ -3,7 +3,7 @@ import Comments from "@/common/Comments";
 import Reviews from "@/common/Reviews";
 import { BookImage, TblProduct } from "@/model/TblBook";
 import { comment } from "@/model/TblUserComment";
-import { TblUserReview } from "@/model/TblUserReview";
+import { Review } from "@/model/TblUserReview";
 import { useMediaQuery } from "@mantine/hooks";
 import ArticleList from "./components/Article";
 import ContentBox from "./components/Content";
@@ -15,7 +15,7 @@ import style from "./productDetail.module.scss";
 type productDetailPageProps = {
   data: TblProduct ;
   dataComment: comment[] | null;
-  dataReview: TblUserReview[] | null;
+  dataReview: Review[] | null;
   dataInfo: BookImage[] | null;
 };
 

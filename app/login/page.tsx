@@ -18,6 +18,7 @@ import { login } from "@/api/ApiAuth";
 import { modals } from "@mantine/modals";
 import PasswordRecoveryModal from "./PasswordRecovery/PasswordRecovery";
 import Link from "next/link";
+import ActiveModal from "./Reactive/Reactive";
 
 const Login = () => {
   const router = useRouter();
@@ -39,6 +40,28 @@ const Login = () => {
         </Text>
       ),
       children: <PasswordRecoveryModal />,
+      confirmProps: { display: "none" },
+      cancelProps: { display: "none" },
+      zIndex: 1000,
+      classNames: {
+        header: style.header,
+        content: style.content,
+      },
+    });
+  }
+
+  function openFormActiveModal() {
+    modals.closeAll();
+    modals.openConfirmModal({
+      size: "500px",
+      radius: "20px",
+      centered: true,
+      title: (
+        <Text fw={700} lineClamp={2}>
+          Kích hoạt tài khoản
+        </Text>
+      ),
+      children: <ActiveModal />,
       confirmProps: { display: "none" },
       cancelProps: { display: "none" },
       zIndex: 1000,
@@ -148,9 +171,12 @@ const Login = () => {
         />
 
         <Box w="100%" mt={20}>
-          <Flex justify="flex-end">
+          <Flex justify="space-between">
+          <Text onClick={openFormActiveModal} className={style.forgotPassword}>Kích hoạt tài khoản</Text>
             <Text onClick={openFormPasswordRecoveryModal} className={style.forgotPassword}>Quên mật khẩu?</Text>
+            
           </Flex>
+          
         </Box>
       
         {/* Nút đăng nhập */}

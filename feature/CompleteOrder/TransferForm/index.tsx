@@ -1,18 +1,19 @@
 import { Button, Flex, Loader, Text } from "@mantine/core";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import QRCode from "react-qr-code";
+import Logo from "@/assets/exbank.jpg";
 import style from "./TransferForm.module.scss";
-
+import { Image } from "antd";
+import Image2 from "next/image";
 interface FormPaymentProps {
   valueQr: string;
-  handleGetDetailQRCode: any;
+ 
   handleCreateQrCode: any;
   showLoading: boolean;
 }
 const TransferForm = ({
   valueQr,
-  handleGetDetailQRCode,
+  
   handleCreateQrCode,
   showLoading,
 }: FormPaymentProps) => {
@@ -43,34 +44,25 @@ const TransferForm = ({
           width: "100%",
         }}
       ></div>
-      {/* <div>
-        <Text mt={15}>
-          Quý khách có thể tra cứu trạng thái đơn hàng tại link:{" "}
-          <Link href={"http://web.hacom.local/tra-don-hang"}>Tra đơn hàng</Link>
-        </Text>
-      </div> */}
-
-      <Text mt={11} fs="italic" c={"#F43453"}>
-        Quý Khách vui lòng không tắt trình duyệt cho đến khi nhận được thông báo
-        kết quả giao dịch. Xin cảm ơn!
-      </Text>
+<Text mt={11} fs="italic" c={"#F43453"}>
+      Quý Khách vui lòng không tắt trình duyệt cho đến khi nhận được thông báo
+      kết quả giao dịch. Xin cảm ơn!
+    </Text>
+      
 
       <Flex mt={20} justify={"center"}>
         <div className={style.QRBox}>
           {showLoading === true && valueQr !== "" ? (
-            <QRCode
-              size={256}
-              style={{ height: "200px", maxWidth: "200px", width: "200px" }}
-              value={valueQr}
+            <Image
+            width={400}
+            src={valueQr} // Hiển thị ảnh từ base64
+            alt="Mã QR"
             />
           ) : (
             <div className={style.loader}>
               <Loader color="var( --clr-primary)" />
               <Text fw={700}>Vui lòng đợi một chút!</Text>
-            </div>
-          )}
-          {!showLoading && !showQR && (
-            <div>
+              <div>
               <p>Hiện QR lỗi, bạn có thể thử click vào nút để tạo lại QR</p>
               <Button
                 type="button"
@@ -86,7 +78,9 @@ const TransferForm = ({
                 Tạo QR
               </Button>
             </div>
+            </div>
           )}
+         
 
           <p className={style.QRTitle}>
             Dùng ứng dụng ngân hàng quét mã QR code để chuyển khoản
@@ -113,10 +107,23 @@ const TransferForm = ({
             mt={10}
             radius={8}
             color="var( --clr-primary)"
-            onClick={handleGetDetailQRCode}
+            href="/"
+            component={Link}
           >
             Xác nhận thanh toán thành công
           </Button>
+
+          <Text mt={10}>
+            Các ngân hàng hỗ trợ tiêu biểu 
+            <Text mr={10}><a href={"https://vietqr.co/banks"} target="_blank" rel="noopener noreferrer">Xem thêm</a></Text>
+            
+          </Text>
+
+          <Image2
+            width={"600"}
+            src={Logo} // Hiển thị ảnh từ base64
+            alt="Mã QR"
+            />
         </div>
       </Flex>
     </div>

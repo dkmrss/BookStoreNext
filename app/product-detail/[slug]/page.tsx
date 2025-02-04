@@ -1,6 +1,7 @@
 import { getDetailBookAll, getDetailBookInfo } from "@/api/ApiBookInfo";
 import { getProductDetail } from "@/api/ApiBookProduct";
 import { getDataListComment } from "@/api/ApiComment";
+import { getDataListRating } from "@/api/ApiRating";
 import AppContainer from "@/common/AppContainer";
 import { isNullOrUndefined } from "@/extension/StringExtension";
 import ProductDetailPage from "@/feature/ProductDetail";
@@ -74,26 +75,43 @@ const ProductDetail = async ({
     }
   };
 
-  
+  const callDataRating = async () => {
+    const callApi = await getDataListRating(`/${params.slug}?limit=10&offset=0`);
+
+    if (!isNullOrUndefined(callApi) && !isNullOrUndefined(callApi?.data)) {
+      const dataApi = callApi?.data;
+      if (dataApi != null && !isNullOrUndefined(dataApi)) {
+        return dataApi;
+      } else {
+        // NotificationExtension.Fails("Dữ liệu không tồn tại");
+        console.log("Dữ liệu không tồn tại");
+      }
+      close();
+    } else {
+      // NotificationExtension.Fails("Dữ liệu không tồn tại");
+      console.log("Dữ liệu không tồn tại");
+    }
+  };
+
 
 
   
 
   const data = await callDataProduct();
 
-  const [ dataComment, dataInfo] = await Promise.all([
-   
+  const [ dataComment, dataInfo, dataRating] = await Promise.all([
     callDataComment(),
-    callDataProductInfo()
+    callDataProductInfo(),
+    callDataRating()
   ]);
-  console.log("data",dataComment)
+ 
   return (
     <div>
       
       <AppContainer>
         <ProductDetailPage
           data={data || null}
-          dataReview={null}
+          dataReview={dataRating || null}
           dataComment={dataComment || null}
           dataInfo={dataInfo || null}
         />

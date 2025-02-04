@@ -29,7 +29,7 @@ export const getOrders = async (params: string): Promise<any> => {
     const response = await apiOrigin.get(API_ROUTE.GET_LIST_ORDER + params);
     return response.data;
   } catch (error: any) {
-    console.error("Lỗi khi lấy danh sách đơn hàng:", error);
+    
     throw error.response?.data || { message: "Không thể lấy danh sách đơn hàng" };
   }
 };

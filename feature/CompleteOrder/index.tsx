@@ -19,11 +19,7 @@ import { useSelector } from "react-redux";
 import style from "./Confirm.module.scss";
 import { createQrCode } from "@/api/apiMBQR";
 import TransferForm from "./TransferForm";
-import { apiCart } from "@/library/axios";
-import { AxiosResponse } from "axios";
-import { API_ROUTE } from "@/const/apiRoute";
-import { isNullOrUndefined } from "@/extension/StringExtension";
-import { NotificationExtension } from "@/extension/NotificationExtension";
+
 
 const CompleteOrder = () => {
   const saleOrder = useSelector((state: any) => state.saleOrder);
@@ -37,60 +33,39 @@ const CompleteOrder = () => {
   const currentTime = moment().format("DD/MM/YYYY");
 
   const handleCreateQrCode = async () => {
-    const data = await createQrCode({
-      terminalID: "MB_HACOM10",
-      qrcodeType: 4,
-      parterType: 2,
-      initMethod: 14,
-      transactionAmount: order?.total?.toString(),
-      billNumber: "",
-      referenceLabelTime: "",
-      referenceLabelCode: order?.id,
-      transactionPurpose: "",
-      additionAddress: order?.address,
-      additionMobile: order?.phone,
-      additionEmail: order?.name,
-      createdBy: "",
-      lastUpdateDate: "",
-      lastUpdatedBy: "",
-      lastUpdateLogin: "",
-      creationDate: "",
-      qrcodevalue: "",
+    console.log("start")
+    try {
+    const response  = await createQrCode({
+      amount: order?.total,
+      accountNo: 93332402001,
+      accountName:"BUI THE ANH",
+      acqId: 970422,
+      format: "text",
+      template: "compact2"
     });
-    if (data?.response?.data?.message === "Thêm không thành công!") {
-      setValueQrCode("");
+    console.log(response)
+    if (response?.code === "00") {
+      
+      setValueQrCode(response.data.qrDataURL); // Lưu URL mã QR base64
     } else {
-      setValueQrCode(data?.data?.qrcodevalue);
+      // Xử lý lỗi từ API
+      console.error("Error from API:", response?.data?.desc);
+      setValueQrCode("");
     }
+  } catch (error) {
+    // Xử lý lỗi yêu cầu
+    console.error("API request failed:", error);
+    setValueQrCode("");
+  }
   };
 
-  const handleGetDetailQRCode = async () => {
-    if (order?.id) {
-      try {
-        const response: AxiosResponse = await apiCart.post(
-          API_ROUTE.GET_DETAILS_QR_CODE_PAYMENT +
-            `?id=${order?.id}`
-        );
-        if (!isNullOrUndefined(response) && response?.data?.success) {
-          NotificationExtension.Success("Bạn đã thanh toán thành công!");
-          setPayMentSuccess(true);
-          window.scroll(0, 0);
-        } else if (response != null)
-          NotificationExtension.Fails(
-            "Xác nhận thất bại! Vui lòng liên hệ hotline 1800.8091 để được hỗ trợ!"
-          );
-      } catch {
-        NotificationExtension.Fails(
-          "Xác nhận thất bại! Vui lòng liên hệ hotline 1800.8091 để được hỗ trợ!"
-        );
-      }
-    }
-  };
+ console.log(valueQrCode)
 
   useEffect(() => {
     if (order.method === 1) {
       handleCreateQrCode();
       setIsRender(true);
+      
     }
   }, [order]);
 
@@ -244,10 +219,9 @@ const CompleteOrder = () => {
                   <Space h={"10px"} />
                   {order?.method === 1 ? (
                     <TransferForm
+                    handleCreateQrCode={handleCreateQrCode}
                       valueQr={valueQrCode}
-                      handleGetDetailQRCode={handleGetDetailQRCode}
-                      showLoading={isRender}
-                      handleCreateQrCode={handleCreateQrCode}
+                      showLoading={isRender}  
                     />
                   ) : null}
                 </Box>

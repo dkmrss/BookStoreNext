@@ -12,7 +12,7 @@ export interface User {
 }
 
 export interface PasswordRecovery {
-  username: string;
+  email: string;
 }
 export interface UpdatePassword {
   passOld: string;

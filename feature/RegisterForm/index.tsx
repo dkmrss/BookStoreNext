@@ -19,11 +19,41 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import style from "./Register.module.scss";
 import { registerUser } from "@/api/ApiUser";
+import ReActiveModal from "@/app/login/Active/ReActiveModalWithoutPassWord";
+import { modals } from "@mantine/modals";
 
 const RegisterForm = () => {
   const router = useRouter();
   const [isAgree, setIsAgree] = useState(false);
   const [avatar, setAvatar] = useState<File | null>(null);
+
+  function openFormRsPassword(username: string) {
+    modals.closeAll();
+    modals.openConfirmModal({
+      size: "600px",
+      radius: "20px",
+      centered: true,
+      title: (
+        <Text fw={700} lineClamp={2}>
+          Đổi mật khẩu
+        </Text>
+      ),
+      children: (
+        <ReActiveModal
+          isOpen={true}
+          username={username}
+          onClose={() => modals.closeAll()}
+        />
+      ),
+      confirmProps: { display: "none" },
+      cancelProps: { display: "none" },
+      zIndex: 1000,
+      classNames: {
+        header: style.header,
+        content: style.content,
+      },
+    });
+  }
 
   const form = useForm({
     initialValues: {
@@ -74,10 +104,10 @@ const RegisterForm = () => {
 
       if (response.success) {
         notifications.show({
-          message: "Đăng ký thành công! Hãy đăng nhập để tiếp tục.",
+          message: "Đăng ký thành công! Hãy nhâp mã kích hoạt được gửi đến mail của bạn.",
           color: "green",
         });
-        router.push("/login");
+        openFormRsPassword(values.email);
       } else {
         notifications.show({
           message: response.message || "Đăng ký thất bại!",

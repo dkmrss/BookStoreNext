@@ -13,12 +13,13 @@ import { useDisclosure } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import style from "./Passwordrecovery.module.scss";
+import style from "./Reactive.module.scss";
 import { PasswordRecovery } from "@/model/User";
 import { notifications } from "@mantine/notifications";
-import { forgotPassword, resetPassword } from "@/api/ApiAuth";
+import { forgotPassword, Reactive, resetPassword } from "@/api/ApiAuth";
+import ReActiveModal from "../Active/ReActiveModalWithoutPassWord";
 
-const PasswordRecoveryModal = () => {
+const ActiveModal = () => {
   const entity = {
     email: "",
   };
@@ -48,7 +49,7 @@ const PasswordRecoveryModal = () => {
         </Text>
       ),
       children: (
-        <EmailSendRsPassword
+        <ReActiveModal
           isOpen={true}
           username={username}
           onClose={() => modals.closeAll()}
@@ -67,7 +68,7 @@ const PasswordRecoveryModal = () => {
 
   const handleSubmit = async (dataSubmit: PasswordRecovery) => {
     try {
-      const data = await forgotPassword(dataSubmit);
+      const data = await Reactive(dataSubmit);
 
       if (data.success) {
         notifications.show({
@@ -77,13 +78,14 @@ const PasswordRecoveryModal = () => {
         openFormRsPassword(dataSubmit.email);
       } else {
         notifications.show({
-          message: data.message,
+          message: data?.response?.data?.message,
           color: "red",
         });
       }
     } catch (error: any) {
+      
       notifications.show({
-        message: error?.response?.data?.message,
+        message: error?.message,
         color: "red",
       });
     }
@@ -129,4 +131,4 @@ const PasswordRecoveryModal = () => {
   );
 };
 
-export default PasswordRecoveryModal;
+export default ActiveModal;

@@ -39,4 +39,54 @@ export const changePassword = async (
 };
 
 
+export const forgotPassword = async (
+  data: any
+): Promise<any> => {
+  try {
+    const response = await apiOrigin.post(API_ROUTE.FORGOT_PASSWORD, data
+    );
+    return response.data;
+  } catch (error: any) {
+    
+    throw error.response?.data || { message: "Gửi mã khôi phục mật khẩu thất bại" };
+  }
+};
 
+export const resetPassword = async (
+  data: any
+): Promise<any> => {
+  try {
+    const response = await apiOrigin.post(API_ROUTE.RESET_PASSWORD, data
+    );
+    return response.data;
+  } catch (error: any) {
+    
+    throw error.response?.data || { message: "Khôi phục mật khẩu thành công" };
+  }
+};
+
+export const Reactive = async (
+  data: any
+): Promise<any> => {
+  try {
+    const response = await apiOrigin.post(API_ROUTE.REACTIVE, data
+    );
+    return response.data;
+  } catch (error: any) {
+    
+    throw error.response?.data || { message: "Gửi mã kích hoạt thất bại" };
+  }
+};
+
+export const Active = async (
+  data: any
+): Promise<any> => {
+  try {
+    const response = await apiOrigin.post(API_ROUTE.ACTIVE, data
+    );
+    return response.data;
+  } catch (error: any) {
+    
+    throw error.response?.data || { message: "Kích hoát thành công" };
+  }
+};

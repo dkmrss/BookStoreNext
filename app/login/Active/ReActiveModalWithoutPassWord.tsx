@@ -15,8 +15,9 @@ import {
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
-import { forgotPassword, resetPassword } from "@/api/ApiAuth";
-import style from "./rsPassword.module.scss";
+import { Active, forgotPassword, resetPassword } from "@/api/ApiAuth";
+import style from "./ReActiveModalWithoutPassWord.module.scss";
+import { useRouter } from "next/router";
 
 interface ReActiveModalProps {
   isOpen: boolean;
@@ -24,29 +25,21 @@ interface ReActiveModalProps {
   username: string;
 }
 
-const ReActiveModalWithoutPassword: React.FC<ReActiveModalProps> = ({
+const ReActiveModal: React.FC<ReActiveModalProps> = ({
   isOpen,
   onClose,
   username,
 }) => {
   const [countdown, setCountdown] = useState(60);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-
+const router = useRouter();
   const form = useForm({
     initialValues: {
       token: "",
-      newPassword: "",
-      confirmPassword: "",
+      
     },
     validate: {
-      newPassword: (value) =>
-        value.length >= 6
-          ? null
-          : "Mật khẩu phải có ít nhất 6 ký tự",
-      confirmPassword: (value, values) =>
-        value === values.newPassword
-          ? null
-          : "Mật khẩu không khớp",
+      
     },
   });
 
@@ -76,6 +69,7 @@ const ReActiveModalWithoutPassword: React.FC<ReActiveModalProps> = ({
           message: data.message,
           color: "green",
         });
+        router.push("/login");
       } else {
         notifications.show({
           message: data.message,
@@ -93,7 +87,7 @@ const ReActiveModalWithoutPassword: React.FC<ReActiveModalProps> = ({
   const handleFinish = async (values: typeof form.values) => {
     console.log(values)
     try {
-      const data = await resetPassword({ resetToken: values.token, newPassword: values.newPassword });
+      const data = await Active({ token: values.token});
       if (data.success) {
         notifications.show({
           message: data.message,
@@ -134,22 +128,6 @@ const ReActiveModalWithoutPassword: React.FC<ReActiveModalProps> = ({
           {...form.getInputProps("token")}
         />
 
-        <PasswordInput
-          label="Mật khẩu mới"
-          placeholder="Nhập mật khẩu mới"
-          required
-          {...form.getInputProps("newPassword")}
-          mt="md"
-        />
-
-        <PasswordInput
-          label="Nhập lại mật khẩu mới"
-          placeholder="Nhập lại mật khẩu mới"
-          required
-          {...form.getInputProps("confirmPassword")}
-          mt="md"
-        />
-
         <Space h="md" />
 
         <Group>
@@ -168,4 +146,4 @@ const ReActiveModalWithoutPassword: React.FC<ReActiveModalProps> = ({
   );
 };
 
-export default ReActiveModalWithoutPassword;
+export default ReActiveModal;

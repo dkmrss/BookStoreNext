@@ -26,11 +26,12 @@ import React, { useEffect, useState } from "react";
 import EditModal from "./component/EditModal/EditModal";
 import InfoModal from "./component/InfoModal/InfoModal";
 import { ColumnsType } from "antd/es/table";
-import { EditOutlined, EyeOutlined, DeleteOutlined, CommentOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import { EditOutlined, EyeOutlined, DeleteOutlined, CommentOutlined, ExclamationCircleOutlined, StarOutlined } from "@ant-design/icons";
 import { getDataListCategory } from "@/api/ApiCategory";
 import CommentModal from "./component/UserComment";
 import style from "./UserInformation.module.scss"
 import HeaderSection from "@/components/HeaderSection";
+import RatingModal from "./component/Rating";
 interface Product {
   id: number;
   product_name: string;
@@ -56,6 +57,7 @@ const ProductsTable: React.FC = () => {
   const [isInfoModalVisible, setInfoModalVisible] = useState<boolean>(false);
   const [currentProduct, setCurrentProduct] = useState<Product | null>(null);
   const [isCommentModalVisible, setCommentModalVisible] = useState<boolean>(false);
+  const [isRatingModalVisible, setRatingModalVisible] = useState<boolean>(false);
   const [selectedBookId, setSelectedBookId] = useState<number | null>(null);
   const [filterForm] = Form.useForm(); // Form để lưu giá trị bộ lọc
   const { confirm } = Modal;
@@ -325,6 +327,16 @@ const ProductsTable: React.FC = () => {
               }}
             />
           </Tooltip>
+
+          <Tooltip title="Quản lý đánh giá">
+            <StarOutlined
+              style={{ fontSize: "18px", color: "yellow", cursor: "pointer" }}
+              onClick={() => {
+                setSelectedBookId(record.id);
+                setRatingModalVisible(true);
+              }}
+            />
+          </Tooltip>
         </Space>
       ),
     },
@@ -429,6 +441,11 @@ const ProductsTable: React.FC = () => {
       <CommentModal
         visible={isCommentModalVisible}
         onCancel={() => setCommentModalVisible(false)}
+        bookId={selectedBookId}
+      />
+      <RatingModal
+        visible={isRatingModalVisible}
+        onCancel={() => setRatingModalVisible(false)}
         bookId={selectedBookId}
       />
     </>

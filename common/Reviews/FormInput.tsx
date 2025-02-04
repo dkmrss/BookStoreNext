@@ -1,138 +1,91 @@
-
-import { TblUserReview } from "@/model/TblUserReview";
+import { Review } from "@/model/TblUserReview";
+import { Box, Button, Flex, Rating, Text, TextInput, Textarea } from "@mantine/core";
 import {
-  Box,
-  Button,
-  Flex,
-  Rating,
-  Text,
-  TextInput,
-  Textarea,
-} from "@mantine/core";
-import { isNotEmpty, useForm } from "@mantine/form";
+  message
+} from "antd";
+import { useForm } from "@mantine/form";
 import { modals } from "@mantine/modals";
 import { useEffect, useState } from "react";
 import style from "./Reviews.module.scss";
-
 import { TblProduct } from "@/model/TblBook";
 import { useSelector } from "react-redux";
+import { createRating } from "@/api/ApiRating"; // Import API tạo đánh giá
 
 const FormInput = ({ fetchDataReview, dataItem }: FormInputProps) => {
-  const [phoneNumber, setPhoneNumber] = useState("");
   const [isReview, setIsReview] = useState(false);
   const dataUser = useSelector((state: any) => state.auth?.userInfo?.data);
-  const entity = {
-    id: 0,
-    itemType: "product",
-    replyCount: null,
-    itemId: dataItem?.id || 0,
-    itemTitle: dataItem?.product_name,
-    isUserAdmin: 0,
-    userId: null,
-    userEmail: null,
-    userName: null,
-    relatedOrder: null,
-    userAvatar: null,
-    userNote: null,
-    rate: null,
-    title: null,
-    content: null,
-    files: null,
-    searchFulltext: null,
-    approved: 0,
-    postTime: null,
-    ipAddress: null,
-    userAgent: null,
-    orderNumber: null,
-    isFeatured: 0,
-    peopleIdVote: null,
-    peopleLikeCount: null,
-    peopleDislikeCount: null,
-    creationDate: null,
-    createdBy: null,
-    lastUpdateDate: null,
-    lastUpdateTime: null,
-    lastUpdateBy: null,
-  };
-
-  const form = useForm<TblUserReview>({
+  const parsedUser = JSON.parse(localStorage.getItem("user") || "{}");
+  const form = useForm<Partial<Review>>({
     initialValues: {
-      ...entity,
+      user_id: parsedUser?.id || 0,
+      product_id: dataItem?.id || 0,
+      rating: 5, // Mặc định đánh giá 5 sao
+      comment: "",
     },
     validate: {
-      userName: isNotEmpty("Họ tên chưa nhập"),
-      content: isNotEmpty("Nội dung đánh giá chưa nhập"),
+      comment: (value) => (value ? null : "Nội dung đánh giá chưa nhập"),
     },
   });
 
-  const handleClickSubmit = async (data: TblUserReview) => {
-    if (data.rate) {
-      setIsReview(false);
-      const dataSubmit = {
-        ...data,
-        userName: phoneNumber
-          ? data.userName + ` Số đt : ` + phoneNumber
-          : data.userName,
-      };
+  const handleClickSubmit = async (values: Partial<Review>) => {
+    if (!values.rating) {
+      setIsReview(true);
+      return;
+    }
+   
+    try {
+      const response = await createRating({
+        user_id: parsedUser?.id || 0,
+        product_id: values.product_id || 0,
+        comment: values.comment || "",
+        rating: values.rating || 5, // Nếu không chọn thì mặc định 5 sao
+      });
 
-     
-      modals.close("formInput");
-      // fetchDataReview();
-    } else setIsReview(true);
+      if (response.success && response.message !== "Người dùng chưa mua sản phẩm này, không thể đánh giá") {
+        message.success(response.message);
+        modals.closeAll();
+    } else {
+        console.warn("⚠️ API trả về lỗi:", response.message);
+        message.error(response.message || "Có lỗi xảy ra!");
+        modals.closeAll();
+    }
+    } catch (error) {
+      console.log(error);
+      message.error("Đã xảy ra lỗi khi gửi đánh giá!");
+    }
   };
 
   useEffect(() => {
     if (dataUser) {
       form.setValues({
-        userName: dataUser?.customerName,
-        userId: dataUser?.customerId,
+        user_name: dataUser.customerName,
+        user_id: dataUser.customerId,
       });
-      setPhoneNumber(dataUser?.telephoneNumber);
     }
   }, [dataUser]);
+
   return (
     <Box
       component="form"
-      onSubmit={form.onSubmit((e: TblUserReview) => {
-        handleClickSubmit(e);
-      })}
+      onSubmit={form.onSubmit((values) => handleClickSubmit(values))}
     >
       <Text fw={700}>Đánh giá sản phẩm</Text>
       <Flex align={"center"} gap={"md"}>
-        <Rating size="md" mt={3} {...form.getInputProps("rate")} />
+        <Rating size="md" mt={3} {...form.getInputProps("rating")} />
         {isReview && <Text className={style.error}>*Chưa chọn đánh giá</Text>}
       </Flex>
 
-      <Text fw={700} mt={15}>
-        Viết nhận xét
-      </Text>
-
-      <TextInput
+      {/* <TextInput
         label="Họ tên"
         placeholder="Nhập họ tên của bạn"
-        {...form.getInputProps("userName")}
+        {...form.getInputProps("user_name")}
         withAsterisk
         mt={"sm"}
-      />
-      <TextInput
-        label="Số điện thoại"
-        placeholder="Nhập số điện thoại"
-        value={phoneNumber}
-        type="number"
-        onChange={(e) => setPhoneNumber(e.target.value)}
-        mt={"sm"}
-      />
-      <TextInput
-        label="Email"
-        placeholder="Nhập địa chỉ email"
-        type="email"
-        {...form.getInputProps("userEmail")}
-        mt={"sm"}
-      />
+      /> */}
       <Textarea
         label="Nội dung đánh giá"
         placeholder="Nhập đánh giá về sản phẩm"
-        {...form.getInputProps("content")}
+        {...form.getInputProps("comment")}
         withAsterisk
         mt={"sm"}
       />

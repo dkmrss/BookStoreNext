@@ -175,7 +175,7 @@ const Payment = () => {
           mt="10px"
           data={[
             { value: "0", label: "Thanh toán khi nhận hàng (COD)" },
-            { value: "1", label: "Thanh toán online Mb bank" },
+            { value: "1", label: "Thanh toán online QR Viet" },
           ]}
           value={selectedMethod}
           onChange={setSelectedMethod}

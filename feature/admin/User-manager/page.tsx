@@ -136,7 +136,7 @@ const UserManagement: React.FC = () => {
           onClick={() => handleUpdateStatus(record.id)}
           style={{ cursor: "pointer" }}
         >
-          {status === 0 ? "Hoạt động" : "Bị khóa"}
+          {status === 0 ? "Hoạt động" : "Chưa kích hoạt"}
         </Tag>
       ),
     },

@@ -53,6 +53,12 @@ export const API_ROUTE = {
   GET_LIST_COMMENT: "/user-comment/list-by-user-book",
   CREATE_COMMENT:"/user-comment/create",
   DELETE_COMMENT:"/user-comment/delete",
+
+   //Ratting
+   GET_LIST_RATING: "/rating/list",
+   CREATE_RATING:"/rating/create",
+   DELETE_RATING:"/rating/delete",
+
   //User
   GET_INFO_USER: "/users/user-detail",
   CREATE_USER: "/users/create",
@@ -73,7 +79,10 @@ export const API_ROUTE = {
   //Auth
   LOGIN: "/auth/login",
   CHANGE_PASSWORD:"/auth/change-password",
-
+  FORGOT_PASSWORD:"/auth/forgot-password",
+  RESET_PASSWORD:"/auth/reset-password",
+  REACTIVE:"/auth/reactive",
+  ACTIVE:"/auth/activate",
   //Cart
   ADD_CART: "/cart/addCart",
   VIEW_CART: "/cart/view",

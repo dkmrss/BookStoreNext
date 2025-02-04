@@ -17,6 +17,7 @@ import {
   IconLogout,
   IconUser,
   IconSearch,
+  IconBook,
 } from "@tabler/icons-react";
 
 const Admin = () => {
@@ -77,14 +78,25 @@ const Admin = () => {
   return (
     <Box className={style.main}>
       <div className={style.menu}>
-        <Tooltip label="Trang chủ" color="var(--clr-primary)" position="bottom">
+      <Tooltip label="Trang chủ" color="var(--clr-primary)" position="bottom">
+          <Link
+            href={"StatisticsDashboard"}
+            className={`${style.title} ${
+              selected === "StatisticsDashboard" && style.titleActive
+            }`}
+          >
+            <IconHome />
+            <p className={style.textLink}>Trang chủ</p>
+          </Link>
+        </Tooltip>
+        <Tooltip label="Quản lý sản phẩm" color="var(--clr-primary)" position="bottom">
           <Link
             href={"product-manager"}
             className={`${style.title} ${
               selected === "product-manager" && style.titleActive
             }`}
           >
-            <IconHome />
+            <IconBook />
             <p className={style.textLink}>Quản lý sản phẩm</p>
           </Link>
         </Tooltip>

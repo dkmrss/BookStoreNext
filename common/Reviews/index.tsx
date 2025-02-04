@@ -1,5 +1,5 @@
 import { TblProduct } from "@/model/TblBook";
-import { TblUserReview } from "@/model/TblUserReview";
+import { Review } from "@/model/TblUserReview";
 import { Box, Button, Divider, Flex, Rating, Text } from "@mantine/core";
 import { useViewportSize } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
@@ -77,38 +77,20 @@ const Reviews = ({ dataItem, dataReview }: ReviewProps) => {
     if (dataReview && dataReview.length > 0) {
       let count: CountSynthetic = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
       let average = 0;
-
+  
       dataReview.forEach((item) => {
-        if (item.rate !== null && item.rate !== undefined) {
-          count[item.rate as keyof CountSynthetic]++;
-          average += item.rate;
+        if (item.rating !== null && item.rating !== undefined) {
+          count[item.rating as keyof CountSynthetic]++;
+          average += item.rating;
         }
       });
-
+  
       setDataSynthetic(count);
       setAverageStar(Number((average / dataReview.length).toFixed(2)));
     } else {
-      // Handle the case when dataReview is null or empty
-      const random1 = 0;
-      const random2 = 0;
-      const random3 = Math.floor(Math.random() * 10);
-      const random4 = Math.floor(Math.random() * 10);
-      const random5 = Math.floor(Math.random() * 10);
-
-      const totalRandom = random1 + random2 + random3 + random4 + random5;
-      setTotalRandom(totalRandom);
-      const averageStar =
-        random1 * 1 + random2 * 2 + random3 * 3 + random4 * 4 + random5 * 5;
-      const randomSynthetic: CountSynthetic = {
-        1: random1,
-        2: random2,
-        3: random3,
-        4: random4,
-        5: random5,
-      };
-
-      setDataSynthetic(randomSynthetic);
-      setAverageStar(Number((averageStar / totalRandom).toFixed(1))); // or set to another default value
+      // Không có đánh giá nào, mặc định 5 sao
+      setDataSynthetic({ 1: 0, 2: 0, 3: 0, 4: 0, 5: 1 });
+      setAverageStar(5);
     }
   }, [dataReview]);
 
@@ -239,23 +221,23 @@ const Reviews = ({ dataItem, dataReview }: ReviewProps) => {
             <Box className={style.review} key={index}>
               <Flex gap={5} wrap="wrap" justify={"space-between"} mb={10}>
                 <Text lineClamp={1} className={style.name}>
-                  {item.userName}
+                  {item.user_name}
                 </Text>
-                <Text className={style.date}>{item.creationDate}</Text>
+                <Text className={style.date}>{item.created_at}</Text>
               </Flex>
 
               <Flex wrap="wrap" gap={10}>
                 <Text className={style.name} fw={600}>
                   Đánh giá:
                 </Text>
-                <Rating defaultValue={item.rate || 0} size={"md"} readOnly />
+                <Rating defaultValue={item.rating || 0} size={"md"} readOnly />
               </Flex>
               <Flex className={style.commentbox} gap={20}>
                 <Text className={style.name} fw={600}>
                   Nhận xét:
                 </Text>
                 <Text className={style.comment} lineClamp={4}>
-                  {item.content}
+                  {item.comment}
                 </Text>
               </Flex>
             </Box>
@@ -289,5 +271,5 @@ export default Reviews;
 
 type ReviewProps = {
   dataItem: TblProduct | null;
-  dataReview: TblUserReview[] | null;
+  dataReview: Review[] | null;
 };

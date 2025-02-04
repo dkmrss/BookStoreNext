@@ -1,6 +1,7 @@
 import { getDataListCategory } from "@/api/ApiCategory";
 import styleGLobal from "@/app/layout.module.scss";
 import Logo from "@/assets/logo.jpg";
+
 import ButtonsCollection from "@/common/ButtonsCollection/ButtonsCollection";
 import SidebarMenu from "@/components/ContentMenu/SidebarMenu/SidebarMenu";
 import SearchTrends from "@/components/Header/HearderNavbar/SearchTrends/SearchTrends";
