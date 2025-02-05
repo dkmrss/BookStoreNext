@@ -10,6 +10,7 @@ import {
   Tooltip
 } from "@mantine/core";
 import {
+  IconPhone,
   IconShoppingCartPlus
 } from "@tabler/icons-react";
 import Image2 from "next/image";
@@ -154,14 +155,22 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
         </Link>
           
       </Box>
-      <Button
+      {data?.quantity >= 1 ? (<Button
           leftSection={<IconShoppingCartPlus />}
           color="var(--clr-bright-primary)"
           onClick={handleAddToCart}
           className={style.addToCartButton}
         >
           Thêm vào giỏ
-        </Button>     
+        </Button> ):(<Button
+          leftSection={<IconPhone />}
+          color="var(--clr-bright-primary)"
+          disabled
+          className={style.addToCartButton}
+        >
+          Liên hệ ngay
+        </Button> )}
+          
     </div>
   );
 };

@@ -19,7 +19,7 @@ const Summary = ({ data }: { data: TblProduct | null }) => {
     // Tái tạo chuỗi từ các dòng đã được chỉnh sửa
     return lines.join("<br> - ");
   }
-
+  const displayQuantity = (data?.quantity ?? 0) >= 1 ? data?.quantity : "Hết hàng";
   return (
     <Box className={style.summaryBox}>
       <Box className={style.header}>
@@ -30,7 +30,7 @@ const Summary = ({ data }: { data: TblProduct | null }) => {
         className={` ${style.showMoreContainer}`}
         
       >
-        <strong>Số lượng còn lại: {data?.quantity}</strong>
+        <strong>Số lượng còn lại: {displayQuantity}</strong>
         <p>Tác giả: {data?.author}</p>
         <p>Nhà xuất bản: {data?.publisher}</p>
         <p>Hình thức: Bìa Mềm</p>

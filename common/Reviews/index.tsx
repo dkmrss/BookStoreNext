@@ -73,6 +73,34 @@ const Reviews = ({ dataItem, dataReview }: ReviewProps) => {
     setSelectFilter(index);
   };
 
+  function formatDate(dateString: any, format: any) {
+    const date = new Date(dateString);
+
+    const day = date.getUTCDate();
+    const month = date.getUTCMonth() + 1; // Tháng trong JS bắt đầu từ 0
+    const year = date.getUTCFullYear();
+    const hours = date.getUTCHours();
+    const minutes = date.getUTCMinutes();
+    const seconds = date.getUTCSeconds();
+
+    switch (format) {
+        case 'YYYY-MM-DD':
+            return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+        case 'DD/MM/YYYY':
+            return `${day.toString().padStart(2, '0')}/${month.toString().padStart(2, '0')}/${year}`;
+        case 'MM-DD-YYYY':
+            return `${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}-${year}`;
+        case 'Month DD, YYYY':
+            return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        case 'HH:mm:ss - DD/MM/YYYY':
+            return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} - ${day.toString().padStart(2, '0')}/${month.toString().padStart(2, '0')}/${year}`;
+        case 'fullDateTime':
+            return new Intl.DateTimeFormat('en-GB', { dateStyle: 'full', timeStyle: 'short' }).format(date);
+        default:
+            return 'Invalid format';
+    }
+}
+
   useEffect(() => {
     if (dataReview && dataReview.length > 0) {
       let count: CountSynthetic = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
@@ -223,7 +251,7 @@ const Reviews = ({ dataItem, dataReview }: ReviewProps) => {
                 <Text lineClamp={1} className={style.name}>
                   {item.user_name}
                 </Text>
-                <Text className={style.date}>{item.created_at}</Text>
+                <Text className={style.date}>{formatDate(item.created_at, "DD/MM/YYYY")}</Text>
               </Flex>
 
               <Flex wrap="wrap" gap={10}>

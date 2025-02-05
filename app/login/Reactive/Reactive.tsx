@@ -105,8 +105,8 @@ const ActiveModal = () => {
       <Container className={style.containerall}>
         <Title className={style.divtitle}>
           <span className={style.infoText}>
-            Nhập email bạn đã sử dụng khi đăng ký tài khoản để lấy lại mật khẩu.
-            Bạn sẽ nhận được mail để nhận mã khôi phục mật khẩu
+            Nhập email bạn đã sử dụng khi đăng ký tài khoản để kích hoạt tài khoản.
+            Bạn sẽ nhận được mail để nhận mã kích hoạt tài khoản
           </span>
         </Title>
         <TextInput
