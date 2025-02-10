@@ -183,37 +183,6 @@
       line-height: 1rem;
     }
   }
-  .buyButton3 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column !important;
-    border-color: #efefefc4;
-    border-width: 1px;
-    border-radius: 0.75rem;
-    height: 60px;
-    width: calc(100% - 70px);
-    gap: 10px;
-    text-transform: none;
-    cursor: pointer;
-    color: white;
-    background-color: var(--clr-primary);
-    .buyText1 {
-      margin-bottom: 2px;
-      font-size: 0.75rem;
-      line-height: 1rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      @media only screen and (min-width: 500px) {
-        font-size: 0.875rem;
-        line-height: 1.25rem;
-      }
-    }
-    .buyText2 {
-      font-size: 0.75rem;
-      line-height: 1rem;
-    }
-  }
   .buttonAddToCart {
     height: 60px;
     width: 60px;

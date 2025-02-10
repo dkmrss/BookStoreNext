@@ -4,7 +4,6 @@ import { NotificationExtension } from "@/extension/NotificationExtension";
 import { TblProduct } from "@/model/TblBook";
 import {
   Box,
-  Button,
   Flex,
   Loader,
   NumberFormatter,
@@ -15,7 +14,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import style from "./ProductDetailTopRightProps.module.scss";
-import Link from "next/link";
 
 type ProductDetailTopRightProps = {
   data: TblProduct;
@@ -36,6 +34,16 @@ const ProductDetailTopRight = ({ data }: ProductDetailTopRightProps) => {
   const [dataTechnical, setDataTechnical] = useState<dataTechnicalType[]>([]);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
+
+  const entity = {
+    id: 0,
+    fullname: "",
+    mobile: "",
+    email: "",
+    productName: null,
+    productId: null,
+    keyword: null,
+  };
 
 
   const handleBuyNow = async () => {
@@ -119,7 +127,7 @@ const handleAddToCart = async () => {
               <Box className={style.buy}>
                 <div className={style.buttonWrap}>
                   <div className={style.buyButtons}>
-                    {data?.quantity >=1 ? (<button
+                    <button
                       className={style.buyButton}
                       onClick={() => handleBuyNow()}
                     >
@@ -127,18 +135,9 @@ const handleAddToCart = async () => {
                       <span className={style.buyText2}>
                         (Nhận tại nhà hoặc tại cửa hàng)
                       </span>
-                    </button>):(
-                      <Button
-                      className={style.buyButton3}
-                      component={Link} href="https://www.facebook.com/buitheanh1208"
-                    >
-                      <span className={style.buyText1}>Liên hệ ngay</span>
-                      <p className={style.buyText2}>
-                        (Liên hệ để nhận thông tin về sản phẩm)
-                      </p>
-                    </Button>)}
-                    
-                    {data?.quantity >=1 ? (<button
+                    </button>
+
+                    <button
                       className={style.buttonAddToCart}
                       onClick={handleAddToCart}
                       disabled={isLoading}
@@ -159,31 +158,7 @@ const handleAddToCart = async () => {
                         {" "}
                         {isLoading ? "Đang xử lý..." : "Thêm vào giỏ hàng"}
                       </span>
-                    </button>):(
-                      <button
-                      className={style.buttonAddToCart}
-                      onClick={handleAddToCart}
-                      disabled
-                    >
-                      {isLoading ? ( // Show loader when loading
-                        <Loader
-                          color={"var(--clr-primary)"}
-                          size="sm"
-                          className={style.iconCart}
-                        />
-                      ) : (
-                        <IconShoppingCartPlus
-                          className={style.iconCart}
-                          size={18}
-                        />
-                      )}
-                      <span className={style.buyText2}>
-                        {" "}
-                        {isLoading ? "Đang xử lý..." : "Thêm vào giỏ hàng"}
-                      </span>
                     </button>
-                    )}
-                    
                   </div>
                 </div>
               </Box>

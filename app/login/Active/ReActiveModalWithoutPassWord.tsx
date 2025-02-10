@@ -17,7 +17,7 @@ import { notifications } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
 import { Active, forgotPassword, resetPassword } from "@/api/ApiAuth";
 import style from "./ReActiveModalWithoutPassWord.module.scss";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 
 interface ReActiveModalProps {
   isOpen: boolean;
