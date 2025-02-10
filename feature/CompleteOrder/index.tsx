@@ -37,7 +37,7 @@ const CompleteOrder = () => {
     try {
     const response  = await createQrCode({
       amount: order?.total,
-      accountNo: 93332402001,
+      accountNo: 933324082001,
       accountName:"BUI THE ANH",
       acqId: 970422,
       format: "text",
